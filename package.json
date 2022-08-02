@@ -1,0 +1,57 @@
+{
+  "name": "minimal-components",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "config": {
+    "unit_coverall": "tests/unit/coverage/lcov.info",
+    "integration_coverall": "tests/integration/coverage/lcov.info",
+    "path_dist": "dist",
+    "path_source": "src",
+    "path_server": "src/server"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "cypress run --component",
+    "visual-test": "cypress open --component"
+  },
+  "dependencies": {
+    "bootstrap": "latest",
+    "clsx": "latest",
+    "nprogress": "latest",
+    "polished": "latest",
+    "react": "v17.0.2",
+    "react-debounce-input": "latest",
+    "react-dom": "v17.0.2",
+    "react-google-login": "latest",
+    "react-intersection-observer": "latest",
+    "react-modal": "latest",
+    "react-paginate": "latest",
+    "react-reveal": "latest",
+    "react-router-dom": "latest",
+    "react-scripts": "latest",
+    "react-select": "latest",
+    "react-swipeable-list": "latest",
+    "react-usestateref": "latest",
+    "styled-components": "latest"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "latest",
+    "@babel/preset-react": "latest",
+    "@cypress/react": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "babel-plugin-root-import": "latest",
+    "babel-plugin-styled-components": "latest",
+    "cypress": "latest",
+    "cypress-react-unit-test": "latest",
+    "enzyme": "latest",
+    "enzyme-adapter-react-16": "latest",
+    "eslint": "latest",
+    "ts-node": "latest",
+    "typescript": "latest",
+    "webpack": "^5.74.0"
+  }
+}

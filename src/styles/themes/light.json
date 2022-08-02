@@ -1,0 +1,10 @@
+{
+  "background": "#FEFEFE",
+  "text": "black",
+  "holder": "black",
+  "primary": "black",
+  "bright": "#222222",
+  "error": "#f10",
+  "shadow": "#cfcfcf",
+  "hasShadow": false
+}
