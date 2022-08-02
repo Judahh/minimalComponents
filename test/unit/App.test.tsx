@@ -21,6 +21,8 @@ it('can mount a light theme', () => {
   const ThemedEditButton = withTheme(EditButton);
   const ThemedLocationButton = withTheme(LocationButton);
   const ThemedFileButton = withTheme(FileButton);
+  const ThemedImage = withTheme(Image);
+
   mount(
     <ThemeProvider theme={lightTheme}>
       <ThemedInput
@@ -70,7 +72,10 @@ it('can mount a light theme', () => {
       <ThemedRedButton>Red</ThemedRedButton>
       <ThemedEditButton>Edit</ThemedEditButton>
       <ThemedLocationButton>Location</ThemedLocationButton>
-      <ThemedFileButton Button={ThemedLinkButton} onChange={(a)=>{console.log('Checkbox', a);}}/>
+      <ThemedFileButton Button={(p: {onClick}) => (<ThemedLinkButton onClick={p.onClick}>FILE</ThemedLinkButton>)} onChange={(a)=>{console.log('Checkbox', a);}}/>
+      <ThemedImage images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
+      <ThemedImage images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf']} alt={'2'} />
+      <ThemedImage images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
     </ThemeProvider>
   );
 });

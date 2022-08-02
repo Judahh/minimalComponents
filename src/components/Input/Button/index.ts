@@ -113,6 +113,7 @@ export const LocationButton = styled.button`
 export const LinkButton = styled.button`
   ${baseConfig}
   font-size: 15px;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${(props) => props.theme.primary};
   background-color: transparent;
   font-family: Spartan-Light;
@@ -140,7 +141,7 @@ export const LinkButton = styled.button`
 `;
 
 export const BasicClose = `
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   height: 15px;
   width: 15px;
   opacity: 0.7;
