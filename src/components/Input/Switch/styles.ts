@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { baseConfig } from "../../../util";
 
 export const Flags = styled.div`
+  ${baseConfig}
   z-index: 1000;
   display: flex;
   flex-direction: row;

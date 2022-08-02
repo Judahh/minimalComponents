@@ -1,14 +1,10 @@
 import styled from 'styled-components';
-import { default as lightTheme } from '../../styles/themes/light.json';
-import { default as darkTheme } from '../../styles/themes/dark.json';
+import { baseConfig } from '../../util';
 
-export const CopyrightText = styled.span`
-  color: ${(props) => props.theme.primary};
-`;
-export const Title = styled.span`
+export const H1 = styled.h1`
+  ${baseConfig}
   width: 100%;
-  text-align: center;
-  font-size: 2vh;
+  font-size: 2.2vh;
   font-family: Spartan-Light;
   font-weight: bold;
   margin-bottom: 5vh;
@@ -19,7 +15,8 @@ export const Title = styled.span`
   // }
 `;
 
-export const Subtitle = styled.h2`
+export const H2 = styled.h2`
+  ${baseConfig}
   width: 100%;
   font-size: 2vh;
   font-family: Spartan-Light;
@@ -33,59 +30,68 @@ export const Subtitle = styled.h2`
   // }
 `;
 
-export const MainTitle = styled.h1`
-  font-family: Spartan-Thin;
-  font-weight: bold;
-  font-size: 3vh;
-  top: 15vh;
+export const H3 = styled.h3`
+  ${baseConfig}
   width: 100%;
-  position: absolute;
-  mix-blend-mode: ${(props) =>
-    props.theme === darkTheme ? 'difference' : 'unset'};
-
+  font-size: 1.7vh;
+  font-family: Spartan-Light;
+  font-weight: bold;
   color: ${(props) => props.theme.primary};
 
-  @media screen and (max-width: 767px) {
-    font-size: 2vh;
-  }
+  text-align: justify;
 
-  @media screen and (max-width: 450px) {
-    top: 80px;
-  }
+  // @media screen and (max-width: 1000px) {
+  //   font-size: 1.5vh;
+  // }
 `;
 
-export const MainSubtitle = styled.h2`
-  display: block;
+export const H4 = styled.h4`
+  ${baseConfig}
+  width: 100%;
+  font-size: 1.5vh;
   font-family: Spartan-Light;
-  font-weight: normal;
-  font-size: 2vh;
-  bottom: 10vh;
-  text-align: center;
-  width: 100%;
-  mix-blend-mode: difference;
-  position: absolute;
+  font-weight: bold;
+  color: ${(props) => props.theme.primary};
 
-  color: ${(props) =>
-    props.theme === lightTheme ? props.theme.background : props.theme.primary};
+  text-align: justify;
 
-  @media screen and (max-width: 767px) {
-    font-size: 1.5vh;
-  }
-
-  @media screen and (max-width: 450px) {
-    bottom: 10px;
-  }
+  // @media screen and (max-width: 1000px) {
+  //   font-size: 1.5vh;
+  // }
 `;
 
-export const MainSubtitle3 = styled.h4`
-  padding-top: 15px;
-  padding-bottom: 10px;
-  font-size: 10px;
+export const H5 = styled.h5`
+  ${baseConfig}
   width: 100%;
-  color: ${(props) => props.theme.text};
+  font-size: 1.3vh;
+  font-family: Spartan-Light;
+  font-weight: bold;
+  color: ${(props) => props.theme.primary};
+
+  text-align: justify;
+
+  // @media screen and (max-width: 1000px) {
+  //   font-size: 1.5vh;
+  // }
+`;
+
+export const H6 = styled.h6`
+  ${baseConfig}
+  width: 100%;
+  font-size: 1.3vh;
+  font-family: Spartan-Light;
+  font-weight: bold;
+  color: ${(props) => props.theme.primary};
+
+  text-align: justify;
+
+  // @media screen and (max-width: 1000px) {
+  //   font-size: 1.5vh;
+  // }
 `;
 
 export const Text = styled.span`
+  ${baseConfig}
   font-size: 2vh;
   max-width: 256px;
   margin: 8px 0;
@@ -94,6 +100,7 @@ export const Text = styled.span`
 `;
 
 export const SubText = styled.span`
+  ${baseConfig}
   font-size: 1.5vh;
   max-width: 256px;
   margin: 8px 0;
@@ -102,6 +109,7 @@ export const SubText = styled.span`
 `;
 
 export const MediumText = styled(Text)`
+  ${baseConfig}
   position: relative;
   font-weight: normal;
   cursor: pointer;
@@ -126,14 +134,48 @@ export const MediumText = styled(Text)`
   }
 `;
 
+export const CopyrightText = styled.span`
+  ${baseConfig}
+  color: ${(props) => props.theme.primary};
+`;
+
+export const P = styled.p`
+  ${baseConfig}
+  text-indent: 3ch;
+  font-size: 1.75vh;
+  margin-bottom: 1em;
+  line-height: 150%;
+`;
+
+export const Quantity = styled.div`
+  ${baseConfig}
+  display: block;
+  width: 25px;
+  height: 25px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  position: absolute;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 10px;
+  left: 20px;
+  margin-top: -10px;
+  font-weight: bold;
+  padding-top: 7px;
+`;
+
 export const Error = styled.span`
+  ${baseConfig}
   font-size: 2vh;
   font-family: Spartan-ExtraLight;
   font-weight: 200;
   color: ${(props) => props.theme.error};
   max-width: 202px;
 `;
+
 export const Notification = styled.span`
+  ${baseConfig}
   font-size: 2vh;
   font-family: Spartan-ExtraLight;
   font-weight: 200;
@@ -142,6 +184,7 @@ export const Notification = styled.span`
 `;
 
 export const Link = styled.a`
+  ${baseConfig}
   text-decoration: none;
   color: ${(props) => props.theme.text};
   padding: ${(props) => (props.icon ? '15px' : '0')};
@@ -182,6 +225,7 @@ export const Link = styled.a`
 `;
 
 export const FixedLink = styled.div`
+  ${baseConfig}
   font-weight: normal;
   font-size: 15px;
   color: ${(props) => props.theme.primary};
@@ -212,28 +256,4 @@ export const FixedLink = styled.div`
   &:visited {
     color: ${(props) => props.theme.text};
   }
-`;
-
-export const P = styled.p`
-  text-indent: 3ch;
-  font-size: 1.75vh;
-  margin-bottom: 1em;
-  line-height: 150%;
-`;
-
-export const Quantity = styled.div`
-  display: block;
-  width: 25px;
-  height: 25px;
-  background-color: black;
-  color: white;
-  text-align: center;
-  position: absolute;
-  border-radius: 100%;
-  text-align: center;
-  font-size: 10px;
-  left: 20px;
-  margin-top: -10px;
-  font-weight: bold;
-  padding-top: 7px;
 `;
