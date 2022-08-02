@@ -1,5 +1,6 @@
 import path from "path";
 import { Configuration } from "webpack";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const config: Configuration = {
   entry: "./src/index.tsx",
@@ -19,8 +20,19 @@ const config: Configuration = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          //MiniCssExtractPlugin.loader, // instead of style-loader
+          'css-loader'
+        ]
+      },
     ],
   },
+  plugins: [
+    new MiniCssExtractPlugin(),
+  ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },

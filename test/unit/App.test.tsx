@@ -8,6 +8,7 @@ import { TagList, Tag } from '../../src/components/Input/Tag';
 import { CloseButton, EditButton, LinkButton, LocationButton, RedButton, SubmitButton } from '../../src/components/Input/Button';
 import { CloseType } from '../../src/components/Input/Button/closeType';
 import FileButton from '../../src/components/Input/Button/FileButton';
+import Image from '../../src/components/Image';
 
 it('can mount a light theme', () => {
   const ThemedInput = withTheme(Input);
