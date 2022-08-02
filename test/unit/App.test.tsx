@@ -5,7 +5,7 @@ import { default as lightTheme } from '../../src/styles/themes/light.json';
 import { ThemeProvider, withTheme } from 'styled-components';
 import { Checkbox } from '../../src/components/Input/CheckBox';
 import { TagList, Tag } from '../../src/components/Input/Tag';
-import { CloseButton, EditButton, LinkButton, LocationButton, RedButton, SubmitButton } from '../../src/components/Input/Button';
+import { ChangePicButton, CloseButton, ColorButton, DeleteButton, CleanButton, LinkButton, LocationButton, RedButton, SubmitButton } from '../../src/components/Input/Button';
 import { CloseType } from '../../src/components/Input/Button/closeType';
 import FileButton from '../../src/components/Input/Button/FileButton';
 import Image from '../../src/components/Image';
@@ -19,10 +19,14 @@ it('can mount a light theme', () => {
   const ThemedLinkButton = withTheme(LinkButton);
   const ThemedSubmitButton = withTheme(SubmitButton);
   const ThemedRedButton = withTheme(RedButton);
-  const ThemedEditButton = withTheme(EditButton);
+  const ThemedCleanButton = withTheme(CleanButton);
+  const ThemedChangePicButton = withTheme(ChangePicButton);
+  const ThemedDeleteButton = withTheme(DeleteButton);
+  const ThemedColorButton = withTheme(ColorButton);
   const ThemedLocationButton = withTheme(LocationButton);
   const ThemedFileButton = withTheme(FileButton);
   const ThemedImage = withTheme(Image);
+
 
   mount(
     <ThemeProvider theme={lightTheme}>
@@ -71,7 +75,11 @@ it('can mount a light theme', () => {
       <ThemedLinkButton>Link</ThemedLinkButton>
       <ThemedSubmitButton>Submit</ThemedSubmitButton>
       <ThemedRedButton>Red</ThemedRedButton>
-      <ThemedEditButton>Edit</ThemedEditButton>
+      <ThemedCleanButton>Edit</ThemedCleanButton>
+      <ThemedChangePicButton>-</ThemedChangePicButton>
+      <ThemedDeleteButton>-</ThemedDeleteButton>
+      <ThemedColorButton color={'red'}>-</ThemedColorButton>
+      <ThemedColorButton color={'green'}>-</ThemedColorButton>
       <ThemedLocationButton>Location</ThemedLocationButton>
       <ThemedFileButton Button={(p: {onClick}) => (<ThemedLinkButton onClick={p.onClick}>FILE</ThemedLinkButton>)} onChange={(a)=>{console.log('Checkbox', a);}}/>
       <ThemedImage images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />

@@ -1,10 +1,10 @@
 import React, { CSSProperties, useEffect, useRef } from 'react';
 import useState from 'react-usestateref';
 import clsx from 'clsx'; // a utility for constructing className conditionally
-import { Image as ImageStyle, BackgroundImage } from './styles';
-import { ChangePicButton, Indicator } from '../Input';
+import { Image as ImageStyle, BackgroundImage, Indicator } from './styles';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import { ChangePicButton } from '../Input/Button';
 
 function Image(props: {
   images?: string[];

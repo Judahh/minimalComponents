@@ -81,22 +81,6 @@ export const RedButton = styled.button`
   }
 `;
 
-export const EditButton = styled.button`
-  ${baseConfig}
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border-radius: 4px;
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  box-sizing: border-box;
-  background-image: url('/img/edit.svg');
-  transition: all 0.2s;
-  background-repeat: no-repeat;
-  &:hover {
-    background-image: url('/img/editInvert.svg');
-  }
-`;
-
 export const LocationButton = styled.button`
   ${baseConfig}
   width: 100%;
@@ -174,4 +158,73 @@ export const CloseButton = styled.div`
   ${baseConfig}
   ${(props) => props.closeType === CloseType.red ? BasicRedCircle : BasicX(props.theme.primary)}
   float: right;
+`;
+
+export const ChangePicButton = styled.button`
+  ${baseConfig}
+  width: 30px;
+  height: 30px;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  color: ${(props) => props.theme.primary};
+  background: ${(props) => props.theme.background};
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const CleanButton = styled.button`
+  ${baseConfig}
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 4px;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  box-sizing: border-box;
+  background-image: url('/img/edit.svg');
+  transition: all 0.2s;
+  &:hover {
+    background-image: url('/img/editInvert.svg');
+  }
+`;
+
+export const DeleteButton = styled.button`
+  ${baseConfig}
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 4px;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  box-sizing: border-box;
+  background: red;
+  border: 1px solid white;
+  color: white;
+  font-size: 19px;
+  font-weight: bolder;
+
+  &:hover {
+    background: white;
+    color: red;
+    border: 1px solid red;
+  }
+`;
+
+export const ColorButton = styled.button`
+  ${baseConfig}
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 4px;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  box-sizing: border-box;
+  border: 1px solid ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.primary};
+  font-size: 19px;
+  font-weight: bolder;
+
+  &:hover {
+    background: ${(props) => props.theme.background};
+    color: ${(props) => props.color};
+    border: 1px solid ${(props) => props.color};
+  }
 `;
