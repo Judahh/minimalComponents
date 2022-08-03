@@ -168,9 +168,8 @@ export const Quantity = styled.div`
 export const ProgressText = styled.div`
   ${baseConfig}
   display: block;
-  width: 25px;
-  height: 25px;
-  color: ${(props) => props.theme.primary};
+  mix-blend-mode: difference;
+  color: white;
   text-align: center;
   position: absolute;
   border-radius: 100%;
@@ -183,6 +182,8 @@ export const ProgressText = styled.div`
 
   margin-left: auto;
   margin-right: auto;
+  top: 50%;
+  bottom: 50%;
 `;
 
 export const Error = styled.span`

@@ -31,7 +31,7 @@ const MilkB = (props:{ min:number, max:number, fillColor:string, time:number, id
 
 const Milk = withTheme(MilkB);
 
-const SVGB = (props: {height: number; width: number, children?, styles?}) => {
+const SVGB = (props: {height: number; width: number, children?, style?}) => {
   useEffect(() => {
   }, [props, ...Object.values(props)]);
   const getProps = () => {
@@ -40,7 +40,7 @@ const SVGB = (props: {height: number; width: number, children?, styles?}) => {
       if (key !== 'height' &&
         key !== 'width' &&
         key !== 'children' &&
-        key !== 'styles' &&
+        key !== 'style' &&
         Object.prototype.hasOwnProperty.call(props, key)) {
         newProps[key] = props[key];
       }
@@ -52,7 +52,7 @@ const SVGB = (props: {height: number; width: number, children?, styles?}) => {
     width="100%"
     viewBox={`0 0 ${props.width} ${props.height}`}
     xmlns="http://www.w3.org/2000/svg"
-    style={props.styles}
+    style={props.style}
     {...getProps()}
   >
     {props.children}
@@ -61,17 +61,17 @@ const SVGB = (props: {height: number; width: number, children?, styles?}) => {
 
 const SVG = withTheme(SVGB);
 
-const ProgressB = (props: { Element, height?:number, width?:number, min?:number, fillColor?: string, time?:1, id?:0, styles?, quantity?:number, total?:number, current?:number, percentage?: boolean}) => {
+const ProgressB = (props: { Element, height?:number, width?:number, min?:number, fillColor?: string, time?:1, id?:0, style?, quantity?:number, total?:number, current?:number, percentage?: boolean, theme}) => {
   useEffect(() => {
   }, [props, ...Object.values(props)]);
   return (
-    <>
-      <SVG styles={props.styles} height={props.height || 230} width={props.width || 130}>
-        <props.Element id={props.id} min={props.min || 0} max={((props.current || 0)/(props.total || 1))} fillColor={props.fillColor||'#000000'} time={props.time}/>
+    <div style={{position: "relative"}}>
+      <SVG style={props.style} height={props.height || 230} width={props.width || 130}>
+        <props.Element id={props.id} min={props.min || 0} max={((props.current || 0)/(props.total || 1))} fillColor={props.fillColor||props?.theme?.primary} time={props.time}/>
       </SVG>
       {props.percentage && <ProgressText>{((props.current||0)/(props.total||1)) * 100}%</ProgressText>}
       {(props.quantity || 0) > 1 && <Quantity>{props.quantity}</Quantity>}
-    </>
+    </div>
   );
 };
 
