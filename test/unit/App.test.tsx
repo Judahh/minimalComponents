@@ -1,7 +1,8 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext } from 'react';
 import { mount } from '@cypress/react';
 import Input from '../../src/components/Input';
 import { default as lightTheme } from '../../src/styles/themes/light.json';
+import { default as darkTheme } from '../../src/styles/themes/dark.json';
 import { ThemeProvider } from 'styled-components';
 import Checkbox from '../../src/components/Input/CheckBox';
 import { TagList, Tag } from '../../src/components/Input/Tag';
@@ -25,10 +26,11 @@ import {
 } from '../../src/components/Text';
 import { Flags } from '../../src/components/Input/Switch/styles';
 import NotificationContextModel from '../../src/components/Notification/notificationContextModel';
+import useState from './useStateMock';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
-it('can mount a light theme', () => {
+const basicAll = (theme) => {
   const [notificationText, setNotificationText] = useState<string | undefined>(
     'TEST Notification Text'
   );
@@ -46,8 +48,8 @@ it('can mount a light theme', () => {
   >(60000);
 
 
-  mount(
-    <ThemeProvider theme={lightTheme}>
+  return (
+    <ThemeProvider theme={theme}>
       <NotificationContext.Provider
               value={{
                 timer: notificationTimer,
@@ -161,4 +163,12 @@ it('can mount a light theme', () => {
       <FixedLink>FixedLink</FixedLink>
     </ThemeProvider>
   );
+}
+
+it('can mount a light theme', () => {
+  mount(basicAll(lightTheme));
+});
+
+it('can mount a dark theme', () => {
+  mount(basicAll(darkTheme));
 });
