@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { default as map } from "../../pages/map.json";
 
-const Scroll = () => {
+const ScrollToSection = (props: {map}) => {
   // const [section, setSection] = useState("#intro");
   let currentSection = "#intro";
 
@@ -15,10 +14,10 @@ const Scroll = () => {
   const onScroll = () => {
     let els: number[] = [];
     let hrefs: string[] = [];
-    for (const key in map.sections) {
-      if (map.sections.hasOwnProperty(key) && document.getElementById(key)?.getBoundingClientRect()?.y) {
+    for (const key in props.map.sections) {
+      if (props.map.sections.hasOwnProperty(key) && document.getElementById(key)?.getBoundingClientRect()?.y) {
         els.push(Math.abs(document?.getElementById(key)?.getBoundingClientRect()?.y || 0));
-        hrefs.push(map.sections[key]);
+        hrefs.push(props.map.sections[key]);
       }
     }
     let cEl = hrefs[indexOfSmallest(els)];
@@ -39,4 +38,4 @@ const Scroll = () => {
   return null;
 }
 
-export default Scroll;
+export default ScrollToSection;

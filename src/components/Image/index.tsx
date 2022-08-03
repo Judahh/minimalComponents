@@ -5,6 +5,7 @@ import { Image as ImageStyle, BackgroundImage, Indicator } from './styles';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { ChangePicButton } from '../Input/Button';
+import { withTheme } from 'styled-components';
 
 function Image(props: {
   images?: string[];
@@ -194,4 +195,4 @@ function Image(props: {
     </>
   );
 }
-export default Image;
+export default withTheme(Image);

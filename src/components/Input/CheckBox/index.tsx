@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CheckboxContainer, CheckIcon, StyledCheckbox } from './styles';
+import { withTheme } from 'styled-components';
 
-export const Checkbox = (props: {
+const Checkbox = (props: {
   checked?: boolean;
   onChange;
   title?: string;
@@ -33,3 +34,5 @@ export const Checkbox = (props: {
     </CheckboxContainer>
   );
 };
+
+export default withTheme(Checkbox);

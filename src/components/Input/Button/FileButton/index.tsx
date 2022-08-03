@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { withTheme } from 'styled-components';
 
 const FileButton = (props: { Button; name?; accept; onChange }) => {
   // Create a reference to the hidden file input element
@@ -24,4 +25,4 @@ const FileButton = (props: { Button; name?; accept; onChange }) => {
     </>
   );
 };
-export default FileButton;
+export default withTheme(FileButton);
