@@ -27,7 +27,7 @@ import {
 import { Flags } from '../../src/components/Input/Switch/styles';
 import NotificationContextModel from '../../src/components/Notification/notificationContextModel';
 import useState from './useStateMock';
-import { Milk, Progress } from '../../src/components/Loading/Progress';
+import { Bar, FlowType, Milk, Progress } from '../../src/components/Loading/Progress';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -163,7 +163,9 @@ const basicAll = (theme) => {
         <NotificationText>Notification</NotificationText>
         <Link>Link</Link>
         <FixedLink>FixedLink</FixedLink>
-        <Progress Element={Milk} total={12} current={6} percentage={true}/>
+        <Progress id={0} Element={Milk} max={12} current={6} percentage={true} flow={FlowType.bottomToTop}/>
+        <Progress id={1} Element={Bar} max={12} current={6} percentage={true} flow={FlowType.leftToRight} width={200} height={100}/>
+        <Progress id={2} Element={Bar} max={12} current={6} percentage={true} flow={FlowType.bottomToTop} width={100} height={200}/>
       </div>
     </ThemeProvider>
   );
