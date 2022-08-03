@@ -172,11 +172,30 @@ const MilkB = (props:{ style?, min:number, max:number, current:number, fillColor
 const Milk = withTheme(MilkB);
 
 const ProgressB = (props: { Element, style?, width?:number, height?:number, min:number, max:number, fillColor:string, time:number, id:number, flow: FlowType, quantity?:number, current?:number, percentage?: boolean, theme}) => {
+  const passProps = (props) => {
+    return (
+      props.children &&
+      React.Children.map(props.children, (child) => {
+        return React.cloneElement(child, {
+          id: props.id,
+          flow: props.flow,
+          style: props.style,
+          height: props.height,
+          width: props.width,
+          min: props.min,
+          max: props.max,
+          current: props.current,
+          fillColor: props.fillColor || props.theme.primary,
+          time: props.time,
+        });
+      })
+    );
+  };
   useEffect(() => {
   }, [props, ...Object.values(props)]);
   return (
     <div style={{position: "relative"}}>
-      <props.Element id={props.id} flow={props.flow} style={props.style} height={props.height} width={props.width} min={props.min} max={props.max} current={props.current} fillColor={props.fillColor||props?.theme?.primary} time={props.time}/>
+      {passProps(props)}
       {props.percentage && <ProgressText>{((props.current||0)/(props.max||1)) * 100}%</ProgressText>}
       {(props.quantity || 0) > 1 && <Quantity>{props.quantity}</Quantity>}
     </div>

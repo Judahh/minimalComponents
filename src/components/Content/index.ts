@@ -1,12 +1,15 @@
 import styled from "styled-components";
+import { baseConfig } from "../../util";
 
 export const Form = styled.form`
+  ${baseConfig}
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
 
 export const LayoutWrapper = styled.div`
+  ${baseConfig}
   background: ${(props) => props.theme.background};
   flex-direction: row;
   display: flex;
@@ -32,17 +35,20 @@ export const LayoutWrapper = styled.div`
 `;
 
 export const Wrapper = styled.div`
+  ${baseConfig}
   height: 100%;
   width: 100%;
 `;
 
 export const Center = styled.div`
+  ${baseConfig}
   margin: auto;
   width: fit-content;
   padding: 10px;
 `;
 
 export const Left = styled.div`
+  ${baseConfig}
   display: flex;
   flex-direction: column;
   min-width: 400px;
@@ -65,6 +71,7 @@ export const Left = styled.div`
 `;
 
 export const Right = styled.div`
+  ${baseConfig}
   padding-right: 50px;
   padding-left: 50px;
   display: flex;
@@ -80,6 +87,7 @@ export const Right = styled.div`
 `;
 
 export const Container = styled.div`
+  ${baseConfig}
   width: 100%;
   min-height: 100vh;
   max-width: 100%;
@@ -87,6 +95,7 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
+  ${baseConfig}
   z-index: 10;
   position: relative;
   -webkit-box-pack: center;
@@ -96,6 +105,7 @@ export const Content = styled.div`
 `;
 
 export const SubContent = styled.div`
+  ${baseConfig}
   display: flex;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -104,11 +114,13 @@ export const SubContent = styled.div`
 `;
 
 export const Div = styled.div`
+  ${baseConfig}
   padding-left: 5vw;
   padding-right: 5vw;
 `;
 
 export const BasicContentWrapper = styled.div`
+  ${baseConfig}
   position: relative;
   text-align: center;
   top: 0;
@@ -124,6 +136,7 @@ export const BasicContentWrapper = styled.div`
 `;
 
 export const SimpleContentWrapper = styled.div`
+  ${baseConfig}
   display: flex;
   justify-content: center;
 
@@ -134,6 +147,7 @@ export const SimpleContentWrapper = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
+  ${baseConfig}
   padding: 160px 24px;
   display: flex;
   flex-direction: column;

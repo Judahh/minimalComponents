@@ -28,6 +28,9 @@ import { Flags } from '../../src/components/Input/Switch/styles';
 import NotificationContextModel from '../../src/components/Notification/notificationContextModel';
 import useState from './useStateMock';
 import { Bar, FlowType, Milk, Progress } from '../../src/components/Loading/Progress';
+import Animation from '../../src/components/Loading/Animation';
+import { Hanging, Rowling } from '../../src/components/Loading/Animation/styles';
+import { Logo } from '../../src/components/Image/Icons/styles';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -163,9 +166,12 @@ const basicAll = (theme) => {
         <NotificationText>Notification</NotificationText>
         <Link>Link</Link>
         <FixedLink>FixedLink</FixedLink>
-        <Progress id={0} Element={Milk} max={12} current={6} percentage={true} flow={FlowType.bottomToTop}/>
-        <Progress id={1} Element={Bar} max={12} current={6} percentage={true} flow={FlowType.leftToRight} width={200} height={100}/>
-        <Progress id={2} Element={Bar} max={12} current={6} percentage={true} flow={FlowType.bottomToTop} width={100} height={200}/>
+        <Progress id={0} max={12} current={6} percentage={true} flow={FlowType.bottomToTop}><Milk/></Progress>
+        <Progress id={1} max={12} current={6} percentage={true} flow={FlowType.leftToRight} width={200} height={100}><Bar/></Progress>
+        <Progress id={2} max={12} current={6} percentage={true} flow={FlowType.bottomToTop} width={100} height={200}><Bar/></Progress>
+        <Animation Animation={Rowling}><Logo src={'img/bag.svg'}/></Animation>
+        <Animation Animation={Hanging}><Logo src={'img/bag.svg'}/></Animation>
+        <Animation Animation={Rowling} anti={true}><Logo src={'img/bag.svg'}/></Animation>
       </div>
     </ThemeProvider>
   );

@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
+import { baseConfig } from "../../util";
 
 export const StyledHeader = styled.div`
+  ${baseConfig}
   display: block;
   justify-content: center;
   width: 100%;
@@ -18,6 +20,7 @@ export const StyledHeader = styled.div`
 `;
 
 export const StyledFooter = styled.footer`
+  ${baseConfig}
   display: block;
   position: fixed;
   bottom: 70px;
@@ -40,6 +43,7 @@ export const StyledFooter = styled.footer`
 `;
 
 export const ItemHolder = styled.a`
+  ${baseConfig}
   margin: 0;
   top: ${(props) =>
     props.top ? 'min-height: 70px;' : ''}
@@ -72,18 +76,21 @@ export const ItemHolder = styled.a`
 `;
 
 export const Item = styled.div`
+  ${baseConfig}
   display: flex;
   flex-direction: column;
   text-align: center;
 `
 
 export const SubItem = styled.div`
+  ${baseConfig}
   display: block;
   width: 100%;
   text-align: center;
 `
 
 export const DrawerMenu = styled.div`
+  ${baseConfig}
   position: relative;
   top: ${(props) =>
     props.top ? '-500%' : '0'};
@@ -112,6 +119,7 @@ export const DrawerMenu = styled.div`
 `;
 
 export const DrawerWrapper = styled.div`
+  ${baseConfig}
   height: 70px;
   width: 100%;
   left: 0;
@@ -122,6 +130,7 @@ export const DrawerWrapper = styled.div`
 `;
 
 export const ToggleHolder = styled.div`
+  ${baseConfig}
   cursor: pointer;
   margin: 0 20px;
   height: 20px;
@@ -129,6 +138,7 @@ export const ToggleHolder = styled.div`
 `;
 
 export const Toggle = styled.div`
+  ${baseConfig}
   float: right;
   position: relative;
 
@@ -194,6 +204,7 @@ export const Toggle = styled.div`
 `;
 
 export const NavHolder = styled.div`
+  ${baseConfig}
   display: flex;
   align-items: center;
   justify-content: space-between;
