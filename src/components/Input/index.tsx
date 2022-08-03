@@ -32,7 +32,7 @@ const Input = (props: {
     <>
     <InputStyle
       {...getProps()}
-    >{...props.children}</InputStyle>
+    >{props.children}</InputStyle>
     {error && error !== '' && error !== ' ' ? (
       <Error>{error}</Error>
     ) : null}
