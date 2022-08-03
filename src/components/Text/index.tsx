@@ -152,8 +152,8 @@ export const Quantity = styled.div`
   display: block;
   width: 25px;
   height: 25px;
-  background-color: black;
-  color: white;
+  color: ${(props) => props.theme.background};
+  background-color: ${(props) => props.theme.primary};
   text-align: center;
   position: absolute;
   border-radius: 100%;

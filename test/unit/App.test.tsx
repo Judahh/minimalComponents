@@ -135,12 +135,12 @@ const basicAll = (theme) => {
           <CleanButton
             type="submit"
           >
-            <img src={"/icons/br.png"} alt="br" />
+            <Text>BR</Text>
           </CleanButton>
           <CleanButton
             type="submit"
           >
-            <img src={"/icons/en.png"} alt="en" />
+            <Text>EN</Text>
           </CleanButton>
         </Flags>
         <Image images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
@@ -157,7 +157,7 @@ const basicAll = (theme) => {
         <SubText>SubText</SubText>
         <MediumText>MediumText</MediumText>
         <P>Paragraph</P><br /><br />
-        <Quantity>Quantity</Quantity><br /><br />
+        <Quantity>13</Quantity><br /><br />
         <Error>Error</Error>
         <NotificationText>Notification</NotificationText>
         <Link>Link</Link>
