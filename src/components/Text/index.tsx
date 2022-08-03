@@ -165,6 +165,26 @@ export const Quantity = styled.div`
   padding-top: 7px;
 `;
 
+export const ProgressText = styled.div`
+  ${baseConfig}
+  display: block;
+  width: 25px;
+  height: 25px;
+  color: ${(props) => props.theme.primary};
+  text-align: center;
+  position: absolute;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
+
+  left:0;
+  right:0;
+
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 export const Error = styled.span`
   ${baseConfig}
   font-size: 2vh;

@@ -27,6 +27,7 @@ import {
 import { Flags } from '../../src/components/Input/Switch/styles';
 import NotificationContextModel from '../../src/components/Notification/notificationContextModel';
 import useState from './useStateMock';
+import { Milk, Progress } from '../../src/components/Loading/Progress';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -162,6 +163,7 @@ const basicAll = (theme) => {
         <NotificationText>Notification</NotificationText>
         <Link>Link</Link>
         <FixedLink>FixedLink</FixedLink>
+        <Progress Element={Milk} total={12} current={6} percentage={true}/>
       </div>
     </ThemeProvider>
   );

@@ -15,7 +15,8 @@ export const NotificationWrapper = styled.div`
   justify-content: center;
   width: 100%;
   white-space: pre-line;
-  background: ${(props:{error?:boolean, theme}) =>  props.error ? props.theme.error : props.theme.background };
+  color: ${(props:{theme}) => props.theme.background };
+  background-color: ${(props:{error?:boolean, theme}) => props.error ? props.theme.error : props.theme.primary };
   height: ${(props) =>  hasText(props) ? 'auto' : '0px' };
   padding: ${(props:{children, text?}) =>  hasText(props) > 0 ? '10px' : '0px' };
 `;

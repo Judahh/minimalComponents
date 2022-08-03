@@ -28,6 +28,7 @@ const Input = (props: {
     delete newProps.children;
     return newProps;
   }
+
   return (
     <>
     <InputStyle
