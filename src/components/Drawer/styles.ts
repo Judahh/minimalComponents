@@ -100,7 +100,7 @@ export const DrawerMenu = styled.div`
   z-index: -10;
   opacity: 0;
 
-  &.open {
+  &.openned, &.open {
     display: block;
     top: ${(props) =>
       props.top ? '-70px' : '266'};

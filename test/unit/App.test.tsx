@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import { mount } from '@cypress/react';
 import Input from '../../src/components/Input';
 import { default as lightTheme } from '../../src/styles/themes/light.json';
@@ -26,15 +26,15 @@ import {
 } from '../../src/components/Text';
 import { Flags } from '../../src/components/Input/Switch/styles';
 import NotificationContextModel from '../../src/components/Notification/notificationContextModel';
-import useState from './useStateMock';
 import { Bar, FlowType, Milk, Progress } from '../../src/components/Loading/Progress';
 import Animation from '../../src/components/Loading/Animation';
 import { Hanging, Rowling } from '../../src/components/Loading/Animation/styles';
 import { Logo } from '../../src/components/Image/Icons/styles';
+import Modal from '../../src/components/Modal';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
-const basicAll = (theme) => {
+const BasicAll = (props:{theme}) => {
   const [notificationText, setNotificationText] = useState<string | undefined>(
     'TEST Notification Text'
   );
@@ -50,11 +50,25 @@ const basicAll = (theme) => {
   const [notificationTimer, setNotificationTimer] = useState<
     number | undefined
   >(60000);
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const [isOpen2, setIsOpen2] = useState(false);
+  const openModal2 = () => {
+    setIsOpen2(true);
+  };
+  const closeModal2 = () => {
+    setIsOpen2(false);
+  };
 
 
   return (
-    <ThemeProvider theme={theme}>
-      <div style={{backgroundColor: theme.background}}>
+    <ThemeProvider theme={props.theme}>
+      <div style={{backgroundColor: props.theme.background}}>
         <NotificationContext.Provider
                 value={{
                   timer: notificationTimer,
@@ -83,6 +97,29 @@ const basicAll = (theme) => {
         >
           <Notification context={NotificationContext} />
         </NotificationContext.Provider>
+
+        <Modal
+            isOpen={isOpen}
+            setClose={closeModal}
+            onRequestClose={closeModal}
+            setOpen={openModal}
+            ariaHideApp={false}
+            closeType={CloseType.x}
+          >
+          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+        </Modal>
+
+        <Modal
+            title={'Modal Title'}
+            isOpen={isOpen2}
+            setClose={closeModal2}
+            onRequestClose={closeModal2}
+            setOpen={openModal2}
+            ariaHideApp={false}
+            closeType={CloseType.red}
+          >
+          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+        </Modal>
         <Input
           style={{
               fontSize: '16px',
@@ -172,15 +209,17 @@ const basicAll = (theme) => {
         <Animation Animation={Rowling}><Logo src={'img/bag.svg'}/></Animation>
         <Animation Animation={Hanging}><Logo src={'img/bag.svg'}/></Animation>
         <Animation Animation={Rowling} anti={true}><Logo src={'img/bag.svg'}/></Animation>
+        <SubmitButton onClick={()=>openModal()}>Open Modal</SubmitButton><br /><br />
+        <SubmitButton onClick={()=>openModal2()}>Open Modal 2</SubmitButton><br /><br />
       </div>
     </ThemeProvider>
   );
 }
 
 it('can mount a light theme', () => {
-  mount(basicAll(lightTheme));
+  mount(<BasicAll theme={lightTheme}/>);
 });
 
 it('can mount a dark theme', () => {
-  mount(basicAll(darkTheme));
+  mount(<BasicAll theme={darkTheme}/>);
 });

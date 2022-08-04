@@ -21,24 +21,24 @@ export const Hanging = styled.div`
 
 export const Rowling = styled.div`
   ${baseConfig}
-  @keyframes rowling {
+  @keyframes ${(props)=> props.anti ? 'anti-':''}rowling {
     0% {
-      transform: rotate(0deg);
+      transform: rotate(${(props)=> props.anti ? '360deg':'0deg'});
     }
     25% {
-      transform: rotate(${(props)=> props.anti ? '-':''}90deg);
+      transform: rotate(${(props)=> props.anti ? '270deg':'90deg'});
     }
     50% {
-      transform: rotate(${(props)=> props.anti ? '-':''}180deg);
+      transform: rotate(${(props)=> props.anti ? '180deg':'180deg'});
     }
     75% {
-      transform: rotate${(props)=> props.anti ? '-':''}270deg);
+      transform: rotate${(props)=> props.anti ? '90deg':'270deg'});
     }
     100% {
-      transform: rotate(${(props)=> props.anti ? '-':''}360deg);
+      transform: rotate(${(props)=> props.anti ? '0deg':'360deg'});
     }
   }
   width: fit-content;
   transform-origin: center;
-  animation: rowling 2s linear infinite;
+  animation: ${(props)=> props.anti ? 'anti-':''}rowling 2s linear infinite;
 `;
