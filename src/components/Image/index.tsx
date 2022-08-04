@@ -21,8 +21,6 @@ function Image(props: {
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef();
   useEffect(() => {
-    console.log('Has', props.hasTitle, props.hasDescription);
-
     if (imgRef.current && (imgRef.current as any).complete) {
       setLoaded(true);
     }
@@ -48,15 +46,10 @@ function Image(props: {
 
   useEffect(() => {
     const maxHeight = getMaxHeight();
-    console.log('maxHeight', maxHeight);
-
     setMaxHeight(maxHeight);
   }, [props.hasDescription, props.hasTitle, titleHeightOffset]);
 
   const onChange = (index, item) => {
-    console.log('onChange', index, item);
-
-    // event.stopPropagation();
     props?.setIndex?.(index);
   };
 
@@ -105,7 +98,6 @@ function Image(props: {
           hasPrev && (
             <ChangePicButton
               onClick={(e) => {
-                console.log('onClick', e);
                 preventDefault(e);
                 onClick();
               }}
@@ -119,7 +111,6 @@ function Image(props: {
           hasNext && (
             <ChangePicButton
               onClick={(e) => {
-                console.log('onClick', e);
                 preventDefault(e);
                 onClick();
               }}

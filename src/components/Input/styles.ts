@@ -7,14 +7,13 @@ import { CloseType } from './Button/closeType';
 import { BasicRedCircle, BasicX } from './Button';
 
 export const DebounceInputWrapper = styled.div`
+  ${baseConfig}
   input {
     padding: 15px;
     padding-left: 0;
     display: block;
     min-width: 30px;
     border-radius: 0;
-    font-size: 2vh;
-    font-family: Spartan-Light;
     background-color: transparent;
     border-bottom: 1px solid ${(props) => transparentize(0.5, props.theme.text)};
     color: ${(props) => props.theme.text};
@@ -45,12 +44,12 @@ export const DebounceInputWrapper = styled.div`
 
 export const Input = styled.input`
   ${baseConfig}
-  transition: width 0.5s ease-in-out;
+  transition: width ${(props) => props?.theme?.transition?.input?.duration || 0.5}s ease-in-out;
   padding: 15px;
   padding-left: 0;
   display: block;
   min-width: 30px;
-  font-size: 2vh;
+  font-size: ${(props) => props?.theme?.input?.font?.size ? props?.theme?.input?.font?.size : '2vh'};
   background-color: transparent;
   border-bottom: 1px solid ${(props) => transparentize(0.5, props?.theme?.text || 'red')};
   color: ${(props) => props?.theme?.text || 'red'};

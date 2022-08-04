@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { baseConfig } from "../../../util";
 
 export const IconList = styled.div`
+  ${baseConfig}
   display: flex;
 
   @media screen and (max-width: 380px) {
@@ -9,14 +11,13 @@ export const IconList = styled.div`
 `;
 
 export const Logo = styled.img`
+  ${baseConfig}
   cursor: pointer;
-  // width: 45px;
-  // height: 20px;
   height: 30px;
-  // margin-top: 10px;
 `;
 
 export const LogoSmall = styled.img`
+  ${baseConfig}
   cursor: pointer;
   // width: 45px;
   // height: 20px;
@@ -25,24 +26,26 @@ export const LogoSmall = styled.img`
 `;
 
 export const Icon = styled.img`
+  ${baseConfig}
   cursor: pointer;
   height: 25px;
   margin: 0 20px;
 `;
 
 export const LogoHolder = styled.div`
-  transition: all 0.2s;
+  ${baseConfig}
+  transition: all ${(props) => props?.theme?.transition?.logo?.duration || 0.2}s;
 `;
 
-export const TextHolder = styled.a`
+export const Holder = styled.a`
+  ${baseConfig}
   cursor: pointer;
   background: ${(props) => props.theme.background};
   color: ${(props) => props.theme.text};
-  transition: all 0.2s;
+  transition: all ${(props) => props?.theme?.transition?.holder?.duration || 0.2}s;
 
   &: hover {
     background: ${(props) => props.theme.background};
-    font-weight: bold;
     color: ${(props) => props.theme.bright};
   }
 
@@ -53,16 +56,19 @@ export const TextHolder = styled.a`
 `;
 
 export const Path = styled.path`
+  ${baseConfig}
   stroke: ${(props) => props.theme.primary} !important;
   ${(props) => props.withFill ? "fill: " + props.theme.primary + "!important;" : ""}
 `;
 
 export const PathL = styled.path`
+  ${baseConfig}
   stroke: ${(props) => props.theme.holder} !important;
   ${(props) => props.withFill ? "fill: " + props.theme.holder + "!important;" : ""}
 `;
 
 export const APTI = styled.svg`
+  ${baseConfig}
   width: auto;
   max-width: 50%;
   height: auto;
@@ -81,10 +87,12 @@ export const APTI = styled.svg`
 `;
 
 export const Theme = styled.svg`
+  ${baseConfig}
   cursor: pointer;
 `;
 
 export const Coffee = styled.svg`
+${baseConfig}
 --secondary: ${(props) => props.theme.primary} !important;
 height: 100%;
 align-self: center;
@@ -93,12 +101,12 @@ padding-top: 10vh;
 #steamL {
   stroke-dasharray: 13;
   stroke-dashoffset: 13;
-  animation: steamLarge 2s infinite;
+  animation: steamLarge ${(props) => props?.theme?.animation?.steamLarge?.duration || 2}s infinite;
 }
 #steamR {
   stroke-dasharray: 9;
   stroke-dashoffset: 9;
-  animation: steamSmall 2s infinite;
+  animation: steamSmall ${(props) => props?.theme?.animation?.steamSmall?.duration || 2}s infinite;
 }
 @-moz-keyframes swing {
   50% {

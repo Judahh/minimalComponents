@@ -4,7 +4,7 @@ import {
 } from './styles';
 import { withTheme } from 'styled-components';
 
-const ToggleButton = (props: { children?:any[]; oppened?:boolean; }) => {
+const ToggleButton = (props: { children?:any[]; oppened?:boolean; onClick?;}) => {
 
   const passProps = (elements?:any[]) => {
     return (
@@ -15,14 +15,19 @@ const ToggleButton = (props: { children?:any[]; oppened?:boolean; }) => {
           className: props.oppened ? 'active' : '',
         };
         delete newProps.children
-        return React.cloneElement(child, newProps);
+        const cloneChild = React.cloneElement(child, newProps);
+        return cloneChild;
       })
     );
   };
 
+  const children = props?.children ? passProps(props?.children) : (<></>);
+
   return (
-    <ToggleHolder>
-      {passProps(props?.children)}
+    <ToggleHolder onClick={()=>{
+        props.onClick();
+      }}>
+      {children}
     </ToggleHolder>
   );
 };

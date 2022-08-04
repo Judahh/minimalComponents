@@ -22,12 +22,14 @@ export const Toggle = styled.div`
     left: -33px;
     position: absolute;
     top: 9px;
+
     -webkit-transform-origin: 50% 50%;
-            transform-origin: 50% 50%;
-    -webkit-transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  -webkit-transform 0.2s linear;
-    transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  -webkit-transform 0.2s linear;
-    transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  transform 0.2s linear;
-    transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  transform 0.2s linear, -webkit-transform 0.2s linear;
+    transform-origin: 50% 50%;
+
+    -webkit-transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
+    transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
+    transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
+    transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
     width: 26px;
   }
 
@@ -39,10 +41,10 @@ export const Toggle = styled.div`
     position: absolute;
     -webkit-transform-origin: 50% 50%;
             transform-origin: 50% 50%;
-    -webkit-transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  -webkit-transform 0.2s linear;
-    transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  -webkit-transform 0.2s linear;
-    transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  transform 0.2s linear;
-    transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out,  transform 0.2s linear, -webkit-transform 0.2s linear;
+    -webkit-transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
+    transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
+    transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
+    transition: background-color ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-in-out, top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out,  transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s linear;
     width: 26px;
   }
   span:before {
@@ -53,14 +55,14 @@ export const Toggle = styled.div`
   }
   &.active span {
     background-color: transparent;
-    -webkit-transition: background 0.2s ease-out;
-    transition: background 0.2s ease-out;
+    -webkit-transition: background ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
+    transition: background ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
   }
   &.active span:before, &.active span:after {
-    -webkit-transition: top 0.2s ease-out, -webkit-transform 0.2s 0.2s ease-out;
-    transition: top 0.2s ease-out, -webkit-transform 0.2s 0.2s ease-out;
-    transition: top 0.2s ease-out, transform 0.2s 0.2s ease-out;
-    transition: top 0.2s ease-out, transform 0.2s 0.2s ease-out, -webkit-transform 0.2s 0.2s ease-out;
+    -webkit-transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
+    transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
+    transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
+    transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
   }
   &.active span:before {
     top: 0;

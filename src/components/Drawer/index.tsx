@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import {
   DrawerWrapper,
   DrawerMenu,
-  Item,
   NavHolder,
 } from './styles';
 import { withTheme } from 'styled-components';
 
-const Drawer = (props: { children?:any[]; nav?:any[]; navOpenIndexes?:number[]; navCloseIndexes?:number[]; navSetOpenIndexes?:number[]; navToggleIndexes?:number[]; navNoClickIndexes?:number[]; childrenOpenIndexes?:number[]; childrenCloseIndexes?:number[]; childrenSetOpenIndexes?:number[]; childrenToggleIndexes?:number[]; childrenNoClickIndexes?:number[];}) => {
+const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?:any[];}; }; navOpenIndexes?:number[]; navCloseIndexes?:number[]; navToggleIndexes?:number[]; navNoClickIndexes?:number[]; childrenOpenIndexes?:number[]; childrenCloseIndexes?:number[]; childrenToggleIndexes?:number[]; childrenNoClickIndexes?:number[];}) => {
   const [openned, setOpen] = useState(false);
 
   const toggle = () => {
@@ -22,57 +21,60 @@ const Drawer = (props: { children?:any[]; nav?:any[]; navOpenIndexes?:number[]; 
     setOpen(false);
   };
 
-  const passProps = (elements:any[], toggleIndexes, setOpenIndexes, openIndexes, closeIndexes, noClickIndexes) => {
+  const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
     return (
       elements &&
       React.Children.map(elements, (child, index) => {
-        let find = setOpenIndexes?.findIndex?.(openIndex=>openIndex === index);
+        let find = toggleIndexes?.findIndex?.(openIndex=>openIndex === index);
         let has = find !== null && find !== undefined && find > -1;
-        let aSetOpen: React.Dispatch<React.SetStateAction<boolean>> | undefined = has ? setOpen : undefined;
-
-        find = toggleIndexes?.findIndex?.(openIndex=>openIndex === index);
-        has = find !== null && find !== undefined && find > -1;
-        let onClick: React.Dispatch<React.SetStateAction<boolean>> | undefined = toggle;
+        let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined = toggle;
 
         if (!has) {
           find = openIndexes?.findIndex?.(openIndex=>openIndex === index);
           has = find !== null && find !== undefined && find > -1;
-          onClick = open;
+          drawerAction = open;
           if (!has) {
             find = closeIndexes?.findIndex?.(closeIndex=>closeIndex === index);
             has = find !== null && find !== undefined && find > -1;
-            onClick = has ? close : undefined;
+            drawerAction = has ? close : undefined;
           }
         }
         find = noClickIndexes?.findIndex?.(openIndex=>openIndex === index);
         has = find !== null && find !== undefined && find > -1;
         const newProps = {
-          onClick: onClick,
-          drawerAction: onClick,
-          drawerSetOpen: aSetOpen,
+          onClick: drawerAction,
+          drawerAction: drawerAction,
+          drawerSetOpen: setOpen,
+          drawerOpen: open,
+          drawerClose: close,
+          drawerToggle: toggle,
           openned: openned,
         };
         if (has)
           delete newProps.onClick
 
-        return React.cloneElement(child, newProps);
+        const cloneChild = React.cloneElement(child, newProps);
+        return cloneChild;
       })
     );
   };
 
+  const navElements = props?.nav?.props?.children ? (passProps(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>);
+  const children = props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>);
+
   return (
     <DrawerWrapper
       className={openned ? 'openned' : 'closed'}
+      top={props.top}
     >
       <NavHolder>
-        {props.nav ? (passProps(props.nav, props.navToggleIndexes, props.navSetOpenIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>)}
+        {navElements}
       </NavHolder>
       <DrawerMenu
         className={openned ? 'openned' : 'closed'}
+        top={props.top}
       >
-        <Item>
-          {props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenSetOpenIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>)}
-        </Item>
+        {children}
       </DrawerMenu>
     </DrawerWrapper>
   );

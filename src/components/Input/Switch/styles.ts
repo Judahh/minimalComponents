@@ -14,7 +14,7 @@ export const Flags = styled.div`
     margin: 5px;
     &:hover {
       img {
-        animation: 1.5s;
+        animation: ${(props) => props?.theme?.animation?.flag?.duration || 1.5}s;
       }
     }
   }
@@ -28,7 +28,7 @@ export const Flags = styled.div`
     button {
       &:hover {
         img {
-          animation: 1.5s;
+          animation: ${(props) => props?.theme?.animation?.flag?.duration || 1.5}s;
         }
       }
     }

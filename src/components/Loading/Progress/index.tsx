@@ -13,7 +13,6 @@ type Flow = { x1:string, y1:string, x2:string, y2:string };
 
 const getFlow = (flow, min, max): Flow | undefined => {
   const half = (min + max)/2;
-  console.log('get flow:', flow, min, max);
   switch(flow){
     case FlowType.leftToRight:
       return { x1:`${min}`, y1:`${half}`, x2:`${max}`, y2:`${half}` };

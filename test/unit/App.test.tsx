@@ -32,7 +32,7 @@ import { Hanging, Rowling } from '../../src/components/Loading/Animation/styles'
 import { Logo, LogoHolder } from '../../src/components/Image/Icons/styles';
 import Modal from '../../src/components/Modal';
 import Drawer from '../../src/components/Drawer';
-import { ItemHolder } from '../../src/components/Drawer/styles';
+import { Item, ItemHolder } from '../../src/components/Drawer/styles';
 import ToggleButton from '../../src/components/Input/Button/ToggleButton';
 import { Toggle } from '../../src/components/Input/Button/ToggleButton/styles';
 
@@ -74,12 +74,13 @@ const BasicAll = (props:{theme}) => {
     <ThemeProvider theme={props.theme}>
       <div style={{backgroundColor: props.theme.background}}>
         <Drawer
+          top={true}
           navToggleIndexes={[0]}
           nav={
             (<>
               <ToggleButton>
                 <Toggle>
-                  <span>M</span>
+                  <span></span>
                 </Toggle>
               </ToggleButton>
               <LogoHolder>
@@ -100,12 +101,16 @@ const BasicAll = (props:{theme}) => {
             </>)
           }
         >
-          <ItemHolder>
-            <Text>A</Text>
-          </ItemHolder>
-          <ItemHolder>
-            <Text>B</Text>
-          </ItemHolder>
+          <Item>
+            <ItemHolder>
+              <Text>A</Text>
+            </ItemHolder>
+          </Item>
+          <Item>
+            <ItemHolder>
+              <Text>B</Text>
+            </ItemHolder>
+          </Item>
         </Drawer>
         <NotificationContext.Provider
                 value={{
@@ -209,7 +214,7 @@ const BasicAll = (props:{theme}) => {
         <ColorButton color={'red'}>-</ColorButton>
         <ColorButton color={'green'}>-</ColorButton>
         <LocationButton>Location</LocationButton>
-        <FileButton Button={(p: {onClick}) => (<LinkButton onClick={p.onClick}>FILE</LinkButton>)} onChange={(a)=>{console.log('Checkbox', a);}}/>
+        <FileButton Button={(p: {onClick}) => (<LinkButton onClick={p.onClick}>FILE</LinkButton>)} onChange={(a)=>{console.log('FILE', a);}}/>
         <Flags>
           <CleanButton
             type="submit"
@@ -249,6 +254,44 @@ const BasicAll = (props:{theme}) => {
         <Animation Animation={Rowling} anti={true}><Logo src={'img/bag.svg'}/></Animation>
         <SubmitButton onClick={()=>openModal()}>Open Modal</SubmitButton><br /><br />
         <SubmitButton onClick={()=>openModal2()}>Open Modal 2</SubmitButton><br /><br />
+        <Drawer
+          navToggleIndexes={[0]}
+          nav={
+            (<>
+              <ToggleButton>
+                <Toggle>
+                  <span></span>
+                </Toggle>
+              </ToggleButton>
+              <LogoHolder>
+                <Link to="/">
+                  <FixedLink >
+                    <Logo alt="catalog" />
+                  </FixedLink>
+                </Link>
+              </LogoHolder>
+              <LogoHolder>
+                <Link to="/cart">
+                  <FixedLink>
+                    <Logo alt="cart"
+                    />
+                  </FixedLink>
+                </Link>
+              </LogoHolder>
+            </>)
+          }
+        >
+          <Item>
+            <ItemHolder>
+              <Text>A</Text>
+            </ItemHolder>
+          </Item>
+          <Item>
+            <ItemHolder>
+              <Text>B</Text>
+            </ItemHolder>
+          </Item>
+        </Drawer>
       </div>
     </ThemeProvider>
   );

@@ -22,10 +22,10 @@ export const SubmitButton = styled.button`
   margin: 15px 0;
   margin-left: auto;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all ${(props) => props?.theme?.transition?.input?.submitButton?.duration || 0.2}s;
   max-width: 500px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  font-size: 2vh;
+  font-size: ${(props) => props?.theme?.input?.submitButton?.font?.size || '2vh'};
   box-sizing: border-box;
 
   &:hover {
@@ -58,12 +58,12 @@ export const RedButton = styled.button`
   color: white;
   margin: 15px 0;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all ${(props) => props?.theme?.transition?.input?.redButton?.duration || 0.2}s;
   width: 100%;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  font-size: 2vh;
+  font-size: ${(props) => props?.theme?.input?.redButton?.font?.size || '2vh'};
+  font-weight: ${(props) => props?.theme?.input?.redButton?.font?.weight || '900'};
   box-sizing: border-box;
-  font-weight: 900;
 
   &:hover {
     background: white;
@@ -87,22 +87,23 @@ export const LocationButton = styled.button`
   height: 100%;
   background: transparent;
   border-radius: 4px;
+  font-size: ${(props) => props?.theme?.input?.locationButton?.font?.size || '2vh'};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   box-sizing: border-box;
   background-image: ${(props) => ( props.theme === lightTheme ? "url('/img/location.svg')" : "url('/img/locationInvert.svg')" )};
-  transition: all 0.2s;
+  transition: all ${(props) => props?.theme?.transition?.input?.locationButton?.duration || 0.2}s;
   background-repeat: no-repeat;
 `;
 
 export const LinkButton = styled.button`
   ${baseConfig}
-  font-size: 15px;
+  font-size: ${(props) => props?.theme?.input?.linkButton?.font?.size || '2vh'};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${(props) => props.theme.primary};
   background-color: transparent;
-  font-family: Spartan-Light;
   margin: 0 20px;
   position: relative;
+  transition: all ${(props) => props?.theme?.transition?.input?.linkButton?.duration || 0.2}s ease-in-out;
 
   &:before {
     content: '';
@@ -112,7 +113,6 @@ export const LinkButton = styled.button`
     left: 0;
     // visibility: hidden;
     width: 0;
-    transition: all 0.2s ease-in-out;
   }
 
   &:hover {
@@ -179,10 +179,11 @@ export const CleanButton = styled.button`
   height: 100%;
   background: transparent;
   border-radius: 4px;
+  font-size: ${(props) => props?.theme?.input?.cleanButton?.font?.size || '2vh'};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   box-sizing: border-box;
   background-image: url('/img/edit.svg');
-  transition: all 0.2s;
+  transition: all ${(props) => props?.theme?.transition?.input?.cleanButton?.duration || 0.2}s;
   &:hover {
     background-image: url('/img/editInvert.svg');
   }
@@ -199,8 +200,8 @@ export const DeleteButton = styled.button`
   background: red;
   border: 1px solid white;
   color: white;
-  font-size: 19px;
-  font-weight: bolder;
+  font-size: ${(props) => props?.theme?.input?.deleteButton?.font?.size || '2vh'};
+  font-weight: ${(props) => props?.theme?.input?.deleteButton?.font?.weight || 'bolder'};
 
   &:hover {
     background: white;
@@ -219,8 +220,8 @@ export const ColorButton = styled.button`
   box-sizing: border-box;
   border: 1px solid ${(props) => props.theme.primary};
   color: ${(props) => props.theme.primary};
-  font-size: 19px;
-  font-weight: bolder;
+  font-size: ${(props) => props?.theme?.input?.colorButton?.font?.size || '2vh'};
+  font-weight: ${(props) => props?.theme?.input?.colorButton?.font?.weight || 'bolder'};
 
   &:hover {
     background: ${(props) => props.theme.background};

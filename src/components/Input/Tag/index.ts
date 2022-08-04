@@ -15,7 +15,7 @@ export const Tag = styled.button`
   ${baseConfig}
   padding: 4px 16px;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all ${(props) => props?.theme?.transition?.input?.tag?.duration || 0.15}s;
   margin-bottom: 16px;
   margin-right: 24px;
   border: 1px solid;

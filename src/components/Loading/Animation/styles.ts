@@ -16,7 +16,7 @@ export const Hanging = styled.div`
   }
   width: fit-content;
   transform-origin: top;
-  animation: hanging 2s ease infinite;
+  animation: hanging ${(props) => props?.theme?.animation?.hanging?.duration || 2}s ease infinite;
 `;
 
 export const Rowling = styled.div`
@@ -40,5 +40,5 @@ export const Rowling = styled.div`
   }
   width: fit-content;
   transform-origin: center;
-  animation: ${(props)=> props.anti ? 'anti-':''}rowling 2s linear infinite;
+  animation: ${(props)=> props.anti ? 'anti-':''}rowling ${(props) => props?.theme?.animation?.rowling?.duration || 2}s linear infinite;
 `;

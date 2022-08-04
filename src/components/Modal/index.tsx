@@ -6,8 +6,6 @@ import { CloseType } from "../Input/Button/closeType";
 import { H1 } from "../Text";
 
 const Modal = (props:{ title?:string, isOpen?: boolean, setClose?, setOpen?, children?, theme?, closeType?: CloseType}) => {
-  console.log('MODAL', props);
-
   return (
   <RModal isOpen={props.isOpen}
     // onAfterOpen={afterOpenModal}

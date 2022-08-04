@@ -30,7 +30,6 @@ export const StyledFooter = styled.footer`
   margin: 0 auto;
   // padding: 5px 24px;
   background: ${(props) => props.theme.background};
-  font-size: 12px;
   mix-blend-mode: ${(props) => props.menu == 2 ? "difference" : "unset"};
   position: fixed;
   z-index: 999;
@@ -45,8 +44,7 @@ export const StyledFooter = styled.footer`
 export const ItemHolder = styled.a`
   ${baseConfig}
   margin: 0;
-  top: ${(props) =>
-    props.top ? 'min-height: 70px;' : ''}
+  min-height: 70px;
   width: 100%;
   cursor: pointer;
   border-top: 1px solid ${(props) => props.theme.holder};
@@ -54,6 +52,7 @@ export const ItemHolder = styled.a`
   background: ${(props) => props.theme.background};
   color: ${(props) => props.theme.text};
   transition: none;
+  font-weight: ${(props) => props?.theme?.menu?.font?.weight || 'normal'};
 
   &:visited {
     color: ${(props) => props.theme.text};
@@ -65,7 +64,7 @@ export const ItemHolder = styled.a`
 
   &: hover {
     background: ${(props) => props.theme.background};
-    font-weight: bold;
+    font-weight: ${(props) => props?.theme?.menu?.hover?.font?.weight || 'bold'};
     color: ${(props) => props.theme.bright};
   }
 
@@ -92,29 +91,34 @@ export const SubItem = styled.div`
 export const DrawerMenu = styled.div`
   ${baseConfig}
   position: relative;
-  top: ${(props) =>
-    props.top ? '-500%' : '0'};
-  display: none;
-  animation: none;
-  transition: all 0.2s ease;
+  visibility: hidden;
+  display: unset;
+  top:${(props) =>
+    props.top ? `-${(props?.children?.length || 1) * 100}%` : '0%'};
+  transition: all ${(props) => props?.theme?.transition?.drawer?.duration || 0.2}s ease;
   z-index: -10;
   opacity: 0;
+  height: 0px;
 
   &.openned, &.open {
+    visibility: visible;
     display: block;
-    top: ${(props) =>
-      props.top ? '-70px' : '266'};
-    transition: all transform 0.2s ease;
+    top:${(props) =>
+      props.top ? '0%' : `-${((props?.children?.length || 0)+1) * 100}%`};
+    transition: all transform ${(props) => props?.theme?.transition?.drawer?.duration || 0.2}s ease;
     opacity: 1;
     background-color: ${(props) => props.theme.background};
+    height: fit-content;
   }
 
   &.closed {
-    display: none;
-    top: ${(props) =>
-      props.top ? '-500%' : '0'};
-    transition: all transform 0.2s ease;
+    display: unset;
+    visibility: hidden;
+    top:${(props) =>
+      props.top ? `-${(props?.children?.length || 1) * 100}%` : '0%'};
+    transition: all transform ${(props) => props?.theme?.transition?.drawer?.duration || 0.2}s ease;
     opacity: 0;
+    height: 0px;
   }
 `;
 
@@ -125,6 +129,7 @@ export const DrawerWrapper = styled.div`
   left: 0;
   display: block;
   position: relative;
+  z-index: 1000;
   ${(props) =>
     props.top ? 'top: 0' : 'bottom: 0'};
 `;

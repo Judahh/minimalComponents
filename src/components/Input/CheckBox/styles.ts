@@ -41,7 +41,7 @@ export const StyledCheckbox = styled.div`
   border-radius: 3px;
   border: solid 1px black;
   border-radius: 3px;
-  transition: all 150ms;
+  transition: all ${(props) => props?.theme?.transition?.input?.checkbox?.duration || 0.15}s;
   ${HiddenCheckBox}:focus + & {
     border: solid 1px white;
     background: black;
