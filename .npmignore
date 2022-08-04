@@ -1,0 +1,5 @@
+./src
+cypress
+.github
+.vscode
+test
