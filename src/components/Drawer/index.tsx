@@ -49,7 +49,8 @@ const Drawer = (props: { children?:any[]; nav?:any[]; navOpenIndexes?:number[]; 
         const newProps = {
           onClick: onClick,
           drawerAction: onClick,
-          drawerSetOpen: aSetOpen
+          drawerSetOpen: aSetOpen,
+          openned: openned,
         };
         if (has)
           delete newProps.onClick

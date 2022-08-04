@@ -29,8 +29,12 @@ import NotificationContextModel from '../../src/components/Notification/notifica
 import { Bar, FlowType, Milk, Progress } from '../../src/components/Loading/Progress';
 import Animation from '../../src/components/Loading/Animation';
 import { Hanging, Rowling } from '../../src/components/Loading/Animation/styles';
-import { Logo } from '../../src/components/Image/Icons/styles';
+import { Logo, LogoHolder } from '../../src/components/Image/Icons/styles';
 import Modal from '../../src/components/Modal';
+import Drawer from '../../src/components/Drawer';
+import { ItemHolder } from '../../src/components/Drawer/styles';
+import ToggleButton from '../../src/components/Input/Button/ToggleButton';
+import { Toggle } from '../../src/components/Input/Button/ToggleButton/styles';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -69,6 +73,40 @@ const BasicAll = (props:{theme}) => {
   return (
     <ThemeProvider theme={props.theme}>
       <div style={{backgroundColor: props.theme.background}}>
+        <Drawer
+          navToggleIndexes={[0]}
+          nav={
+            (<>
+              <ToggleButton>
+                <Toggle>
+                  <span>M</span>
+                </Toggle>
+              </ToggleButton>
+              <LogoHolder>
+                <Link to="/">
+                  <FixedLink >
+                    <Logo alt="catalog" />
+                  </FixedLink>
+                </Link>
+              </LogoHolder>
+              <LogoHolder>
+                <Link to="/cart">
+                  <FixedLink>
+                    <Logo alt="cart"
+                    />
+                  </FixedLink>
+                </Link>
+              </LogoHolder>
+            </>)
+          }
+        >
+          <ItemHolder>
+            <Text>A</Text>
+          </ItemHolder>
+          <ItemHolder>
+            <Text>B</Text>
+          </ItemHolder>
+        </Drawer>
         <NotificationContext.Provider
                 value={{
                   timer: notificationTimer,
