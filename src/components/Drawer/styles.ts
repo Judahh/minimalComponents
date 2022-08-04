@@ -94,7 +94,7 @@ export const DrawerMenu = styled.div`
   visibility: hidden;
   display: unset;
   top:${(props) =>
-    props.top ? `-${(props?.children?.length || 1) * 100}%` : '0%'};
+    props.top ? `-${((props?.children?.length || 1) + 1) * 100}%` : '0%'};
   transition: all ${(props) => props?.theme?.transition?.drawer?.duration || 0.2}s ease;
   z-index: -10;
   opacity: 0;
@@ -104,7 +104,7 @@ export const DrawerMenu = styled.div`
     visibility: visible;
     display: block;
     top:${(props) =>
-      props.top ? '0%' : `-${((props?.children?.length || 0)+1) * 100}%`};
+      props.top ? '0%' : `-${((props?.children?.length || 1) + 1) * 100}%`};
     transition: all transform ${(props) => props?.theme?.transition?.drawer?.duration || 0.2}s ease;
     opacity: 1;
     background-color: ${(props) => props.theme.background};
@@ -115,7 +115,7 @@ export const DrawerMenu = styled.div`
     display: unset;
     visibility: hidden;
     top:${(props) =>
-      props.top ? `-${(props?.children?.length || 1) * 100}%` : '0%'};
+      props.top ? `-${((props?.children?.length || 1) + 1) * 100}%` : '0%'};
     transition: all transform ${(props) => props?.theme?.transition?.drawer?.duration || 0.2}s ease;
     opacity: 0;
     height: 0px;

@@ -53,23 +53,23 @@ export const Toggle = styled.div`
   span:after {
     top: -7px;
   }
-  &.active span {
+  &.openned span {
     background-color: transparent;
     -webkit-transition: background ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
     transition: background ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
   }
-  &.active span:before, &.active span:after {
+  &.openned span:before, &.openned span:after {
     -webkit-transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
     transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
     transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
     transition: top ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out, -webkit-transform ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ${(props) => props?.theme?.transition?.input?.toggle?.duration || 0.2}s ease-out;
   }
-  &.active span:before {
+  &.openned span:before {
     top: 0;
     -webkit-transform: rotate3d(0, 0, 1, -45deg);
             transform: rotate3d(0, 0, 1, -45deg);
   }
-  &.active span:after {
+  &.openned span:after {
     top: 0;
     -webkit-transform: rotate3d(0, 0, 1, 45deg);
             transform: rotate3d(0, 0, 1, 45deg);

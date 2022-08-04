@@ -102,12 +102,12 @@ const BasicAll = (props:{theme}) => {
         >
           <Item>
             <ItemHolder>
-              <Text>A</Text>
+              A
             </ItemHolder>
           </Item>
           <Item>
             <ItemHolder>
-              <Text>B</Text>
+              B
             </ItemHolder>
           </Item>
         </Drawer>
@@ -281,12 +281,12 @@ const BasicAll = (props:{theme}) => {
         >
           <Item>
             <ItemHolder>
-              <Text>A</Text>
+              A
             </ItemHolder>
           </Item>
           <Item>
             <ItemHolder>
-              <Text>B</Text>
+              B
             </ItemHolder>
           </Item>
         </Drawer>

@@ -60,7 +60,7 @@ export const H6 = styled.h6`
   text-align: justify;
 `;
 
-export const Text = styled.span`
+export const Text = styled.div`
   ${(props) => baseConfig(props)}
   max-width: 256px;
   margin: 8px 0;

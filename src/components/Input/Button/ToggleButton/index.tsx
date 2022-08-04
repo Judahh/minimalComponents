@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import useState from 'react-usestateref';
 import {
   ToggleHolder,
 } from './styles';
 import { withTheme } from 'styled-components';
 
-const ToggleButton = (props: { children?:any[]; oppened?:boolean; onClick?;}) => {
-
+const ToggleButton = (props: { children?:any[]; drawerState?: [boolean|undefined, React.Dispatch<React.SetStateAction<boolean|undefined>>]; onClick?;}) => {
+  const state: [boolean|undefined, React.Dispatch<React.SetStateAction<boolean|undefined>>, any] = useState(props?.drawerState?.[0]);
   const passProps = (elements?:any[]) => {
     return (
       elements &&
       React.Children.map(elements, (child) => {
         const newProps = {
           ...props,
-          className: props.oppened ? 'active' : '',
-          class: props.oppened ? 'active' : '',
+          className: state?.[0] ? 'openned' : 'closed',
         };
         delete newProps.children
         const cloneChild = React.cloneElement(child, newProps);
@@ -21,13 +21,22 @@ const ToggleButton = (props: { children?:any[]; oppened?:boolean; onClick?;}) =>
       })
     );
   };
+  const [children, setChildren] = useState(props?.children ? passProps(props?.children) : (<></>));
 
-  const children = props?.children ? passProps(props?.children) : (<></>);
+  useEffect(() => {
+    setChildren(props?.children ? passProps(props?.children) : (<></>));
+  }, [props?.children, state, state?.[0]]);
+
+  useEffect(() => {
+    state?.[1](props?.drawerState?.[0]);
+  }, [props?.drawerState, props?.drawerState?.[0]]);
 
   return (
-    <ToggleHolder onClick={()=>{
+    <ToggleHolder
+      onClick={()=>{
         props.onClick();
-      }}>
+      }}
+      className={props?.drawerState?.[0] ? 'openned': 'closed'}>
       {children}
     </ToggleHolder>
   );

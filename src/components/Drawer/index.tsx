@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import useState from 'react-usestateref';
 import {
   DrawerWrapper,
   DrawerMenu,
@@ -7,18 +8,18 @@ import {
 import { withTheme } from 'styled-components';
 
 const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?:any[];}; }; navOpenIndexes?:number[]; navCloseIndexes?:number[]; navToggleIndexes?:number[]; navNoClickIndexes?:number[]; childrenOpenIndexes?:number[]; childrenCloseIndexes?:number[]; childrenToggleIndexes?:number[]; childrenNoClickIndexes?:number[];}) => {
-  const [openned, setOpen] = useState(false);
+  const state: [boolean, React.Dispatch<React.SetStateAction<boolean>>, any] = useState(false);
 
   const toggle = () => {
-    setOpen(!openned);
+    state?.[1]?.(!state?.[0]);
   };
 
   const open = () => {
-    setOpen(true);
+    state?.[1]?.(true);
   };
 
   const close = () => {
-    setOpen(false);
+    state[1](false);
   };
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
@@ -44,11 +45,10 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
         const newProps = {
           onClick: drawerAction,
           drawerAction: drawerAction,
-          drawerSetOpen: setOpen,
+          drawerState: state,
           drawerOpen: open,
           drawerClose: close,
           drawerToggle: toggle,
-          openned: openned,
         };
         if (has)
           delete newProps.onClick
@@ -59,19 +59,26 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
     );
   };
 
-  const navElements = props?.nav?.props?.children ? (passProps(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>);
-  const children = props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>);
+  const [children, setChildren] = useState(props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>));
+  const [navElements, setNavElements] = useState(props?.nav?.props?.children ? (passProps(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>));
+
+  useEffect(() => {
+    setChildren(props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>))
+    setNavElements(props?.nav?.props?.children ? (passProps(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>))
+  }, [props?.children, props?.nav?.props?.children, state]);
 
   return (
     <DrawerWrapper
-      className={openned ? 'openned' : 'closed'}
+      className={state?.[0] ? 'openned' : 'closed'}
       top={props.top}
     >
-      <NavHolder>
+      <NavHolder
+        className={state?.[0] ? 'openned' : 'closed'}
+      >
         {navElements}
       </NavHolder>
       <DrawerMenu
-        className={openned ? 'openned' : 'closed'}
+        className={state?.[0] ? 'openned' : 'closed'}
         top={props.top}
       >
         {children}
