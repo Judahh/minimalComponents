@@ -15,7 +15,6 @@ import {
   CopyrightText,
   Text,
   SubText,
-  MediumText,
   P,
   Quantity,
   H1, H2, H3, H4, H5, H6,
@@ -239,7 +238,6 @@ const BasicAll = (props:{theme}) => {
         <H6>Subtitle 5</H6>
         <Text>Text</Text>
         <SubText>SubText</SubText>
-        <MediumText>MediumText</MediumText>
         <P>Paragraph</P><br /><br />
         <Quantity>13</Quantity><br /><br />
         <Error>Error</Error>

@@ -1,3 +1,4 @@
+//@ts-ignore
 import React from 'react';
 import styled from 'styled-components';
 import { default as lightTheme } from '../../styles/themes/light.json';

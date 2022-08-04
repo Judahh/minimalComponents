@@ -17,7 +17,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "./dist",
     "removeComments": false,
-    "noEmit": true,
+    "noEmit": false,
     "isolatedModules": true,
     "strict": true,
     "noImplicitAny": false,
@@ -53,6 +53,7 @@
     "**/node_modules",
     "node_modules",
     ".next",
+    "cypress",
     "**/*.spec.ts",
     "**/*.test.ts",
     "dist"

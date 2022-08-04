@@ -12,7 +12,12 @@
   },
   "scripts": {
     "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "postinstall": "",
+    "prepublish": "",
+    "build": "rm -rf dist/ && tsc",
     "test": "cypress run --component",
+    "prestart": "",
     "visual-test": "cypress open --component"
   },
   "dependencies": {

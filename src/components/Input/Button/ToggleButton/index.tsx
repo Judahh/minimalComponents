@@ -13,6 +13,7 @@ const ToggleButton = (props: { children?:any[]; oppened?:boolean; onClick?;}) =>
         const newProps = {
           ...props,
           className: props.oppened ? 'active' : '',
+          class: props.oppened ? 'active' : '',
         };
         delete newProps.children
         const cloneChild = React.cloneElement(child, newProps);

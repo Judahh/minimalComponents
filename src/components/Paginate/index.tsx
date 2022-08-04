@@ -348,7 +348,7 @@ export default class Paginate extends Component<PropTypes, StateTypes> {
       }
     }
   }
-  async handleIntersection(inView, entry) {
+  async handleIntersection(_inView, _entry) {
     const isLocked = await this?.isLocked();
     // const hasLastPage = this?.state?.lastPage !== undefined;
     // const hasPages = this?.state?.pages !== undefined;

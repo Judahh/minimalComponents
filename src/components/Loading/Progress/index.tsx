@@ -59,7 +59,7 @@ const SVG = withTheme(SVGB);
 const BarB = (props:{ style?, width?:number, height?:number, min:number, max:number, current: number, fillColor:string, time:number, id:number, flow: FlowType}) => {
   const [id] = useState('lg' + (props.id||0));
   const [time] = useState(props.time||1);
-  const [max, setMax] = useState((props.max||1)/(props.max||1));
+  const [_max, setMax] = useState((props.max||1)/(props.max||1));
   const [min, setMin] = useState((props.min||0)/(props.max||1));
   const [current, setCurrent] = useState((props.current||props.max||1)/(props.max||1));
   const [flow, setFlow] = useState(getFlow(props.flow, (props.min||0)/(props.max||1), (props.max||1)/(props.max||1)));
@@ -116,7 +116,7 @@ const Bar = withTheme(BarB);
 const MilkB = (props:{ style?, min:number, max:number, current:number, fillColor:string, time:number, id:number, flow: FlowType}) => {
   const [id] = useState('lg' + (props.id||0));
   const [time] = useState(props.time||1);
-  const [max, setMax] = useState((props.max||1)/(props.max||1));
+  const [_max, setMax] = useState((props.max||1)/(props.max||1));
   const [min, setMin] = useState((props.min||0)/(props.max||1));
   const [current, setCurrent] = useState((props.current||props.max||1)/(props.max||1));
   const [flow, setFlow] = useState(getFlow(props.flow, (props.min||0)/(props.max||1), (props.max||1)/(props.max||1)));

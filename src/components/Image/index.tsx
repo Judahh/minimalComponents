@@ -49,7 +49,7 @@ function Image(props: {
     setMaxHeight(maxHeight);
   }, [props.hasDescription, props.hasTitle, titleHeightOffset]);
 
-  const onChange = (index, item) => {
+  const onChange = (index, _item) => {
     props?.setIndex?.(index);
   };
 
