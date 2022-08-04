@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { baseConfig } from "../../util";
 
 export const StyledHeader = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: block;
   justify-content: center;
   width: 100%;
@@ -20,7 +20,7 @@ export const StyledHeader = styled.div`
 `;
 
 export const StyledFooter = styled.footer`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: block;
   position: fixed;
   bottom: 70px;
@@ -42,7 +42,7 @@ export const StyledFooter = styled.footer`
 `;
 
 export const ItemHolder = styled.a`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   margin: 0;
   min-height: 70px;
   width: 100%;
@@ -75,21 +75,21 @@ export const ItemHolder = styled.a`
 `;
 
 export const Item = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: flex;
   flex-direction: column;
   text-align: center;
 `
 
 export const SubItem = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: block;
   width: 100%;
   text-align: center;
 `
 
 export const DrawerMenu = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   position: relative;
   visibility: hidden;
   display: unset;
@@ -123,7 +123,7 @@ export const DrawerMenu = styled.div`
 `;
 
 export const DrawerWrapper = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   height: 70px;
   width: 100%;
   left: 0;
@@ -137,7 +137,7 @@ export const DrawerWrapper = styled.div`
 
 
 export const NavHolder = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: flex;
   align-items: center;
   justify-content: space-between;

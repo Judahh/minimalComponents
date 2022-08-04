@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { baseConfig } from '../../util';
 
 export const H1 = styled.h1`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   font-size: ${(props) => props?.theme?.h1?.font?.size || '2.2vh'};
   font-weight: ${(props) => props?.theme?.h1?.font?.weight || 'bold'};
@@ -11,7 +11,7 @@ export const H1 = styled.h1`
 `;
 
 export const H2 = styled.h2`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   font-size: ${(props) => props?.theme?.h2?.font?.size || '2vh'};
   font-weight: ${(props) => props?.theme?.h2?.font?.weight || 'bold'};
@@ -21,7 +21,7 @@ export const H2 = styled.h2`
 `;
 
 export const H3 = styled.h3`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   font-size: ${(props) => props?.theme?.h3?.font?.size || '1.7vh'};
   font-weight: ${(props) => props?.theme?.h3?.font?.weight || 'bold'};
@@ -31,7 +31,7 @@ export const H3 = styled.h3`
 `;
 
 export const H4 = styled.h4`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   font-size: ${(props) => props?.theme?.h4?.font?.size || '1.5vh'};
   font-weight: ${(props) => props?.theme?.h4?.font?.weight || 'bold'};
@@ -41,7 +41,7 @@ export const H4 = styled.h4`
 `;
 
 export const H5 = styled.h5`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   font-size: ${(props) => props?.theme?.h5?.font?.size || '1.3vh'};
   font-weight: ${(props) => props?.theme?.h5?.font?.weight || 'bold'};
@@ -51,7 +51,7 @@ export const H5 = styled.h5`
 `;
 
 export const H6 = styled.h6`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   font-size: ${(props) => props?.theme?.h6?.font?.size || '1.1vh'};
   font-weight: ${(props) => props?.theme?.h6?.font?.weight || 'bold'};
@@ -61,7 +61,7 @@ export const H6 = styled.h6`
 `;
 
 export const Text = styled.span`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   max-width: 256px;
   margin: 8px 0;
   line-height: 150%;
@@ -69,7 +69,7 @@ export const Text = styled.span`
 `;
 
 export const SubText = styled.span`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   font-size: ${(props) => props?.theme?.subText?.font?.size || '1.5vh'};
   font-weight: ${(props) => props?.theme?.subText?.font?.weight || 'bold'};
   max-width: 256px;
@@ -79,21 +79,21 @@ export const SubText = styled.span`
 `;
 
 export const CopyrightText = styled.span`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   font-size: ${(props) => props?.theme?.copyrightText?.font?.size || '2vh'};
   font-weight: ${(props) => props?.theme?.copyrightText?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
 `;
 
 export const P = styled.p`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   text-indent: 3ch;
   margin-bottom: 1em;
   line-height: 150%;
 `;
 
 export const Quantity = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: block;
   width: 25px;
   height: 25px;
@@ -111,7 +111,7 @@ export const Quantity = styled.div`
 `;
 
 export const ProgressText = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: block;
   mix-blend-mode: difference;
   color: white;
@@ -132,7 +132,7 @@ export const ProgressText = styled.div`
 `;
 
 export const Error = styled.span`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   font-size: ${(props) => props?.theme?.error?.font?.size || '2vh'};
   font-weight: ${(props) => props?.theme?.error?.font?.weight || 'bold'};
   color: ${(props) => props.theme.error};
@@ -140,7 +140,7 @@ export const Error = styled.span`
 `;
 
 export const Notification = styled.span`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   font-size: ${(props) => props?.theme?.notification?.font?.size || '2vh'};
   font-weight: ${(props) => props?.theme?.notification?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
@@ -148,7 +148,7 @@ export const Notification = styled.span`
 `;
 
 export const Link = styled.a`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   text-decoration: none;
   color: ${(props) => props.theme.text};
   padding: ${(props) => (props.icon ? '15px' : '0')};
@@ -189,7 +189,7 @@ export const Link = styled.a`
 `;
 
 export const FixedLink = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   color: ${(props) => props.theme.primary};
   margin: 0 20px;
   position: relative;

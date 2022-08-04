@@ -5,7 +5,7 @@ import { baseConfig } from '../../../util';
 import { CloseType } from './closeType';
 
 export const SubmitButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: block;
   padding: 10px 50px;
   background: ${(props) =>
@@ -50,7 +50,7 @@ export const SubmitButton = styled.button`
 `;
 
 export const RedButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: block;
   padding: 10px 50px;
   background: red;
@@ -82,7 +82,7 @@ export const RedButton = styled.button`
 `;
 
 export const LocationButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   height: 100%;
   background: transparent;
@@ -96,7 +96,7 @@ export const LocationButton = styled.button`
 `;
 
 export const LinkButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   font-size: ${(props) => props?.theme?.input?.linkButton?.font?.size || '2vh'};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${(props) => props.theme.primary};
@@ -155,13 +155,13 @@ export const BasicX = (color: string) => `
 `;
 
 export const CloseButton = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   ${(props) => props.closeType === CloseType.red ? BasicRedCircle : BasicX(props.theme.primary)}
   float: right;
 `;
 
 export const ChangePicButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 30px;
   height: 30px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -174,7 +174,7 @@ export const ChangePicButton = styled.button`
 `;
 
 export const CleanButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   height: 100%;
   background: transparent;
@@ -190,7 +190,7 @@ export const CleanButton = styled.button`
 `;
 
 export const DeleteButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   height: 100%;
   background: transparent;
@@ -211,7 +211,7 @@ export const DeleteButton = styled.button`
 `;
 
 export const ColorButton = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   height: 100%;
   background: transparent;

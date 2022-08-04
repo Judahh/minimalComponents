@@ -3,7 +3,7 @@ import { shade } from 'polished';
 import { baseConfig } from '../../../util';
 
 export const TagList = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: flex;
   flex-wrap: wrap;
   width: 100%;
@@ -12,7 +12,7 @@ export const TagList = styled.div`
 `;
 
 export const Tag = styled.button`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   padding: 4px 16px;
   border-radius: 4px;
   transition: all ${(props) => props?.theme?.transition?.input?.tag?.duration || 0.15}s;

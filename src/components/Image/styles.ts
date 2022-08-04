@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { baseConfig } from "../../util";
 
 export const Indicator = styled.li`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   background: ${(props) => props.theme.primary};
   width: 15px;
   height: 15px;

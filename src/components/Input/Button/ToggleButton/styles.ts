@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { baseConfig } from "../../../../util";
 
 export const ToggleHolder = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   cursor: pointer;
   margin: 0 20px;
   height: 20px;
@@ -10,7 +10,7 @@ export const ToggleHolder = styled.div`
 `;
 
 export const Toggle = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   float: right;
   position: relative;
 

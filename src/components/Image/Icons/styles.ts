@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { baseConfig } from "../../../util";
 
 export const IconList = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: flex;
 
   @media screen and (max-width: 380px) {
@@ -11,13 +11,13 @@ export const IconList = styled.div`
 `;
 
 export const Logo = styled.img`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   cursor: pointer;
   height: 30px;
 `;
 
 export const LogoSmall = styled.img`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   cursor: pointer;
   // width: 45px;
   // height: 20px;
@@ -26,19 +26,19 @@ export const LogoSmall = styled.img`
 `;
 
 export const Icon = styled.img`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   cursor: pointer;
   height: 25px;
   margin: 0 20px;
 `;
 
 export const LogoHolder = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   transition: all ${(props) => props?.theme?.transition?.logo?.duration || 0.2}s;
 `;
 
 export const Holder = styled.a`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   cursor: pointer;
   background: ${(props) => props.theme.background};
   color: ${(props) => props.theme.text};
@@ -56,19 +56,19 @@ export const Holder = styled.a`
 `;
 
 export const Path = styled.path`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   stroke: ${(props) => props.theme.primary} !important;
   ${(props) => props.withFill ? "fill: " + props.theme.primary + "!important;" : ""}
 `;
 
 export const PathL = styled.path`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   stroke: ${(props) => props.theme.holder} !important;
   ${(props) => props.withFill ? "fill: " + props.theme.holder + "!important;" : ""}
 `;
 
 export const APTI = styled.svg`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: auto;
   max-width: 50%;
   height: auto;
@@ -87,12 +87,12 @@ export const APTI = styled.svg`
 `;
 
 export const Theme = styled.svg`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   cursor: pointer;
 `;
 
 export const Coffee = styled.svg`
-${baseConfig}
+${(props) => baseConfig(props)}
 --secondary: ${(props) => props.theme.primary} !important;
 height: 100%;
 align-self: center;

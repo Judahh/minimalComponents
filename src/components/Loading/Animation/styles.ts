@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { baseConfig } from '../../../util';
 
 export const Hanging = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   @keyframes hanging {
     0% {
       transform: rotate(-30deg);
@@ -20,7 +20,7 @@ export const Hanging = styled.div`
 `;
 
 export const Rowling = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   @keyframes ${(props)=> props.anti ? 'anti-':''}rowling {
     0% {
       transform: rotate(${(props)=> props.anti ? '360deg':'0deg'});

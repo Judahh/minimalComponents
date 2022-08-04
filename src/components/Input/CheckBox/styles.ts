@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { baseConfig } from '../../../util';
 
 export const HiddenCheckBox = styled.input.attrs({ type: 'checkbox' })`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   width: 100%;
   height: 100%;
   background: transparent;
@@ -23,7 +23,7 @@ export const HiddenCheckBox = styled.input.attrs({ type: 'checkbox' })`
 `;
 
 export const CheckIcon = styled.svg`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   fill: none;
   stroke: black;
   stroke-width: 2px;
@@ -33,7 +33,7 @@ export const CheckIcon = styled.svg`
 `;
 
 export const StyledCheckbox = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -48,7 +48,7 @@ export const StyledCheckbox = styled.div`
   }
 `;
 export const CheckboxContainer = styled.div`
-  ${baseConfig}
+  ${(props) => baseConfig(props)}
   display: inline-block;
   vertical-align: middle;
   width: 100%;
