@@ -11,4 +11,6 @@ export declare const Div: any;
 export declare const BasicContentWrapper: any;
 export declare const SimpleContentWrapper: any;
 export declare const ContentWrapper: any;
+export declare const PageHolder: any;
+export declare const Block: any;
 //# sourceMappingURL=index.d.ts.map

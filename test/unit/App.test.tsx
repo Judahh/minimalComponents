@@ -1,16 +1,16 @@
 import React, { createContext, useState } from 'react';
 import { mount } from '@cypress/react';
-import Input from '../../src/components/Input';
-import { default as lightTheme } from '../../src/styles/themes/light.json';
-import { default as darkTheme } from '../../src/styles/themes/dark.json';
+import Input from '../../source/components/Input';
+import { default as lightTheme } from '../../source/styles/themes/light.json';
+import { default as darkTheme } from '../../source/styles/themes/dark.json';
 import { ThemeProvider } from 'styled-components';
-import Checkbox from '../../src/components/Input/CheckBox';
-import { TagList, Tag } from '../../src/components/Input/Tag';
-import { ChangePicButton, CloseButton, ColorButton, DeleteButton, CleanButton, LinkButton, LocationButton, RedButton, SubmitButton } from '../../src/components/Input/Button';
-import { CloseType } from '../../src/components/Input/Button/closeType';
-import FileButton from '../../src/components/Input/Button/FileButton';
-import Image from '../../src/components/Image';
-import Notification from '../../src/components/Notification';
+import Checkbox from '../../source/components/Input/CheckBox';
+import { TagList, Tag } from '../../source/components/Input/Tag';
+import { ChangePicButton, CloseButton, ColorButton, DeleteButton, CleanButton, LinkButton, LocationButton, RedButton, SubmitButton } from '../../source/components/Input/Button';
+import { CloseType } from '../../source/components/Input/Button/closeType';
+import FileButton from '../../source/components/Input/Button/FileButton';
+import Image from '../../source/components/Image';
+import Notification from '../../source/components/Notification';
 import {
   CopyrightText,
   Text,
@@ -22,18 +22,18 @@ import {
   Notification as NotificationText,
   Link,
   FixedLink,
-} from '../../src/components/Text';
-import { Flags } from '../../src/components/Input/Switch/styles';
-import NotificationContextModel from '../../src/components/Notification/notificationContextModel';
-import { Bar, FlowType, Milk, Progress } from '../../src/components/Loading/Progress';
-import Animation from '../../src/components/Loading/Animation';
-import { Hanging, Rowling } from '../../src/components/Loading/Animation/styles';
-import { Logo, LogoHolder } from '../../src/components/Image/Icons/styles';
-import Modal from '../../src/components/Modal';
-import Drawer from '../../src/components/Drawer';
-import { Item, ItemHolder } from '../../src/components/Drawer/styles';
-import ToggleButton from '../../src/components/Input/Button/ToggleButton';
-import { Toggle } from '../../src/components/Input/Button/ToggleButton/styles';
+} from '../../source/components/Text';
+import { Flags } from '../../source/components/Input/Switch/styles';
+import NotificationContextModel from '../../source/components/Notification/notificationContextModel';
+import { Bar, FlowType, Milk, Progress } from '../../source/components/Loading/Progress';
+import Animation from '../../source/components/Loading/Animation';
+import { Hanging, Rowling } from '../../source/components/Loading/Animation/styles';
+import { Logo, LogoHolder } from '../../source/components/Image/Icons/styles';
+import Modal from '../../source/components/Modal';
+import Drawer from '../../source/components/Drawer';
+import { Item, ItemHolder } from '../../source/components/Drawer/styles';
+import ToggleButton from '../../source/components/Input/Button/ToggleButton';
+import { Toggle } from '../../source/components/Input/Button/ToggleButton/styles';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -247,9 +247,9 @@ const BasicAll = (props:{theme}) => {
         <Progress id={0} max={12} current={6} percentage={true} flow={FlowType.bottomToTop}><Milk/></Progress>
         <Progress id={1} max={12} current={6} percentage={true} flow={FlowType.leftToRight} width={200} height={100}><Bar/></Progress>
         <Progress id={2} max={12} current={6} percentage={true} flow={FlowType.bottomToTop} width={100} height={200}><Bar/></Progress>
-        <Animation Animation={Rowling}><Logo src={'img/bag.svg'}/></Animation>
-        <Animation Animation={Hanging}><Logo src={'img/bag.svg'}/></Animation>
-        <Animation Animation={Rowling} anti={true}><Logo src={'img/bag.svg'}/></Animation>
+        <Animation Animation={Rowling}><Logo source={'img/bag.svg'}/></Animation>
+        <Animation Animation={Hanging}><Logo source={'img/bag.svg'}/></Animation>
+        <Animation Animation={Rowling} anti={true}><Logo source={'img/bag.svg'}/></Animation>
         <SubmitButton onClick={()=>openModal()}>Open Modal</SubmitButton><br /><br />
         <SubmitButton onClick={()=>openModal2()}>Open Modal 2</SubmitButton><br /><br />
         <Drawer

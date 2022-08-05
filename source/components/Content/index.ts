@@ -156,3 +156,31 @@ export const ContentWrapper = styled.div`
   margin: 0 auto;
 `;
 
+export const PageHolder = styled.div`
+  width: 100%;
+
+  ul {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  li {
+    display: block;
+    margin: 2px;
+    padding: 2px;
+  }
+
+  color: ${(props) => props.theme.text};
+`;
+
+export const Block = styled.div`
+  width: 50%;
+  box-sizing: border-box;
+  float: left;
+  padding: 10px;
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    float: none;
+  }
+`;
