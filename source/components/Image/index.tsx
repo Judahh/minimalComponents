@@ -2,8 +2,9 @@ import React, { CSSProperties, useEffect, useRef } from 'react';
 import useState from 'react-usestateref';
 import clsx from 'clsx'; // a utility for constructing className conditionally
 import { Image as ImageStyle, BackgroundImage, Indicator } from './styles';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+
 import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { ChangePicButton } from '../Input/Button';
 import { withTheme } from 'styled-components';
 
