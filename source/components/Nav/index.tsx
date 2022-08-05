@@ -7,7 +7,7 @@ import {
 import { withTheme } from 'styled-components';
 import { DrawerMenu } from '../Drawer/styles';
 
-const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?:any[];}; }; navOpenIndexes?:number[]; navCloseIndexes?:number[]; navToggleIndexes?:number[]; navNoClickIndexes?:number[]; childrenOpenIndexes?:number[]; childrenCloseIndexes?:number[]; childrenToggleIndexes?:number[]; childrenNoClickIndexes?:number[];}) => {
+const Nav = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?:any[];}; }; navOpenIndexes?:number[]; navCloseIndexes?:number[]; navToggleIndexes?:number[]; navNoClickIndexes?:number[]; childrenOpenIndexes?:number[]; childrenCloseIndexes?:number[]; childrenToggleIndexes?:number[]; childrenNoClickIndexes?:number[];}) => {
   const state: [boolean, React.Dispatch<React.SetStateAction<boolean>>, any] = useState(false);
 
   const toggle = () => {
@@ -87,4 +87,4 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
   );
 };
 
-export default withTheme(Drawer);
+export default withTheme(Nav);
