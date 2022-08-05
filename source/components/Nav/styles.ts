@@ -8,10 +8,6 @@ export const NavWrapper = styled.div`
   position: relative;
   top: 0;
   right: 5px;
-
-  @media screen and (max-width: 800px) {
-    display: none;
-  }
 `;
 export const NavHolder = styled.div`
   display: flex;
