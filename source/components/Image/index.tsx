@@ -7,6 +7,12 @@ import { Carousel } from 'react-responsive-carousel';
 import { ChangePicButton } from '../Input/Button';
 import { withTheme } from 'styled-components';
 
+const getMaxHeight = (props, titleHeightOffset) =>
+    'calc(100%' +
+    (props.hasTitle ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
+    (props.hasDescription ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
+    ')';
+
 function Image(props: {
   images?: string[];
   index?: number;
@@ -18,8 +24,12 @@ function Image(props: {
   disabled?: boolean;
   titleElement?;
 }) {
-  const [loaded, setLoaded] = useState(false);
   const imgRef = useRef();
+  const [loaded, setLoaded] = useState(false);
+  const [titleHeightOffset, setTitleHeightOffset] =
+    useState('- 1.3rem - 0.6vw');
+  const [maxHeight, setMaxHeight] = useState(getMaxHeight(props, titleHeightOffset));
+
   useEffect(() => {
     if (imgRef.current && (imgRef.current as any).complete) {
       setLoaded(true);
@@ -34,18 +44,8 @@ function Image(props: {
     }
   }, [props.titleElement]);
 
-  const getMaxHeight = () =>
-    'calc(100%' +
-    (props.hasTitle ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
-    (props.hasDescription ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
-    ')';
-
-  const [maxHeight, setMaxHeight] = useState(getMaxHeight());
-  const [titleHeightOffset, setTitleHeightOffset] =
-    useState('- 1.3rem - 0.6vw');
-
   useEffect(() => {
-    const maxHeight = getMaxHeight();
+    const maxHeight = getMaxHeight(props, titleHeightOffset);
     setMaxHeight(maxHeight);
   }, [props.hasDescription, props.hasTitle, titleHeightOffset]);
 
