@@ -297,7 +297,7 @@ export default class Paginate extends Component<PropTypes, StateTypes> {
 
   public async refresh() {
     if (!(await this?.isLocked())) {
-      const currentPage = this?.state?.pages || 0;
+      const currentPage = this?.state?.page || 0;
       await this.retrive(currentPage, currentPage);
     }
   }
@@ -385,7 +385,7 @@ export default class Paginate extends Component<PropTypes, StateTypes> {
             onPageChange={this.handlePageClick.bind(this)}
             pageRangeDisplayed={5}
             pageCount={this?.state?.pages || 1}
-            initialPage={this?.state?.page}
+            initialPage={this?.state?.page || 0}
             previousLabel="<"
             // @ts-ignore
             renderOnZeroPageCount={null}

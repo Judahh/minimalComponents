@@ -1,6 +1,6 @@
 {
   "name": "minimal-components-react",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "main": "server.js",
   "license": "MIT",
   "config": {
@@ -47,6 +47,7 @@
     "@cypress/react": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
+    "@types/cypress": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "babel-plugin-root-import": "latest",
