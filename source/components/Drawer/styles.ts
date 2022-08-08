@@ -43,9 +43,11 @@ export const StyledFooter = styled.footer`
 
 export const ItemHolder = styled.div`
   ${(props) => baseConfig(props)}
+  display: table;
   margin: 0;
   min-height: ${(props) => props?.theme?.menu?.height || '70px'};
   width: 100%;
+  min-width: 100%;
   cursor: pointer;
   border-top: 1px solid ${(props) => props.theme.holder};
   border-bottom: 1px solid ${(props) => props.theme.holder};
@@ -53,7 +55,13 @@ export const ItemHolder = styled.div`
   color: ${(props) => props.theme.text};
   transition: none;
   font-weight: ${(props) => props?.theme?.menu?.font?.weight || 'normal'};
+  vertical-align: middle;
+  align-content: center;
+  align-items: center;
+  align-self: center;
+  alignment-baseline: central;
   text-align: center;
+  box-align: center;
 
   a:visited, & :visited, :visited, &:visited {
     color: ${(props) => props.theme.text};
@@ -69,11 +77,23 @@ export const ItemHolder = styled.div`
     color: ${(props) => props.theme.bright};
   }
 
-  div, a {
+  div, a, span, & a, & span, & div {
+    min-width: 100%;
     width: 100%;
-    height: 100%;
+    min-height: ${(props) => props?.theme?.menu?.height || '70px'};
+    height: ${(props) => props?.theme?.menu?.height || '70px'};
+    vertical-align: middle;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    alignment-baseline: central;
+    text-align: center;
+    box-align: center;
     margin-top: 25px;
-    display: inline-block;
+    display: table-cell;
+    box-sizing: border-box;
+    font-weight: ${(props) => props?.theme?.menu?.font?.weight || 'bolder'};
+    font-size: ${(props) => props?.theme?.menu?.font?.size || '14px'};
   }
 `;
 

@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
 import { Error } from '../Text';
 
 const Input = (props: {
   error?: string;
+  setError?;
   value?;
+  setValue?;
   children?;
-  validate?: (value, setError: (error?:string) => void) => void;
+  onChange?;
+  onInput?;
+  onSubmit?;
+  validate?: (value, setValue: (error?:string) => void, error, setError: (error?:string) => void) => void;
 }) => {
-  const [error, setError] = useState<string | undefined>(props.error);
 
   useEffect(() => {
-    setError(props?.error);
   }, [props?.error]);
 
   useEffect(() => {
-    props?.validate?.(props?.value, setError);
+    props?.validate?.(props?.value, props?.setValue, props?.error, props?.setError);
   }, [props?.value]);
 
   useEffect(() => {
@@ -25,7 +28,13 @@ const Input = (props: {
   const getProps = () => {
     const newProps = JSON.parse(JSON.stringify(props));
     delete newProps.error;
+    delete newProps.setError;
+    delete newProps.setValue;
     delete newProps.children;
+    newProps.validate = props.validate;
+    newProps.onChange = props.onChange;
+    newProps.onInput= props.onInput;
+    newProps.onSubmit= props.onSubmit;
     return newProps;
   }
 
@@ -34,8 +43,8 @@ const Input = (props: {
     <InputStyle
       {...getProps()}
     >{props.children}</InputStyle>
-    {error && error !== '' && error !== ' ' ? (
-      <Error>{error}</Error>
+    {props?.error && props?.error !== '' && props?.error !== ' ' ? (
+      <Error>{props?.error}</Error>
     ) : null}
     </>
   );
