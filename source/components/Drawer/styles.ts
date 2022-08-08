@@ -55,6 +55,7 @@ export const ItemHolder = styled.div`
   color: ${(props) => props.theme.text};
   transition: none;
   font-weight: ${(props) => props?.theme?.menu?.font?.weight || 'normal'};
+  font-size: ${(props) => props?.theme?.menu?.font?.size || '18px'}
   vertical-align: middle;
   align-content: center;
   align-items: center;
@@ -93,7 +94,7 @@ export const ItemHolder = styled.div`
     display: table-cell;
     box-sizing: border-box;
     font-weight: ${(props) => props?.theme?.menu?.font?.weight || 'bolder'};
-    font-size: ${(props) => props?.theme?.menu?.font?.size || '14px'};
+    font-size: ${(props) => props?.theme?.menu?.font?.size || '18px'};
   }
 `;
 
