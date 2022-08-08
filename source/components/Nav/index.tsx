@@ -65,7 +65,7 @@ const Nav = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?:an
   useEffect(() => {
     setChildren(props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>))
     setNavElements(props?.nav?.props?.children ? (passProps(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>))
-  }, [props?.children, props?.nav?.props?.children, state]);
+  }, [props?.children, props?.nav?.props?.children, state?.[0]]);
 
   return (
     <NavWrapper

@@ -25,11 +25,11 @@ const ToggleButton = (props: { children?:any[]; drawerState?: [boolean|undefined
 
   useEffect(() => {
     setChildren(props?.children ? passProps(props?.children) : (<></>));
-  }, [props?.children, state, state?.[0]]);
+  }, [props?.children, state?.[0]]);
 
   useEffect(() => {
     state?.[1](props?.drawerState?.[0]);
-  }, [props?.drawerState, props?.drawerState?.[0]]);
+  }, [props?.drawerState?.[0]]);
 
   return (
     <ToggleHolder
