@@ -123,8 +123,10 @@ export const DrawerMenu = styled.div`
   z-index: -10;
   opacity: 0;
   height: 0px;
+  overflow: hidden;
 
   &.openned, &.open {
+    overflow: initial;
     visibility: visible;
     display: block;
     top:${(props) =>
@@ -136,6 +138,7 @@ export const DrawerMenu = styled.div`
   }
 
   &.closed {
+    overflow: hidden;
     display: unset;
     visibility: hidden;
     top:${(props) =>
@@ -156,6 +159,15 @@ export const DrawerWrapper = styled.div`
   z-index: 1000;
   ${(props) =>
     props.top ? 'top: 0' : 'bottom: 0'};
+  overflow: hidden;
+
+  &.openned, &.open {
+    overflow: initial;
+  }
+
+  &.closed {
+    overflow: hidden;
+  }
 `;
 
 
