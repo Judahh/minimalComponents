@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const NavWrapper = styled.div`
   display: block;
   width: 100%;
-  height: 70px;
+  height: ${(props) => props?.theme?.menu?.height || '70px'};
   left: 0;
   position: relative;
   top: 0;

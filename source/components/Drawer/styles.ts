@@ -23,7 +23,7 @@ export const StyledFooter = styled.footer`
   ${(props) => baseConfig(props)}
   display: block;
   position: fixed;
-  bottom: 70px;
+  bottom: ${(props) => props?.theme?.menu?.height || '70px'};
   left: 0;
   width: 100%;
   justify-content: center;
@@ -41,10 +41,10 @@ export const StyledFooter = styled.footer`
   `}
 `;
 
-export const ItemHolder = styled.a`
+export const ItemHolder = styled.div`
   ${(props) => baseConfig(props)}
   margin: 0;
-  min-height: 70px;
+  min-height: ${(props) => props?.theme?.menu?.height || '70px'};
   width: 100%;
   cursor: pointer;
   border-top: 1px solid ${(props) => props.theme.holder};
@@ -53,22 +53,25 @@ export const ItemHolder = styled.a`
   color: ${(props) => props.theme.text};
   transition: none;
   font-weight: ${(props) => props?.theme?.menu?.font?.weight || 'normal'};
+  text-align: center;
 
-  &:visited {
+  a:visited, & :visited, :visited, &:visited {
     color: ${(props) => props.theme.text};
   }
 
-  & + a {
+  a + a, div + div, div + a, a + div, & + a, & + div, & + & {
     border-top: 0;
   }
 
-  &: hover {
+  a:hover, div:hover, &:hover, & :hover, :hover {
     background: ${(props) => props.theme.background};
     font-weight: ${(props) => props?.theme?.menu?.hover?.font?.weight || 'bold'};
     color: ${(props) => props.theme.bright};
   }
 
-  span {
+  div, a {
+    width: 100%;
+    height: 100%;
     margin-top: 25px;
     display: inline-block;
   }
@@ -124,7 +127,7 @@ export const DrawerMenu = styled.div`
 
 export const DrawerWrapper = styled.div`
   ${(props) => baseConfig(props)}
-  height: 70px;
+  height: ${(props) => props?.theme?.menu?.height || '70px'};
   width: 100%;
   left: 0;
   display: block;
