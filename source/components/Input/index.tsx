@@ -54,6 +54,7 @@ const Input = (props: {
     newProps.onKeyDown= props.onKeyDown;
     if(!props.setValue){
       newProps.defaultValue = props?.defaultValue || props?.value;
+      newProps.value = valueState?.[0];
       newProps.onChange = (event) => props?.validate
         ? props.validate?.(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1])
         : basicValidate(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1]);
