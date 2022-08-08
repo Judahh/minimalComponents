@@ -4,7 +4,7 @@ import { baseConfig } from '../../util';
 export const H1 = styled.h1`
   ${(props) => baseConfig(props)}
   width: 100%;
-  font-size: ${(props) => props?.theme?.h1?.font?.size || '2.2vh'};
+  font-size: ${(props) => props?.theme?.h1?.font?.size || '18px'};
   font-weight: ${(props) => props?.theme?.h1?.font?.weight || 'bold'};
   margin-bottom: 5vh;
   color: ${(props) => props.theme.primary};
@@ -13,7 +13,7 @@ export const H1 = styled.h1`
 export const H2 = styled.h2`
   ${(props) => baseConfig(props)}
   width: 100%;
-  font-size: ${(props) => props?.theme?.h2?.font?.size || '2vh'};
+  font-size: ${(props) => props?.theme?.h2?.font?.size || '16px'};
   font-weight: ${(props) => props?.theme?.h2?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
 
@@ -23,7 +23,7 @@ export const H2 = styled.h2`
 export const H3 = styled.h3`
   ${(props) => baseConfig(props)}
   width: 100%;
-  font-size: ${(props) => props?.theme?.h3?.font?.size || '1.7vh'};
+  font-size: ${(props) => props?.theme?.h3?.font?.size || '14px'};
   font-weight: ${(props) => props?.theme?.h3?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
 
@@ -33,7 +33,7 @@ export const H3 = styled.h3`
 export const H4 = styled.h4`
   ${(props) => baseConfig(props)}
   width: 100%;
-  font-size: ${(props) => props?.theme?.h4?.font?.size || '1.5vh'};
+  font-size: ${(props) => props?.theme?.h4?.font?.size || '12px'};
   font-weight: ${(props) => props?.theme?.h4?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
 
@@ -43,7 +43,7 @@ export const H4 = styled.h4`
 export const H5 = styled.h5`
   ${(props) => baseConfig(props)}
   width: 100%;
-  font-size: ${(props) => props?.theme?.h5?.font?.size || '1.3vh'};
+  font-size: ${(props) => props?.theme?.h5?.font?.size || '10px'};
   font-weight: ${(props) => props?.theme?.h5?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
 
@@ -53,7 +53,7 @@ export const H5 = styled.h5`
 export const H6 = styled.h6`
   ${(props) => baseConfig(props)}
   width: 100%;
-  font-size: ${(props) => props?.theme?.h6?.font?.size || '1.1vh'};
+  font-size: ${(props) => props?.theme?.h6?.font?.size || '8px'};
   font-weight: ${(props) => props?.theme?.h6?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
 
@@ -70,7 +70,7 @@ export const Text = styled.div`
 
 export const SubText = styled.span`
   ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.subText?.font?.size || '1.5vh'};
+  font-size: ${(props) => props?.theme?.subText?.font?.size || '10px'};
   font-weight: ${(props) => props?.theme?.subText?.font?.weight || 'bold'};
   max-width: 256px;
   margin: 8px 0;
@@ -80,7 +80,7 @@ export const SubText = styled.span`
 
 export const CopyrightText = styled.span`
   ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.copyrightText?.font?.size || '2vh'};
+  font-size: ${(props) => props?.theme?.copyrightText?.font?.size || '10px'};
   font-weight: ${(props) => props?.theme?.copyrightText?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
 `;
@@ -97,7 +97,7 @@ export const Quantity = styled.div`
   display: block;
   width: 25px;
   height: 25px;
-  font-size: ${(props) => props?.theme?.quantity?.font?.size || '1.5vh'};
+  font-size: ${(props) => props?.theme?.quantity?.font?.size || '10px'};
   font-weight: ${(props) => props?.theme?.quantity?.font?.weight || 'bold'};
   color: ${(props) => props.theme.background};
   background-color: ${(props) => props.theme.primary};
@@ -119,7 +119,7 @@ export const ProgressText = styled.div`
   position: absolute;
   border-radius: 100%;
   text-align: center;
-  font-size: ${(props) => props?.theme?.progressText?.font?.size || '1.5vh'};
+  font-size: ${(props) => props?.theme?.progressText?.font?.size || '10px'};
   font-weight: ${(props) => props?.theme?.progressText?.font?.weight || 'bold'};
 
   left:0;
@@ -133,7 +133,7 @@ export const ProgressText = styled.div`
 
 export const Error = styled.span`
   ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.error?.font?.size || '2vh'};
+  font-size: ${(props) => props?.theme?.error?.font?.size || '14px'};
   font-weight: ${(props) => props?.theme?.error?.font?.weight || 'bold'};
   color: ${(props) => props.theme.error};
   max-width: 202px;
@@ -141,7 +141,7 @@ export const Error = styled.span`
 
 export const Notification = styled.span`
   ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.notification?.font?.size || '2vh'};
+  font-size: ${(props) => props?.theme?.notification?.font?.size || '14px'};
   font-weight: ${(props) => props?.theme?.notification?.font?.weight || 'bold'};
   color: ${(props) => props.theme.primary};
   max-width: 202px;

@@ -50,7 +50,7 @@ export const Input = styled.input`
   padding-left: 0;
   display: block;
   min-width: 30px;
-  font-size: ${(props) => props?.theme?.input?.font?.size || '2vh'};
+  font-size: ${(props) => props?.theme?.input?.font?.size || '14px'};
   background-color: transparent;
   border-bottom: 1px solid ${(props) => transparentize(0.5, props?.theme?.text || 'red')};
   color: ${(props) => props?.theme?.text || 'red'};

@@ -11,6 +11,6 @@ transition: all ${props?.theme?.transition?.duration || 1}s ease;
 animation: ${props?.theme?.animation?.duration || 1}s ease appear;
 font-family: ${props?.theme?.font?.type || 'Spartan-Light'};
 font-weight: ${props?.theme?.font?.weight || 'normal'};
-font-size: ${props?.theme?.font?.size || '2vh'};
+font-size: ${props?.theme?.font?.size || '14px'};
 background-repeat: no-repeat;
 `;
