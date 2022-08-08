@@ -1,25 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
 import { Error } from '../Text';
 
 const Input = (props: {
-  error?: string;
+  defaultError?;
+  error?;
   setError?;
+  defaultValue?;
   value?;
   setValue?;
   children?;
   onChange?;
   onInput?;
   onSubmit?;
-  validate?: (value, setValue: (error?:string) => void, error, setError: (error?:string) => void) => void;
+  onKeyUp?;
+  onKeyDown?;
+  validate?: (value?, setValue?: (error?) => void, error?, setError?: (error?) => void) => void;
 }) => {
+
+  const valueState = props?.setValue ? undefined : useState<any | undefined>(props.defaultValue || props.value);
+  const errorState = props?.setError ? undefined : useState<any | undefined>(props.defaultError || props.error);
+
+  const basicValidate = (value?, setValue?: (value?:string) => void, error?, setError?: (error?:string) => void) => {
+    setValue?.(value);
+    setError?.(error);
+  }
+
 
   useEffect(() => {
   }, [props?.error]);
 
   useEffect(() => {
-    props?.validate?.(props?.value, props?.setValue, props?.error, props?.setError);
+    if(!props?.setValue)
+      if(props?.validate)
+        props.validate?.(props?.value, props?.setValue, props?.error, props?.setError);
   }, [props?.value]);
 
   useEffect(() => {
@@ -35,6 +50,14 @@ const Input = (props: {
     newProps.onChange = props.onChange;
     newProps.onInput= props.onInput;
     newProps.onSubmit= props.onSubmit;
+    newProps.onKeyUp= props.onKeyUp;
+    newProps.onKeyDown= props.onKeyDown;
+    if(!props.setValue){
+      newProps.defaultValue = props?.defaultValue || props?.value;
+      newProps.onChange = (event) => props?.validate
+        ? props.validate?.(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1])
+        : basicValidate(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1]);
+    }
     return newProps;
   }
 
