@@ -34,6 +34,7 @@ import Drawer from '../../source/components/Drawer';
 import { Item, ItemHolder } from '../../source/components/Drawer/styles';
 import ToggleButton from '../../source/components/Input/Button/ToggleButton';
 import { Toggle } from '../../source/components/Input/Button/ToggleButton/styles';
+import Table from '../../source/components/Table';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -50,6 +51,43 @@ const BasicAll = (props:{theme}) => {
   const [notificationError2, setNotificationError2] = useState<
     boolean | undefined
   >(true);
+  const personController = [
+    {name: 'id', defaultValue: 0, type: 'number', hasAdd: true, hasDelete:true},
+    {name: 'name', defaultValue: 'Someone', type: 'text', hasEdit: true},
+    {name: 'age', defaultValue: 0, type: 'number', hasEdit: true},
+  ];
+  const people = [{
+    id: [...useState<
+      number | undefined
+    >(1), {}],
+    name: [...useState<
+      string | undefined
+    >('John Doe'), {}],
+    age: [...useState<
+      number | undefined
+    >(20), {}],
+  },{
+    id: [...useState<
+      number | undefined
+    >(2), {}],
+    name: [...useState<
+      string | undefined
+    >('Bob Smith'), {}],
+    age: [...useState<
+      number | undefined
+    >(18), {}],
+  }];
+  const newPerson = {
+    id: [...useState<
+      number | undefined
+    >(undefined), {}],
+    name: [...useState<
+      string | undefined
+    >('NEW'), {}],
+    age: [...useState<
+      number | undefined
+    >(25), {}],
+  };
   const [notificationTimer, setNotificationTimer] = useState<
     number | undefined
   >(60000);
@@ -162,6 +200,16 @@ const BasicAll = (props:{theme}) => {
           >
           <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
         </Modal>
+        <Table
+          controllers={personController}
+          data={people}
+          new={newPerson}
+          add={(value)=>{
+            console.log('add', value);
+            people.push(value)
+          }}
+          delete={(index)=>{people.splice(index, 1)}}
+        />
         <Input
           style={{
               fontSize: '16px',
