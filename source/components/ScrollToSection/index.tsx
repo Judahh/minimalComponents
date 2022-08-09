@@ -24,7 +24,7 @@ const ScrollToSection = (props: {map}) => {
     let cEl = hrefs?.[indexOfSmallest(els)];
     if (currentSection !== cEl) {
       currentSection = (cEl);
-      window?.history?.pushState?.("", "", "#" + currentSection);
+      window?.history?.pushState?.("", "", currentSection  ? ("#" + currentSection) : "");
     }
   }
 
