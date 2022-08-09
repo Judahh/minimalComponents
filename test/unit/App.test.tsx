@@ -208,6 +208,8 @@ const BasicAll = (props:{theme}) => {
             value?.id?.[1]?.(Math.random());
             console.log('add', value);
             people.push(value);
+            //@ts-ignore
+            newPerson?.id?.[1]?.(undefined);
           }}
           delete={(index)=>{people.splice(index, 1)}}
         />
