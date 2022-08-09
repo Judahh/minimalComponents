@@ -43,9 +43,8 @@ const Table = (props:
     }) => {
 
   useEffect(() => {
+    console.log('Table Changed', props);
   }, [props, ...Object.values(props)]);
-
-  console.log('Table', props);
 
   return (!props?.loading ? (
     <>

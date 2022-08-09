@@ -205,8 +205,9 @@ const BasicAll = (props:{theme}) => {
           data={people}
           new={newPerson}
           add={(value)=>{
+            value?.id?.[1]?.(Math.random());
             console.log('add', value);
-            people.push(value)
+            people.push(value);
           }}
           delete={(index)=>{people.splice(index, 1)}}
         />
