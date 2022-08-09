@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { baseConfig } from "../../util";
+import { baseConfig } from "../../utils/util";
 
 export const Indicator = styled.li`
   ${(props) => baseConfig(props)}

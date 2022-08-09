@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { baseConfig } from "../../util";
+import { baseConfig } from "../../utils/util";
 
 export const StyledHeader = styled.div`
   ${(props) => baseConfig(props)}
@@ -170,9 +170,7 @@ export const DrawerWrapper = styled.div`
   }
 `;
 
-
-
-export const NavHolder = styled.div`
+export const DrawerHolder = styled.div`
   ${(props) => baseConfig(props)}
   display: flex;
   align-items: center;
@@ -183,4 +181,8 @@ export const NavHolder = styled.div`
   z-index: 1000;
   // border-bottom: ${(props) => props.theme.text} 1px solid;
   box-sizing: border-box;
+`;
+
+export const NavList = styled.div`
+  display: flex;
 `;

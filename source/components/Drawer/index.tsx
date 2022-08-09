@@ -3,7 +3,7 @@ import useState from 'react-usestateref';
 import {
   DrawerWrapper,
   DrawerMenu,
-  NavHolder,
+  DrawerHolder,
 } from './styles';
 import { withTheme } from 'styled-components';
 
@@ -72,11 +72,11 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
       className={state?.[0] ? 'openned' : 'closed'}
       top={props.top}
     >
-      <NavHolder
+      <DrawerHolder
         className={state?.[0] ? 'openned' : 'closed'}
       >
         {navElements}
-      </NavHolder>
+      </DrawerHolder>
       <DrawerMenu
         className={state?.[0] ? 'openned' : 'closed'}
         top={props.top}

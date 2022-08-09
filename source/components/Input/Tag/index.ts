@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
-import { baseConfig } from '../../../util';
+import { baseConfig } from '../../../utils/util';
 
 export const TagList = styled.div`
   ${(props) => baseConfig(props)}
