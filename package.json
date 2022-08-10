@@ -16,9 +16,9 @@
     "postinstall": "",
     "prepublish": "",
     "build": "rm -rf dist/ && tsc",
-    "test": "cypress run --component",
+    "test": "node_modules/cypress/bin/cypress run --component",
     "prestart": "",
-    "visual-test": "cypress open --component"
+    "visual-test": "node_modules/cypress/bin/cypress open --component"
   },
   "dependencies": {
     "axios": "latest",

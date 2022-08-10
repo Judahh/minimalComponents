@@ -86,7 +86,7 @@ const BasicAll = (props:{theme}) => {
 
   return (
     <ThemeProvider theme={props.theme}>
-      <div style={{backgroundColor: props.theme.background}}>
+      <div style={{backgroundColor: props.theme.background, padding: '10px'}}>
         <Drawer
           top={true}
           navToggleIndexes={[0]}
@@ -232,17 +232,28 @@ const BasicAll = (props:{theme}) => {
           <Input value={'tag 0'}/>
           <Input value={'tag 1'}/>
         </TagList>
+        <br />
         <CloseButton closeType={CloseType.red} />
         <CloseButton closeType={CloseType.x} />
-        <Input type={'button'} value={'Link'}/>
-        <Input filled={true} type={'submit'} value={'Submit'}/>
-        <Input filled={true} color={'red'} type={'reset'} value={'Red'}/>
-        <Input filled={true} color={'yellow'} type={'button'} value={'Edit'}/>
-        <Input filled={true} color={'red'} type={'button'} value={'-'}/>
-        <Input color={'green'} type={'button'} value={'-'}/>
-        <Input filled={true} invert={true} type={'button'} value={'-'} color={'red'}/>
-        <Input filled={true} type={'button'} value={'-'} color={'green'}/>
-        <Input filled={true} type={'file'} value={'File'} onChange={(a)=>{console.log('FILE', a);}}/>
+        <br />
+        <Input link type={'button'} value={'Link'}/>
+        <br />
+        <Input big roudedEdges inverted type={'submit'} value={'Submit'}/>
+        <br />
+        <Input big roudedEdges inverted color={'red'} type={'reset'} value={'Red'}/>
+        <br />
+        <Input small noBackground color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input roudedEdges inverted color={'red'} type={'button'} value={'-'}/>
+        <br />
+        <Input roudedEdges color={'green'} type={'button'} value={'-'}/>
+        <br />
+        <Input roudedEdges type={'button'} value={'-'} color={'red'}/>
+        <br />
+        <Input roudedEdges type={'button'} value={'-'} color={'green'}/>
+        <br />
+        <Input roudedEdges type={'file'} value={'File'} onChange={(a)=>{console.log('FILE', a);}}/>
+        <br />
         <Flags>
           <Input
             type="submit"
@@ -253,9 +264,10 @@ const BasicAll = (props:{theme}) => {
             value={'EN'}
           />
         </Flags>
-        <Image images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
+        <br />
+        {/* <Image images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
         <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf']} alt={'2'} />
-        <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+        <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} /> */}
         <CopyrightText >CopyrightText</CopyrightText>
         <H1>Title</H1>
         <H2>Subtitle</H2>

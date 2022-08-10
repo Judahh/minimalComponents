@@ -176,6 +176,8 @@ export const Input = styled.input`
   letter-spacing: 1.2px;
   color-scheme: ${(props) => ( props?.theme === lightTheme ? "light" : "dark" )};
 
+  ${(props) => props.small ? `width: max-content;` : `width: auto;`}
+
   ${(props) => props.big ? `
     padding: 10px 50px;
     @media screen and (max-width: 350px) {
@@ -191,10 +193,6 @@ export const Input = styled.input`
   transition: all ${(props) => props?.theme?.transition?.input?.duration || 0.15}s;
 
   ${(props) => ( props?.roudedEdges ? 'border-radius: 4px;' : '' )};
-
-  &:not(:placeholder-shown) {
-    width: 100%;
-  }
 
   &::-webkit-input-placeholder {
     color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'red')};
@@ -247,15 +245,15 @@ export const Input = styled.input`
     vertical-align: middle;
     ${(props) => (props.link ?
       (`border-bottom: 1px solid ${transparentize(0.5, props?.color || props?.theme?.primary || 'black')};`) :
-      (props.invert ?
+      (props.inverted ?
         (props.filled ?
           (
-            `color: ${props?.color || props?.theme?.primary || 'black'};
-             background: ${props?.theme?.background || 'white'};`
+            `color: ${props?.theme?.primary || 'black'};
+             background: ${props?.color || props?.theme?.background || 'white'};`
           ):(
-            `border: 1px solid ${props?.color || props?.theme?.primary || 'black'};
-              color: ${props?.color || props?.theme?.primary || 'black'};
-              background: ${props?.theme?.background || 'white'};`
+            `border: 1px solid ${props?.theme?.primary || 'black'};
+              color: ${props?.theme?.primary || 'black'};
+              background: ${props?.color || props?.theme?.background || 'white'};`
           )
         ) :
         (props.filled ?
@@ -270,20 +268,25 @@ export const Input = styled.input`
         )
       )
     )}
-    ${(props) => props.noBackground ? `background: transparent;` : ''}
+    ${(props) => props.noBackground ?
+      `background: transparent;
+       ${props.filled ? `border-color: ${props?.color || props?.theme?.primary || 'black'};` : 'border: none;'}
+       color: ${props?.color || props?.theme?.primary || 'black'};` :
+      ''
+    }
   }
 
   &[type='button']:hover, &[type='file']:hover, &[type='submit']:hover, &[type='reset']:hover, &[type='checkbox']:hover, &[type='radio']:hover {
     border: none;
     ${(props) => props.link ?
       `border-bottom: 1px solid ${props?.color || props?.theme?.primary || 'black'};` :
-      props.invert ?
+      props.inverted ?
         (props.filled ?
-          `color: ${props?.theme?.background || 'white'};
-          background: ${props?.color || props?.theme?.primary || 'black'};`:
-          `border: 1px solid ${props?.theme?.background || 'white'};
-          color: ${props?.theme?.background || 'white'};
-          background: ${props?.color || props?.theme?.primary || 'black'};`
+          `color: ${props?.color || props?.theme?.background || 'white'};
+          background: ${props?.theme?.primary || 'black'};`:
+          `border: 1px solid ${props?.color || props?.theme?.background || 'white'};
+          color: ${props?.color || props?.theme?.background || 'white'};
+          background: ${props?.theme?.primary || 'black'};`
           ) :
         (props.filled ?
           `color: ${props?.color || props?.theme?.primary || 'black'};
@@ -292,20 +295,25 @@ export const Input = styled.input`
             color: ${props?.color || props?.theme?.primary || 'black'};
             background: ${props?.theme?.background || 'white'};`)
     }
-    ${(props) => props.noBackground ? `background: transparent;` : ''}
+    ${(props) => props.noBackground ?
+      `background: transparent;
+       ${props.filled ? `border-color: ${props?.color || props?.theme?.primary || 'black'};` : 'border: none;'}
+       color: ${props?.color || props?.theme?.primary || 'black'};` :
+      ''
+    }
   }
 
   &[type='button']:focus, &[type='file']:focus, &[type='submit']:focus, &[type='reset']:focus, &[type='checkbox']:focus, &[type='radio']:focus {
     border: none;
     ${(props) => props.link ?
       `border-bottom: 1px dashed ${props?.color || props?.theme?.primary || 'black'};` :
-      props.invert ?
+      props.inverted ?
         (props.filled ?
-          `color: ${props?.theme?.background || 'white'};
-          background: ${props?.color || props?.theme?.primary || 'black'};`:
-          `border: 1px dashed ${props?.theme?.background || 'white'};
-          color: ${props?.theme?.background || 'white'};
-          background: ${props?.color || props?.theme?.primary || 'black'};`
+          `color: ${props?.color || props?.theme?.background || 'white'};
+          background: ${props?.theme?.primary || 'black'};`:
+          `border: 1px dashed ${props?.color || props?.theme?.background || 'white'};
+          color: ${props?.color || props?.theme?.background || 'white'};
+          background: ${props?.theme?.primary || 'black'};`
           ) :
         (props.filled ?
           `color: ${props?.color || props?.theme?.primary || 'black'};
@@ -314,7 +322,12 @@ export const Input = styled.input`
             color: ${props?.color || props?.theme?.primary || 'black'};
             background: ${props?.theme?.background || 'white'};`)
     }
-    ${(props) => props.noBackground ? `background: transparent;` : ''}
+    ${(props) => props.noBackground ?
+      `background: transparent;
+       ${props.filled ? `border-color: ${props?.color || props?.theme?.primary || 'black'};` : ''}
+       color: ${props?.color || props?.theme?.primary || 'black'};` :
+      ''
+    }
   }
 
   &[type="checkbox"]::before {
@@ -409,19 +422,20 @@ export const Input = styled.input`
   }
 
   ${(props) => props.effect === 'underline' ?
-    `&:before {
+    `:before {
+      display: block;
       content: '';
       position: absolute;
       height: 2px;
       bottom: -3px;
       left: 0;
-      // visibility: hidden;
+      visibility: hidden;
       width: 0;
     }
 
-    &:hover {
-      &:before {
-        background-color: ${(props) => props?.color || props?.theme?.primary};
+    :hover {
+      :before {
+        background-color: ${props?.color || props?.theme?.primary};
         visibility: visible;
         width: 100%;
       }
