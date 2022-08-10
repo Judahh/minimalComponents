@@ -4,8 +4,8 @@ import clsx from 'clsx'; // a utility for constructing className conditionally
 import { Image as ImageStyle, BackgroundImage, Indicator } from './styles';
 
 import { Carousel } from 'react-responsive-carousel';
-import { ChangePicButton } from '../Input/Button';
 import { withTheme } from 'styled-components';
+import Input from '../Input';
 
 const getMaxHeight = (props, titleHeightOffset) =>
     'calc(100%' +
@@ -96,28 +96,28 @@ function Image(props: {
         onSwipeMove={preventDefault}
         renderArrowPrev={(onClick, hasPrev) =>
           hasPrev && (
-            <ChangePicButton
+            <Input
+              type={"button"}
               onClick={(e) => {
                 preventDefault(e);
                 onClick();
               }}
               style={{ ...arrowStyles, left: 15 }}
-            >
-              ⯇
-            </ChangePicButton>
+              value={"⯇"}
+            />
           )
         }
         renderArrowNext={(onClick, hasNext) =>
           hasNext && (
-            <ChangePicButton
+            <Input
+              type={"button"}
               onClick={(e) => {
                 preventDefault(e);
                 onClick();
               }}
               style={{ ...arrowStyles, right: 15 }}
-            >
-              ⯈
-            </ChangePicButton>
+              value={"⯈"}
+            />
           )
         }
         renderIndicator={(onClick, isSelected, index) => {

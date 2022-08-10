@@ -1,3 +1,5 @@
+import { Actions } from "./actions"
+
 type TableController ={
     type?: string,
     name?: string
@@ -6,6 +8,7 @@ type TableController ={
     placeholder?:string
     hasAdd?:boolean
     hasEdit?:boolean
-    hasDelete?:boolean
+    hasDelete?:boolean,
+    actions?: Actions;
 }
 export type {TableController};

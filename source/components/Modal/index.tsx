@@ -1,8 +1,8 @@
 import React from "react";
 import RModal from 'react-modal';
 import { withTheme } from 'styled-components'
-import Close from "../Input/Button/close";
-import { CloseType } from "../Input/Button/closeType";
+import Close from "../Input/close";
+import { CloseType } from "../Input/closeType";
 import { H1 } from "../Text";
 
 const Modal = (props:{ title?:string, isOpen?: boolean, setClose?, setOpen?, children?, theme?, closeType?: CloseType}) => {

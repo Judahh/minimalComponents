@@ -1,3 +1,4 @@
+import { Actions } from "./actions";
 declare type TableController = {
     type?: string;
     name?: string;
@@ -7,6 +8,7 @@ declare type TableController = {
     hasAdd?: boolean;
     hasEdit?: boolean;
     hasDelete?: boolean;
+    actions?: Actions;
 };
 export type { TableController };
 //# sourceMappingURL=tableController.d.ts.map

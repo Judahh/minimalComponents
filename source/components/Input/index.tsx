@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
 import { Error } from '../Text';
 
 const Input = (props: {
   defaultError?;
+  type?;
   error?;
   setError?;
   defaultValue?;
   value?;
   setValue?;
-  children?;
   onChange?;
   onInput?;
   onSubmit?;
@@ -18,7 +18,7 @@ const Input = (props: {
   onKeyDown?;
   validate?: (value?, setValue?: (error?) => void, error?, setError?: (error?) => void) => void;
 }) => {
-
+  const ref = useRef<HTMLButtonElement>(null);
   const valueState = props?.setValue ? undefined : useState<any | undefined>(props.defaultValue || props.value);
   const errorState = props?.setError ? undefined : useState<any | undefined>(props.defaultError || props.error);
 
@@ -64,9 +64,23 @@ const Input = (props: {
 
   return (
     <>
-    <InputStyle
-      {...getProps()}
-    >{props.children}</InputStyle>
+    {props.type === 'file'?
+      (<>
+        <InputStyle
+          {...{...getProps(), type:'button'}}
+          onClick={ref?.current?.click}
+        />
+        <InputStyle
+          {...{...getProps(), value:''}}
+          style={{display:'none'}}
+          ref={ref}
+        />
+      </>):
+      (<InputStyle
+        {...getProps()}
+        ref={ref}
+      />)
+    }
     {props?.error && props?.error !== '' && props?.error !== ' ' ? (
       <Error>{props?.error}</Error>
     ) : null}

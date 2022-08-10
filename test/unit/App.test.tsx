@@ -4,11 +4,6 @@ import Input from '../../source/components/Input';
 import { default as lightTheme } from '../../source/styles/themes/light.json';
 import { default as darkTheme } from '../../source/styles/themes/dark.json';
 import { ThemeProvider } from 'styled-components';
-import Checkbox from '../../source/components/Input/CheckBox';
-import { TagList, Tag } from '../../source/components/Input/Tag';
-import { ChangePicButton, CloseButton, ColorButton, DeleteButton, CleanButton, LinkButton, LocationButton, RedButton, SubmitButton } from '../../source/components/Input/Button';
-import { CloseType } from '../../source/components/Input/Button/closeType';
-import FileButton from '../../source/components/Input/Button/FileButton';
 import Image from '../../source/components/Image';
 import Notification from '../../source/components/Notification';
 import {
@@ -32,9 +27,10 @@ import { Logo, LogoHolder } from '../../source/components/Image/Icons/styles';
 import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
 import { Item, ItemHolder } from '../../source/components/Drawer/styles';
-import ToggleButton from '../../source/components/Input/Button/ToggleButton';
-import { Toggle } from '../../source/components/Input/Button/ToggleButton/styles';
+import ToggleButton from '../../source/components/Input/toggleButton';
+import { CloseButton, TagList, Toggle } from '../../source/components/Input/styles';
 import Table from '../../source/components/Table';
+import { CloseType } from '../../source/components/Input/closeType';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -56,37 +52,18 @@ const BasicAll = (props:{theme}) => {
     {name: 'name', defaultValue: 'Someone', type: 'text', hasEdit: true},
     {name: 'age', defaultValue: 0, type: 'number', hasEdit: true},
   ];
-  const people = [{
-    id: [...useState<
-      number | undefined
-    >(1), {}],
-    name: [...useState<
-      string | undefined
-    >('John Doe'), {}],
-    age: [...useState<
-      number | undefined
-    >(20), {}],
+  let people = [{
+    id: 1,
+    name: 'John Doe',
+    age: 20,
   },{
-    id: [...useState<
-      number | undefined
-    >(2), {}],
-    name: [...useState<
-      string | undefined
-    >('Bob Smith'), {}],
-    age: [...useState<
-      number | undefined
-    >(18), {}],
+    id: 2,
+    name: 'Bob Smith',
+    age: 18,
   }];
   const newPerson = {
-    id: [...useState<
-      number | undefined
-    >(undefined), {}],
-    name: [...useState<
-      string | undefined
-    >('NEW'), {}],
-    age: [...useState<
-      number | undefined
-    >(25), {}],
+    name: 'NEW',
+    age: 25,
   };
   const [notificationTimer, setNotificationTimer] = useState<
     number | undefined
@@ -207,11 +184,12 @@ const BasicAll = (props:{theme}) => {
           add={(value)=>{
             value?.id?.[1]?.(Math.random());
             console.log('add', value);
-            people.push(value);
+            people = [...people, value];
+            console.log('people', people);
             //@ts-ignore
             newPerson?.id?.[1]?.(undefined);
           }}
-          delete={(index)=>{people.splice(index, 1)}}
+          delete={(index)=>{people = people.splice(index, 1)}}
         />
         <Input
           style={{
@@ -241,7 +219,8 @@ const BasicAll = (props:{theme}) => {
           type="search"
           closeType={CloseType.x}
         />
-        <Checkbox
+        <Input
+          type={'checkbox'}
           style={{
             height: '20px',
             width: '20px',
@@ -250,32 +229,29 @@ const BasicAll = (props:{theme}) => {
           onChange={(a)=>{console.log('Checkbox', a);}}
         />
         <TagList>
-          <Tag>asdfasdf</Tag>
-          <Tag>jfgj</Tag>
+          <Input value={'tag 0'}/>
+          <Input value={'tag 1'}/>
         </TagList>
         <CloseButton closeType={CloseType.red} />
         <CloseButton closeType={CloseType.x} />
-        <LinkButton>Link</LinkButton>
-        <SubmitButton>Submit</SubmitButton>
-        <RedButton>Red</RedButton>
-        <CleanButton>Edit</CleanButton>
-        <ChangePicButton>-</ChangePicButton>
-        <DeleteButton>-</DeleteButton>
-        <ColorButton color={'red'}>-</ColorButton>
-        <ColorButton color={'green'}>-</ColorButton>
-        <LocationButton>Location</LocationButton>
-        <FileButton Button={(p: {onClick}) => (<LinkButton onClick={p.onClick}>FILE</LinkButton>)} onChange={(a)=>{console.log('FILE', a);}}/>
+        <Input type={'button'} value={'Link'}/>
+        <Input filled={true} type={'submit'} value={'Submit'}/>
+        <Input filled={true} color={'red'} type={'reset'} value={'Red'}/>
+        <Input filled={true} color={'yellow'} type={'button'} value={'Edit'}/>
+        <Input filled={true} color={'red'} type={'button'} value={'-'}/>
+        <Input color={'green'} type={'button'} value={'-'}/>
+        <Input filled={true} invert={true} type={'button'} value={'-'} color={'red'}/>
+        <Input filled={true} type={'button'} value={'-'} color={'green'}/>
+        <Input filled={true} type={'file'} value={'File'} onChange={(a)=>{console.log('FILE', a);}}/>
         <Flags>
-          <CleanButton
+          <Input
             type="submit"
-          >
-            <Text>BR</Text>
-          </CleanButton>
-          <CleanButton
+            value={'BR'}
+          />
+          <Input
             type="submit"
-          >
-            <Text>EN</Text>
-          </CleanButton>
+            value={'EN'}
+          />
         </Flags>
         <Image images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
         <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf']} alt={'2'} />
@@ -301,8 +277,8 @@ const BasicAll = (props:{theme}) => {
         <Animation Animation={Rowling}><Logo source={'img/bag.svg'}/></Animation>
         <Animation Animation={Hanging}><Logo source={'img/bag.svg'}/></Animation>
         <Animation Animation={Rowling} anti={true}><Logo source={'img/bag.svg'}/></Animation>
-        <SubmitButton onClick={()=>openModal()}>Open Modal</SubmitButton><br /><br />
-        <SubmitButton onClick={()=>openModal2()}>Open Modal 2</SubmitButton><br /><br />
+        <Input type={'button'} onClick={()=>openModal()} value={'Open Modal'}/><br /><br />
+        <Input type={'button'} onClick={()=>openModal2()} value={'Open Modal 2'}/><br /><br />
         <Drawer
           navToggleIndexes={[0]}
           nav={
