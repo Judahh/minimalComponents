@@ -112,7 +112,7 @@ export const Flags = styled.div`
 
 export const CloseButton = styled.div`
   ${(props) => baseConfig(props)}
-  ${(props) => Icon(props.disabled, props.iconType, props?.color)}
+  ${(props) => Icon(props.iconType, props.disabled, props?.color || props?.theme?.primary || props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black'))}
   float: right;
 `;
 
@@ -296,7 +296,7 @@ export const Input = styled.input`
   }
 
   &[type='search'] , &[type='search']:focus, &[type='search']:hover {
-    ${(props) => Icon(props.disabled, props?.iconType === undefined ? IconType.magnifier : props?.iconType, props?.color)}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.magnifier : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
     background-repeat: no-repeat !important;
     background-position: 5px 5px !important;
     background-size: ${(props) => props?.theme?.input?.font?.size || '14px'} ${(props) => props?.theme?.input?.font?.size || '14px'} !important;
@@ -306,7 +306,8 @@ export const Input = styled.input`
   }
 
   ::-webkit-search-cancel-button {
-    ${(props) => Icon(props.disabled, props.closeIconType, props?.color, +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px')}
+    content: '';
+    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || props?.theme?.primary || props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black'), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px', true)}
     cursor: pointer;
     position: relative;
     right: 5px;
@@ -463,7 +464,7 @@ export const Input = styled.input`
     content: "";
     width: 9px;
     height: 18px;
-    ${(props) => Icon(props.disabled, props?.iconType === undefined ? IconType.check : props?.iconType, props?.color || props?.theme?.primary || 'black')}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
   }
 
   &[type='radio']::before {
@@ -475,7 +476,7 @@ export const Input = styled.input`
     left: 2px;
     bottom: 2px;
     border-width: 0 2px 2px 0;
-    ${(props) => Icon(props.disabled, props?.iconType === undefined ? IconType.square : props?.iconType, props?.color || props?.theme?.primary || 'black')}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.square : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
   }
 
   &[type='checkbox']:checked::before,
