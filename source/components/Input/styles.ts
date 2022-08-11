@@ -451,10 +451,14 @@ export const Input = styled.input`
     margin: 0;
     box-sizing: border-box;
     position: relative;
-    // appearance: none;
+    appearance: none;
     content: '';
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
     border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     background: transparent;
   }
@@ -462,9 +466,12 @@ export const Input = styled.input`
   &[type='checkbox']::before {
     position: absolute;
     content: "";
-    width: 9px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    opacity: 0;
     ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'Checkbox')}
+    left: 1px;
+    top: 1px;
   }
 
   &[type='radio']::before {
@@ -472,11 +479,11 @@ export const Input = styled.input`
     content: "";
     width: 19px;
     height: 19px;
-    opacity: 0;
     left: 2px;
     bottom: 2px;
     border-width: 0 2px 2px 0;
     ${(props) => Icon(props?.iconType === undefined ? IconType.square : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'Radio')}
+    opacity: 0;
   }
 
   &[type='checkbox']:checked::before,
