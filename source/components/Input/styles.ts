@@ -4,41 +4,115 @@ import styled from 'styled-components';
 import { default as lightTheme } from '../../styles/themes/light.json';
 import { transparentize } from 'polished';
 import { baseConfig } from '../../utils/util';
-import { CloseType } from './closeType';
+import { Icon, IconType } from './icon';
 
-export const BasicClose = `
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  height: 15px;
-  width: 15px;
-  opacity: 0.7;
-  margin: 5px;
-  :hover {
-    opacity: 1;
+export const selectStyle = (props) => {
+  return {
+    dropdownIndicator: () => ({
+      backgroundColor: 'transparent',
+      color: '' + props.theme.primary,
+    }),
+
+    indicatorSeparator: (styles) => ({
+      ...styles,
+      backgroundColor: 'transparent',
+    }),
+
+    control: (styles) => ({
+      ...styles,
+      cursor: 'pointer',
+      margin: '5px',
+      backgroundColor: props.theme.background,
+      border: 'none',
+      borderColor: '' + props.theme.primary,
+      borderBottom: '1px solid ' + props.theme.primary,
+      borderRadius: '0',
+      color: '' + props.theme.primary,
+      minWidth: '25px',
+      ':active': {
+        backgroundColor: props.theme.background,
+        border: 'none',
+        borderBottom: '1px solid ' + props.theme.primary,
+        borderRadius: '0',
+      },
+      ':hover': {
+        backgroundColor: props.theme.background,
+        border: 'none',
+        borderBottom: '1px solid ' + props.theme.bright,
+        borderRadius: '0',
+      },
+    }),
+
+    menu: (styles, { isFocused, isSelected }) => ({
+      ...styles,
+      cursor: 'pointer',
+      backgroundColor:
+        '' + (isSelected ? props.theme.background : props.theme.primary),
+      border:
+        '1px solid ' + isSelected || isFocused
+          ? props.theme.primary
+          : props.theme.background,
+      color:
+        '' + isSelected || isFocused
+          ? props.theme.bright
+          : props.theme.background,
+      width: 'fit-content',
+    }),
+    option: (styles, { isSelected }) => {
+      return {
+        ...styles,
+        cursor: 'pointer',
+        color: '' + props.theme.bright,
+        backgroundColor: props.theme.background,
+        border: isSelected ? '1px solid ' + props.theme.bright : 'none',
+      };
+    },
+    input: (styles) => ({
+      ...styles,
+      color: '' + props.theme.bright,
+    }),
+    placeholder: (styles) => ({ ...styles, color: '' + props.theme.primary }),
+    singleValue: (styles) => ({ ...styles, color: '' + props.theme.bright }),
+  };
+};
+
+export const Flags = styled.div`
+  ${(props) => baseConfig(props)}
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 6px;
+  top: 27.5px;
+
+  button {
+    margin: 5px;
+    &:hover {
+      img {
+        animation: ${(props) => props?.theme?.animation?.flag?.duration || 1.5}s;
+      }
+    }
   }
-`;
 
-export const BasicRedCircle = (color: string) => `
-  ${BasicClose}
-  background-color: ${color || 'red'};
-  border-radius: 100px;
-  opacity: 1;
-  border: 0px solid red;
-  :hover {
-    border: 0px solid red;
+  @media (max-width: 1166px) {
+    margin-right: 40vw;
+    top: 12.5px;
   }
-`;
 
-export const BasicX = (color: string) => `
-  ${BasicClose}
-  background-color: transparent;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='${color.replace('#', '%23')}'>
-    <path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/>
-  </svg>");
+  @media (max-width: 767px) {
+    button {
+      &:hover {
+        img {
+          animation: ${(props) => props?.theme?.animation?.flag?.duration || 1.5}s;
+        }
+      }
+    }
+  }
 `;
 
 export const CloseButton = styled.div`
   ${(props) => baseConfig(props)}
-  ${(props) => props.closeType === CloseType.red ? BasicRedCircle(props?.color) : BasicX(props?.color || props?.theme?.primary)}
+  ${(props) => Icon(props.disabled, props.iconType, props?.color)}
   float: right;
 `;
 
@@ -206,6 +280,7 @@ export const Input = styled.input`
   }
 
   &[type='text'], &[type='number'], &[type='password'], &[type='email'], &[type='url'], &[type='tel'], &[type='search'] {
+    padding: 5px;
     border: none;
     cursor: text;
     border-bottom: 1px solid ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
@@ -214,27 +289,44 @@ export const Input = styled.input`
 
   &[type='text']:hover, &[type='number']:hover, &[type='password']:hover, &[type='email']:hover, &[type='url']:hover, &[type='tel']:hover, &[type='search']:hover,
   &[type='text']:focus, &[type='number']:focus, &[type='password']:focus, &[type='email']:focus, &[type='url']:focus, &[type='tel']:focus, &[type='search']:focus {
+    padding: 5px;
     border: none;
     border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     background: transparent;
+  }
+
+  &[type='search'] , &[type='search']:focus, &[type='search']:hover {
+    ${(props) => Icon(props.disabled, props?.iconType === undefined ? IconType.magnifier : props?.iconType, props?.color)}
+    background-repeat: no-repeat !important;
+    background-position: 5px 5px !important;
+    background-size: ${(props) => props?.theme?.input?.font?.size || '14px'} ${(props) => props?.theme?.input?.font?.size || '14px'} !important;
+    appearance: searchfield;
+    padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    padding-right: 5px;
+  }
+
+  ::-webkit-search-cancel-button {
+    ${(props) => Icon(props.disabled, props.closeIconType, props?.color, +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px')}
+    cursor: pointer;
+    position: relative;
+    right: 5px;
+    margin-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    appearance: none;
   }
 
   &[type='time'], &[type='week'], &[type='month'], &[type='date'], &[type='datetime-local'] {
     border: none;
-    cursor: pointer;
+    padding: 5px;
+    cursor: text;
     border-bottom: 1px solid ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
     background: transparent;
   }
 
-  &[type='time']:hover, &[type='week']:hover, &[type='month']:hover, &[type='date']:hover, &[type='datetime-local']:hover {
-    border: none;
-    border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
-    background: transparent;
-  }
-
+  &[type='time']:hover, &[type='week']:hover, &[type='month']:hover, &[type='date']:hover, &[type='datetime-local']:hover,
   &[type='time']:focus, &[type='week']:focus, &[type='month']:focus, &[type='date']:focus, &[type='datetime-local']:focus {
     border: none;
-    border-bottom: 1px dashed ${(props) => props?.color || props?.theme?.primary || 'black'};
+    padding: 5px;
+    border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     background: transparent;
   }
 
@@ -352,20 +444,29 @@ export const Input = styled.input`
     )}
   }
 
-  &[type="checkbox"]::before {
+  &[type='checkbox'],
+  &[type='radio'] {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+    appearance: none;
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
+    background: transparent;
+  }
+
+  &[type='checkbox']::before {
     position: absolute;
     content: "";
     width: 9px;
     height: 18px;
-    opacity: 0;
-    left: 7px;
-    bottom: 5px;
-    border: solid red;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    ${(props) => Icon(props.disabled, props?.iconType === undefined ? IconType.check : props?.iconType, props?.color || props?.theme?.primary || 'black')}
   }
 
-  &[type="radio"]::before {
+  &[type='radio']::before {
     position: absolute;
     content: "";
     width: 19px;
@@ -374,16 +475,16 @@ export const Input = styled.input`
     left: 2px;
     bottom: 2px;
     border-width: 0 2px 2px 0;
-    background-color: ${(props) => props?.color || props?.theme?.primary || 'black'};
+    ${(props) => Icon(props.disabled, props?.iconType === undefined ? IconType.square : props?.iconType, props?.color || props?.theme?.primary || 'black')}
   }
 
-  &[type="checkbox"]:checked::before,
-  &[type="radio"]:checked::before {
+  &[type='checkbox']:checked::before,
+  &[type='radio']:checked::before {
     opacity: 1;
   }
 
-  &[type="checkbox"]:focus,
-  &[type="radio"]:focus {
+  &[type='checkbox']:focus,
+  &[type='radio']:focus {
     background: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
   }
 
@@ -395,52 +496,94 @@ export const Input = styled.input`
 
   &[type='color'] {
     cursor: pointer;
-
+    padding: 2px;
+    margin: 0px;
+    width: max-content;
+    height: max-content;
+    border: 1px solid transparent;
   }
 
   &[type='color']:hover {
-
+    border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
   }
 
   &[type='color']:focus {
-
+    border: 1px dashed ${(props) => props?.color || props?.theme?.primary || 'black'};
   }
 
   &[type='range'] {
     cursor: pointer;
-
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    padding: 0 5px;
+    margin: 0;
+    background: transparent;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+    position: relative;
   }
 
   &[type='range']:hover {
-
+    opacity: 1;
   }
 
   &[type='range']:focus {
-
+    border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
   }
 
-  &[type='search'] {
-    background-color: transparent;
-    background-image: url("data:image/svg+xml;utf8,<svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9.82368 16.6637C14.1192 16.6637 17.6015 13.1815 17.6015 8.88593C17.6015 4.59038 14.1192 1.10815 9.82368 1.10815C5.52813 1.10815 2.0459 4.59038 2.0459 8.88593C2.0459 13.1815 5.52813 16.6637 9.82368 16.6637Z" stroke='${(props) => (props?.color || props?.theme?.primary || 'black').replace('#', '%23')}' stroke-miterlimit="10"/>
-    <path d="M5.37901 14.8118L0.93457 20.7377" stroke='${(props) => (props?.color || props?.theme?.primary || 'black').replace('#', '%23')}' stroke-miterlimit="10"/>
-    </svg>");
-    background-size: 30px 30px;
-    appearance: searchfield;
-    padding-left: 30px;
+  ::-webkit-slider-runnable-track {
+    height: 10px;
+    background: ${(props) => transparentize(0.3, props?.color || props?.theme?.primary || 'black')};
   }
 
-  &[type='search']:focus {
-    width: 100%;
+  ::-moz-range-track {
+    height: 10px;
+    background: ${(props) => transparentize(0.3, props?.color || props?.theme?.primary || 'black')};
   }
 
-  &[type='search']::-webkit-search-cancel-button {
+  ::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: ${(props) => props?.color || props?.theme?.primary || 'black'};
+    cursor: pointer;
+    top: 0px;
+    margin-top: -3px;
     position: relative;
-    right: 20px;
-    margin-left: 30px;
+  }
 
-    -webkit-appearance: none;
-    ${(props) => props.closeType === CloseType.red ? BasicRedCircle(props?.color) : BasicX(props?.color || props?.theme?.primary)}
+  ::-moz-range-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: ${(props) => props?.color || props?.theme?.primary || 'black'};
+    cursor: pointer;
+    top: 0px;
+    margin-top: -3px;
+    position: relative;
+  }
+
+  ::-webkit-color-swatch-wrapper {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+  }
+
+  ::-webkit-color-swatch {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    width: 25px;
+    height: 25px;
+    border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
+  }
+
+  ::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    background-color: transparent;
+    color: ${(props) => props?.color || props?.theme?.primary || 'black'};
   }
 
   ${(props) => props.effect === 'underline' ?

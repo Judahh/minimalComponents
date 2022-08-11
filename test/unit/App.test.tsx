@@ -18,7 +18,6 @@ import {
   Link,
   FixedLink,
 } from '../../source/components/Text';
-import { Flags } from '../../source/components/Input/Switch/styles';
 import NotificationContextModel from '../../source/components/Notification/notificationContextModel';
 import { Bar, FlowType, Milk, Progress } from '../../source/components/Loading/Progress';
 import Animation from '../../source/components/Loading/Animation';
@@ -28,9 +27,9 @@ import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
 import { Item, ItemHolder } from '../../source/components/Drawer/styles';
 import ToggleButton from '../../source/components/Input/toggleButton';
-import { CloseButton, TagList, Toggle } from '../../source/components/Input/styles';
+import { CloseButton, TagList, Toggle, Flags } from '../../source/components/Input/styles';
 import Table from '../../source/components/Table';
-import { CloseType } from '../../source/components/Input/closeType';
+import { IconType } from '../../source/components/Input/icon';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -161,7 +160,7 @@ const BasicAll = (props:{theme}) => {
             onRequestClose={closeModal}
             setOpen={openModal}
             ariaHideApp={false}
-            closeType={CloseType.x}
+            iconType={IconType.x}
           >
           <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
         </Modal>
@@ -173,7 +172,7 @@ const BasicAll = (props:{theme}) => {
             onRequestClose={closeModal2}
             setOpen={openModal2}
             ariaHideApp={false}
-            closeType={CloseType.red}
+            iconType={IconType.circle}
           >
           <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
         </Modal>
@@ -191,50 +190,13 @@ const BasicAll = (props:{theme}) => {
           }}
           delete={(index)=>{people = people.splice(index, 1)}}
         />
-        <Input
-          style={{
-              fontSize: '16px',
-              width: 'calc( 60% - 20px )',
-              float: 'left',
-              display: 'flex',
-              padding: '10px',
-              margin: '0px 5px',
-            }}
-          defaultValue={0}
-          name="quantity"
-          type="search"
-          closeType={CloseType.red}
-        />
-        <Input
-          style={{
-              fontSize: '16px',
-              width: 'calc( 60% - 20px )',
-              float: 'left',
-              display: 'flex',
-              padding: '10px',
-              margin: '0px 5px',
-            }}
-          defaultValue={0}
-          name="quantity"
-          type="search"
-          closeType={CloseType.x}
-        />
-        <Input
-          type={'checkbox'}
-          style={{
-            height: '20px',
-            width: '20px',
-          }}
-          checked={true}
-          onChange={(a)=>{console.log('Checkbox', a);}}
-        />
         <TagList>
           <Input value={'tag 0'}/>
           <Input value={'tag 1'}/>
         </TagList>
         <br />
-        <CloseButton closeType={CloseType.red} />
-        <CloseButton closeType={CloseType.x} />
+        <CloseButton iconType={IconType.circle} />
+        <CloseButton iconType={IconType.x} />
         <br />
         <Input link type={'button'} value={'Link'}/>
         <br />
@@ -263,6 +225,79 @@ const BasicAll = (props:{theme}) => {
         <Input roudedEdges noBackground type={'button'} value={'+'} color={'green'}/>
         <br />
         <Input roudedEdges type={'file'} value={'File'} onChange={(a)=>{console.log('FILE', a);}}/>
+        <br />
+        <br />
+        <Input type="color"/>
+        <br />
+        <Input type="image"/>
+        <br />
+        <Input type="range"/>
+        <br />
+        <br />
+        <Input type="search"/>
+        <br />
+        <Input type="url"/>
+        <br />
+        <Input type="email"/>
+        <br />
+        <Input type="password"/>
+        <br />
+        <Input type="number"/>
+        <br />
+        <Input type="tel"/>
+        <br />
+        <Input type="text"/>
+        <br />
+        <br />
+        <Input type="datetime-local"/>
+        <br />
+        <Input type="date"/>
+        <br />
+        <Input type="month"/>
+        <br />
+        <Input type="week"/>
+        <br />
+        <Input type="time"/>
+        <br />
+        <br />
+        <Input
+          style={{ fontSize: '16px' }}
+          defaultValue={0}
+          name="quantity"
+          type="search"
+          closeIconType={IconType.circle}
+        />
+        <Input
+          style={{ fontSize: '16px' }}
+          defaultValue={0}
+          name="quantity"
+          type="search"
+          closeIconType={IconType.x}
+        />
+        <Input
+          type={'checkbox'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+        />
+        <Input
+          name="radio"
+          type={'radio'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+        />
+        <Input
+          name="radio"
+          type={'radio'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+        />
+        <br />
         <br />
         <Flags>
           <Input
