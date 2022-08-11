@@ -112,7 +112,7 @@ export const Flags = styled.div`
 
 export const CloseButton = styled.div`
   ${(props) => baseConfig(props)}
-  ${(props) => Icon(props.iconType, props.disabled, props.closeIconType === IconType.circle ? props?.color || 'red' : (props?.color || props?.theme?.primary || 'black'))}
+  ${(props) => Icon(props.iconType, props.disabled, props.iconType == IconType.circle ? (props?.color || 'red') : (props?.color || props?.theme?.primary || 'black'), undefined, undefined, 'CLOSE')}
   float: right;
 `;
 
@@ -296,7 +296,7 @@ export const Input = styled.input`
   }
 
   &[type='search'] , &[type='search']:focus, &[type='search']:hover {
-    ${(props) => Icon(props?.iconType === undefined ? IconType.magnifier : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.magnifier : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'SEARCH')}
     background-repeat: no-repeat !important;
     background-position: 5px 5px !important;
     background-size: ${(props) => props?.theme?.input?.font?.size || '14px'} ${(props) => props?.theme?.input?.font?.size || '14px'} !important;
@@ -308,7 +308,7 @@ export const Input = styled.input`
   ::-webkit-search-cancel-button {
     content: '';
     // appearance: none;
-    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px', true)}
+    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px', true, 'SEARCH CANCEL')}
     cursor: pointer;
     position: relative;
     right: 5px;
@@ -464,7 +464,7 @@ export const Input = styled.input`
     content: "";
     width: 9px;
     height: 18px;
-    ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'Checkbox')}
   }
 
   &[type='radio']::before {
@@ -476,7 +476,7 @@ export const Input = styled.input`
     left: 2px;
     bottom: 2px;
     border-width: 0 2px 2px 0;
-    ${(props) => Icon(props?.iconType === undefined ? IconType.square : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.square : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'Radio')}
   }
 
   &[type='checkbox']:checked::before,
