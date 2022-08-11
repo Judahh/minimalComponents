@@ -112,7 +112,7 @@ export const Flags = styled.div`
 
 export const CloseButton = styled.div`
   ${(props) => baseConfig(props)}
-  ${(props) => Icon(props.iconType, props.disabled, props?.color || props?.theme?.primary || props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black'))}
+  ${(props) => Icon(props.iconType, props.disabled, props.closeIconType === IconType.circle ? props?.color || 'red' : (props?.color || props?.theme?.primary || 'black'))}
   float: right;
 `;
 
@@ -307,12 +307,12 @@ export const Input = styled.input`
 
   ::-webkit-search-cancel-button {
     content: '';
-    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || props?.theme?.primary || props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black'), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px', true)}
+    // appearance: none;
+    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px', true)}
     cursor: pointer;
     position: relative;
     right: 5px;
     margin-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
-    appearance: none;
   }
 
   &[type='time'], &[type='week'], &[type='month'], &[type='date'], &[type='datetime-local'] {
@@ -451,7 +451,7 @@ export const Input = styled.input`
     margin: 0;
     box-sizing: border-box;
     position: relative;
-    appearance: none;
+    // appearance: none;
     content: '';
     width: 20px;
     height: 20px;
