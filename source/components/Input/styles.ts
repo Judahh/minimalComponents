@@ -169,6 +169,9 @@ export const Input = styled.input`
   display: block;
   min-width: 30px;
   font-size: ${(props) => props?.theme?.input?.font?.size || '14px'};
+  font-weight: ${(props) => props?.theme?.input?.font?.weight || 'bolder'};
+  padding: ${(props) => (((props?.theme?.input?.font?.size || 14) + 2) - 4) / 2 + 'px 0px'};
+  margin: 0;
   color: ${(props) =>
     props.active ? props?.theme?.background : props?.color || props?.theme?.primary};
   background: ${(props) =>
@@ -179,7 +182,7 @@ export const Input = styled.input`
   ${(props) => props.small ? `width: max-content;` : `width: auto;`}
 
   ${(props) => props.big ? `
-    padding: 10px 50px;
+    padding: 10px 10px;
     @media screen and (max-width: 350px) {
       min-width: 100%;
     }
@@ -187,7 +190,7 @@ export const Input = styled.input`
     @media screen and (max-width: 1000px) {
       width: 100%;
     }` :
-    `padding: 0; margin: 0;`
+    ``
   }
 
   transition: all ${(props) => props?.theme?.transition?.input?.duration || 0.15}s;
@@ -249,11 +252,11 @@ export const Input = styled.input`
         (props.filled ?
           (
             `color: ${props?.theme?.primary || 'black'};
-             background: ${props?.color || props?.theme?.background || 'white'};`
+             background: ${props?.color || (props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
           ):(
             `border: 1px solid ${props?.theme?.primary || 'black'};
               color: ${props?.theme?.primary || 'black'};
-              background: ${props?.color || props?.theme?.background || 'white'};`
+              background: ${props?.color || (props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
           )
         ) :
         (props.filled ?
@@ -261,19 +264,26 @@ export const Input = styled.input`
             `color: ${props?.theme?.background || 'white'};
              background: ${props?.color || props?.theme?.primary || 'black'};`
           ):(
-            `border: 1px solid ${props?.theme?.background || 'white'};
+            `border: 1px solid ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};
              color: ${props?.theme?.background || 'white'};
              background: ${props?.color || props?.theme?.primary || 'black'};`
           )
         )
       )
     )}
-    ${(props) => props.noBackground ?
-      `background: transparent;
-       ${props.filled ? `border-color: ${props?.color || props?.theme?.primary || 'black'};` : 'border: none;'}
-       color: ${props?.color || props?.theme?.primary || 'black'};` :
-      ''
-    }
+
+    ${(props) => (props.crude ?
+      (props.inverted ?
+        `border: 0;
+         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'black'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'white'};`
+      :
+        `border: 0;
+         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'white'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
+      ):
+      (``)
+    )}
   }
 
   &[type='button']:hover, &[type='file']:hover, &[type='submit']:hover, &[type='reset']:hover, &[type='checkbox']:hover, &[type='radio']:hover {
@@ -290,17 +300,23 @@ export const Input = styled.input`
           ) :
         (props.filled ?
           `color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${props?.theme?.background || 'white'};`:
+            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`:
           `border: 1px solid ${props?.color || props?.theme?.primary || 'black'};
             color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${props?.theme?.background || 'white'};`)
+            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`)
     }
-    ${(props) => props.noBackground ?
-      `background: transparent;
-       ${props.filled ? `border-color: ${props?.color || props?.theme?.primary || 'black'};` : 'border: none;'}
-       color: ${props?.color || props?.theme?.primary || 'black'};` :
-      ''
-    }
+    ${(props) => (props.crude ?
+      (props.inverted ?
+        `border: 0;
+         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'white'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
+      :
+        `border: 0;
+         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'black'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'white'};`
+      ):
+      (``)
+    )}
   }
 
   &[type='button']:focus, &[type='file']:focus, &[type='submit']:focus, &[type='reset']:focus, &[type='checkbox']:focus, &[type='radio']:focus {
@@ -317,17 +333,23 @@ export const Input = styled.input`
           ) :
         (props.filled ?
           `color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${props?.theme?.background || 'white'};`:
+            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`:
           `border: 1px dashed ${props?.color || props?.theme?.primary || 'black'};
             color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${props?.theme?.background || 'white'};`)
+            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`)
     }
-    ${(props) => props.noBackground ?
-      `background: transparent;
-       ${props.filled ? `border-color: ${props?.color || props?.theme?.primary || 'black'};` : ''}
-       color: ${props?.color || props?.theme?.primary || 'black'};` :
-      ''
-    }
+    ${(props) => (props.crude ?
+      (props.inverted ?
+        `border: 0;
+         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'white'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
+      :
+        `border: 0;
+         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'black'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'white'};`
+      ):
+      (``)
+    )}
   }
 
   &[type="checkbox"]::before {

@@ -244,13 +244,23 @@ const BasicAll = (props:{theme}) => {
         <br />
         <Input small noBackground color={'yellow'} type={'button'} value={'Edit'}/>
         <br />
+        <Input small noBackground inverted color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small noBackground crude color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small noBackground crude inverted color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small crude color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small crude inverted color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
         <Input roudedEdges inverted color={'red'} type={'button'} value={'-'}/>
         <br />
-        <Input roudedEdges color={'green'} type={'button'} value={'-'}/>
+        <Input roudedEdges color={'green'} type={'button'} value={'+'}/>
         <br />
         <Input roudedEdges type={'button'} value={'-'} color={'red'}/>
         <br />
-        <Input roudedEdges type={'button'} value={'-'} color={'green'}/>
+        <Input roudedEdges noBackground type={'button'} value={'+'} color={'green'}/>
         <br />
         <Input roudedEdges type={'file'} value={'File'} onChange={(a)=>{console.log('FILE', a);}}/>
         <br />
