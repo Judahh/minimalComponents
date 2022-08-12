@@ -3,7 +3,6 @@ import { withTheme } from 'styled-components';
 import { Table as TableStyle } from './styles';
 import { TableController } from './tableController';
 import { Actions } from './actions';
-import useObjectState from './useObjectState';
 import Row from './Row';
 
 const Table = (props:

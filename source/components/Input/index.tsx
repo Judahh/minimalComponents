@@ -21,14 +21,15 @@ const Input = (props: {
   label?: string;
   labelStyle?: CSSProperties;
   labelParentStyle?: CSSProperties;
-  validate?: (value?, setValue?: (error?) => void, error?, setError?: (error?) => void) => void;
+  validate?: (value?, valueState?: [any, (error?) => void], error?, setError?: (error?) => void) => void;
 }) => {
   const inputRef = useRef<HTMLButtonElement>(null);
-  const valueState = props?.setValue ? undefined : useState<any | undefined>(props.defaultValue || props.value);
+  const valueState: [any, (error?) => void] = props?.setValue ? [props?.value, props?.setValue ] : useState<any | undefined>(props.defaultValue || props.value);
   const errorState = props?.setError ? undefined : useState<any | undefined>(props.defaultError || props.error);
 
-  const basicValidate = (value?, setValue?: (value?:string) => void, error?, setError?: (error?:string) => void) => {
-    setValue?.(value);
+  const basicValidate = (value?, valueState?: [any, (error?) => void], error?, setError?: (error?:string) => void) => {
+    console.log('basicValidate', value, valueState);
+    valueState?.[1]?.(value);
     setError?.(error);
   }
 
@@ -62,13 +63,12 @@ const Input = (props: {
     newProps.onSubmit= props.onSubmit;
     newProps.onKeyUp= props.onKeyUp;
     newProps.onKeyDown= props.onKeyDown;
-    if(!props.setValue){
-      newProps.defaultValue = props?.defaultValue || props?.value;
-      newProps.value = valueState?.[0];
-      newProps.onChange = (event) => props?.validate
-        ? props.validate?.(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1])
-        : basicValidate(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1]);
-    }
+
+    newProps.defaultValue = props?.defaultValue || props?.value;
+    newProps.value = valueState?.[0];
+    newProps.onChange = (event) => props?.validate
+      ? props.validate?.(event.target.value, valueState, props?.error || errorState?.[0], props?.setError || errorState?.[1])
+      : basicValidate(event.target.value, valueState, props?.error || errorState?.[0], props?.setError || errorState?.[1]);
 
     if(newProps.value != undefined)
       delete newProps.defaultValue;

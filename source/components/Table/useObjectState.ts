@@ -63,9 +63,9 @@ const useObjectState = <T>(object?: T): [T | undefined, Dispatch<SetStateAction<
   console.log('useObjectState', state);
 
   const update = (indexes?: (string | number)[], value?, current?, root?) => {
-    console.log('update object:', indexes, value, current);
     current = current || JSON.parse(JSON.stringify(state));
     root = root || current;
+    console.log('update object:', indexes, value, current, root);
     if (indexes && indexes.length > 0) {
       if (indexes.length > 1) {
         return update(indexes.splice(0, 1), value, current[indexes[0]], root);

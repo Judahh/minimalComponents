@@ -45,7 +45,10 @@ const Column = (props:
             type={controller.type || 'text'}
             name={controller?.name}
             value={data}
-            setValue={(value)=> updateData?.([...indexes, controller?.name || ''], value)}
+            setValue={(value)=> {
+              console.log('Column setValue', value, updateData);
+              updateData?.([...indexes, controller?.name || ''], value)
+            }}
             defaultValue={data || controller?.defaultValue}
             aria-label={controller?.ariaLabel || controller?.name}
             placeholder={controller?.placeholder || controller?.name}

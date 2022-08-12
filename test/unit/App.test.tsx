@@ -78,6 +78,9 @@ const BasicAll = (props:{theme}) => {
     number | undefined
   >(60000);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState<
+    string | undefined
+  >('asdfasdf');
   const openModal = () => {
     console.log('openModal');
     setIsOpen(true);
@@ -213,8 +216,8 @@ const BasicAll = (props:{theme}) => {
           }}
         />
         <TagList>
-          <Input value={'tag 0'}/>
-          <Input value={'tag 1'}/>
+          <Input type={'button'} value={'tag 0'}/>
+          <Input type={'button'} value={'tag 1'}/>
         </TagList>
         <br />
         <CloseButton iconType={IconType.circle} />
@@ -256,7 +259,7 @@ const BasicAll = (props:{theme}) => {
         <Input type="range"/>
         <br />
         <br />
-        <Input type="search"/>
+        <Input value={searchValue} setValue={setSearchValue} type="search"/>
         <br />
         <Input type="url"/>
         <br />
