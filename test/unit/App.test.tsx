@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { mount } from '@cypress/react';
 import Input from '../../source/components/Input';
 import { default as lightTheme } from '../../source/styles/themes/light.json';
@@ -73,7 +73,7 @@ const BasicAll = (props:{theme}) => {
     name: 'NEW',
     age: 25,
   };
-  const [newPerson, setNewPerson, updateNewPerson] = useObjectState(basePerson);
+  const [newPerson, setNewPerson, updateNewPerson] = useObjectState({...basePerson});
   const [notificationTimer, setNotificationTimer] = useState<
     number | undefined
   >(60000);
@@ -96,6 +96,8 @@ const BasicAll = (props:{theme}) => {
     setIsOpen2(false);
   };
 
+  useEffect(() => {
+  }, [newPerson, people]);
 
   return (
     <ThemeProvider theme={props.theme}>
@@ -195,16 +197,20 @@ const BasicAll = (props:{theme}) => {
           data={[people, updatePeople]}
           new={[newPerson, updateNewPerson]}
           add={(value)=>{
-            console.log('add', value);
             if(value != undefined) {
               value.id = Math.random();
-              console.log('add', value);
+              console.log('add', value, people);
               setPeople([...(people||[]), value]);
-              console.log('people', people);
-              setNewPerson(basePerson);
+              console.log('added', value, people);
+              setNewPerson({...basePerson});
             }
           }}
-          delete={(index)=>{setPeople(people?.splice?.(index, 1)||[])}}
+          delete={(index)=>{
+            console.log('delete', index, people);
+            const tempPeople = JSON.parse(JSON.stringify(people));
+            setPeople(tempPeople?.splice?.(index, 1)||[]);
+            console.log('deleted', index, people);
+          }}
         />
         <TagList>
           <Input value={'tag 0'}/>

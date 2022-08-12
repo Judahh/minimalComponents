@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { withTheme } from 'styled-components';
-import Input from '../Input';
-import { H2 } from '../Text';
-import { Table as TableStyle, TH, TR} from './styles';
+import { Table as TableStyle } from './styles';
 import { TableController } from './tableController';
-import { Text } from '../Text';
 import { Actions } from './actions';
 import useObjectState from './useObjectState';
+import Row from './Row';
 
 const Table = (props:
     {
@@ -37,12 +35,20 @@ const Table = (props:
   const loading = useObjectState(props?.loading);
 
   useEffect(() => {
-    console.log('Data Changed', data, newData);
-  }, [data, newData]);
+    console.log('NEW Data Changed', newData?.[0]);
+  }, [newData, newData?.[0], ...Object.values(newData?.[0]||{})]);
 
   useEffect(() => {
-    console.log('OUT Data Changed', props?.data?.[0], props?.new?.[0]);
-  }, [props?.data, props?.new, props?.data?.[0], props?.new?.[0], ...(props?.data?.[0]||[]), ...Object.values(props?.new?.[0]||{})]);
+    console.log('Data Changed', data);
+  }, [data, ...(data||[])]);
+
+  useEffect(() => {
+    console.log('OUT NEW Data Changed', props?.new?.[0]);
+  }, [props?.new, props?.new?.[0], ...Object.values(props?.new?.[0]||{})]);
+
+  useEffect(() => {
+    console.log('OUT Data Changed', props?.data?.[0]);
+  }, [props?.data, props?.data?.[0], ...(props?.data?.[0]||[])]);
 
   useEffect(() => {
     console.log('Loading Changed', loading, props?.Loading);
@@ -55,82 +61,31 @@ const Table = (props:
         <>
           <TableStyle>
             <thead style={{ width: '100%', paddingBottom: '20px' }}>
-              <TR>
-                {controllers.map((controller, controllerIndex) => (
-                  <TH key={'CONTROLLER' + controllerIndex}>
-                    <H2>{controller?.name || ''}</H2>
-                  </TH>
-                ))}
-              </TR>
+              <Row
+                controllers={controllers.map((controller) => {
+                  const newController = { ...controller };
+                  newController.type = 'title';
+                  return newController;
+                })}
+              />
             </thead>
             <tbody style={{ width: '100%', paddingBottom: '20px' }}>
-              {
-                data ?
-                data.map((row, index) => (
-                  <TR style={{ cursor: 'pointer' }} key={'ROW' + index}>
-                    {controllers?.map((controller, controllerIndex) => (
-                      <TH key={'ELEMENT' + controllerIndex}>
-                        {controller?.hasDelete ?
-                          <Input
-                            type={"button"}
-                            color={'red'}
-                            onClick={() => deleteData?.(index)}
-                            value={"-"}
-                          />
-                        : <></>}
-                        {controller?.hasEdit ?
-                          <Input
-                            type={controller.type || 'text'}
-                            name={controller?.name}
-                            value={row?.[controller?.name || '']}
-                            setValue={(value)=> updateData?.([index, controller?.name || ''], value)}
-                            defaultValue={row?.[controller?.name || ''] || controller?.defaultValue}
-                            aria-label={controller?.ariaLabel || controller?.name}
-                            placeholder={controller?.placeholder || controller?.name}
-                            onKeyUp={(e) => controller?.actions?.onKeyUp?.(e, index, controller?.name || '')}
-                            onKeyDown={(e) => controller?.actions?.onKeyDown?.(e, index, controller?.name || '')}
-                            onInput={(e) => controller?.actions?.onInput?.(e, index, controller?.name || '')}
-                            onChange={(e) => controller?.actions?.onChange?.(e, index, controller?.name || '')}
-                            onClick={() => controller?.actions?.onClick?.(index, controller?.name || '')}
-                        />
-                        : (<Text>{row?.[controller?.name || ''] || controller?.name || controller?.defaultValue}</Text>)}
-                    </TH>
-                    )
-                    )}
-                  </TR>
-                )):(<></>)
-              }
+              {data?.map?.((row, index) => (
+                  <Row
+                    controllers={controllers}
+                    indexes={[index]}
+                    row={[row, updateData]}
+                    delete={deleteData}
+                  />
+              ))}
               {addData ? (
-                <TR style={{ cursor: 'pointer' }} key={data?.length || 0}>
-                {controllers?.map((controller, controllerIndex) => (
-                  <TH key={'ADD' + controllerIndex}>
-                    {controller?.hasAdd ? (<>
-                      <Input
-                        type={"button"}
-                        color={"green"}
-                        onClick={()=>addData?.(props.new)}
-                        value={"+"}
-                      />
-                    </>) : (<></>)}
-                    {controller?.hasEdit ?
-                          <Input
-                            type={controller.type || 'text'}
-                            name={controller?.name}
-                            value={newData?.[controller?.name || '']}
-                            setValue={(value)=> updateNewData?.([controller?.name || ''], value)}
-                            defaultValue={newData?.[controller?.name || ''] || controller?.defaultValue}
-                            aria-label={controller?.ariaLabel || controller?.name}
-                            placeholder={controller?.placeholder || controller?.name}
-                            onKeyUp={(e) => newActions?.onKeyUp?.(e, undefined, controller?.name || '')}
-                            onKeyDown={(e) => newActions?.onKeyDown?.(e, undefined, controller?.name || '')}
-                            onInput={(e) => newActions?.onInput?.(e, undefined, controller?.name || '')}
-                            onChange={(e) => newActions?.onChange?.(e, undefined, controller?.name || '')}
-                            onClick={() => newActions?.onClick?.(undefined, controller?.name || '')}
-                          />
-                        : newData?.[controller?.name || ''] ? (<Text>{newData?.[controller?.name || '']}</Text>) : (<></>)}
-                  </TH>
-                ))}
-                </TR>
+                <Row
+                  controllers={controllers}
+                  indexes={[]}
+                  row={[newData, updateNewData]}
+                  add={addData}
+                  actions={newActions}
+                />
               ) : (<></>)}
             </tbody>
           </TableStyle>
