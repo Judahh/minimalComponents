@@ -11,7 +11,6 @@
     "allowJs": true,
     "jsx": "react",
     "declaration": true,
-    "declarationDir": "./source",
     "declarationMap": true,
     "skipLibCheck": true,
     "sourceMap": true,

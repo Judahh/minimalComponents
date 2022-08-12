@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { baseConfig } from "../../utils/util";
 
 const getElement = (props:{children?, text?}) => {
   const element = props.children || props.text;
@@ -11,6 +12,8 @@ const hasText = (props:{children?, text?}) => {
 }
 
 export const NotificationWrapper = styled.div`
+  ${(props) => baseConfig(props)}
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;

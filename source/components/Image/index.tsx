@@ -1,11 +1,11 @@
 import React, { CSSProperties, useEffect, useRef } from 'react';
 import useState from 'react-usestateref';
-import clsx from 'clsx'; // a utility for constructing className conditionally
-import { Image as ImageStyle, BackgroundImage, Indicator } from './styles';
-
+import clsx from 'clsx';
+import { Image as ImageStyle, BackgroundImage, Indicator, CarouselHolder } from './styles';
+// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { ChangePicButton } from '../Input/Button';
 import { withTheme } from 'styled-components';
+import Input from '../Input';
 
 const getMaxHeight = (props, titleHeightOffset) =>
     'calc(100%' +
@@ -23,6 +23,8 @@ function Image(props: {
   hasDescription?: boolean;
   disabled?: boolean;
   titleElement?;
+  left?: string;
+  right?: string;
 }) {
   const imgRef = useRef();
   const [loaded, setLoaded] = useState(false);
@@ -76,113 +78,115 @@ function Image(props: {
 
   return (
     <>
-      <Carousel
-        selectedItem={props.index || 0}
-        autoPlay={false}
-        showThumbs={false}
-        showStatus={false}
-        showIndicators={
-          props?.images?.length !== undefined &&
-          props?.images?.length !== null &&
-          props?.images?.length > 1
-        }
-        swipeable={true}
-        emulateTouch={true}
-        dynamicHeight={true}
-        useKeyboardArrows={true}
-        onChange={onChange}
-        onSwipeStart={preventDefault}
-        onSwipeEnd={preventDefault}
-        onSwipeMove={preventDefault}
-        renderArrowPrev={(onClick, hasPrev) =>
-          hasPrev && (
-            <ChangePicButton
-              onClick={(e) => {
-                preventDefault(e);
-                onClick();
-              }}
-              style={{ ...arrowStyles, left: 15 }}
-            >
-              ⯇
-            </ChangePicButton>
-          )
-        }
-        renderArrowNext={(onClick, hasNext) =>
-          hasNext && (
-            <ChangePicButton
-              onClick={(e) => {
-                preventDefault(e);
-                onClick();
-              }}
-              style={{ ...arrowStyles, right: 15 }}
-            >
-              ⯈
-            </ChangePicButton>
-          )
-        }
-        renderIndicator={(onClick, isSelected, index) => {
-          return (
-            <Indicator
-              onClick={(
-                e:
-                  | React.MouseEvent<Element, MouseEvent>
-                  | React.KeyboardEvent<Element>
-              ) => {
-                preventDefault(e);
-                onClick(e);
-              }}
-              onKeyDown={
-                isSelected
-                  ? (
-                      e:
-                        | React.MouseEvent<Element, MouseEvent>
-                        | React.KeyboardEvent<Element>
-                    ) => {
-                      preventDefault(e);
-                      onClick(e);
-                    }
-                  : undefined
-              }
-              value={index}
-              key={index}
-              role="button"
-              tabIndex={0}
-              title={`${index + 1}`}
-              aria-label={`${index + 1}`}
-              style={{
-                ...baseIndicator,
-                ...selection(isSelected),
-              }}
-            />
-          );
-        }}
-      >
-        {props?.images?.map((image, index) => {
-          return (
-            <div
-              key={index}
-              style={{
-                filter: 'grayscale(' + (props.disabled ? '1' : '0') + ')',
-              }}
-            >
-              <BackgroundImage alt={props.alt} src={props.lqip} />
-              <ImageStyle
-                loading="lazy"
-                src={image}
-                alt={props.alt}
-                ref={imgRef}
-                onLoad={() => setLoaded(true)}
-                className={clsx('source', loaded && 'loaded') + 'img-fluid'}
+      <CarouselHolder>
+        <Carousel
+          selectedItem={props.index || 0}
+          autoPlay={false}
+          showThumbs={false}
+          showStatus={false}
+          showIndicators={
+            props?.images?.length !== undefined &&
+            props?.images?.length !== null &&
+            props?.images?.length > 1
+          }
+          swipeable={true}
+          emulateTouch={true}
+          dynamicHeight={true}
+          useKeyboardArrows={true}
+          onChange={onChange}
+          onSwipeStart={preventDefault}
+          onSwipeEnd={preventDefault}
+          onSwipeMove={preventDefault}
+          renderArrowPrev={(onClick, hasPrev) =>
+            hasPrev && (
+              <Input
+                type={"button"}
+                onClick={(e) => {
+                  preventDefault(e);
+                  onClick();
+                }}
+                style={{ ...arrowStyles, left: 15 }}
+                value={props.left || "⯇"}
+              />
+            )
+          }
+          renderArrowNext={(onClick, hasNext) =>
+            hasNext && (
+              <Input
+                type={"button"}
+                onClick={(e) => {
+                  preventDefault(e);
+                  onClick();
+                }}
+                style={{ ...arrowStyles, right: 15 }}
+                value={props.right || "⯈"}
+              />
+            )
+          }
+          renderIndicator={(onClick, isSelected, index) => {
+            return (
+              <Indicator
+                onClick={(
+                  e:
+                    | React.MouseEvent<Element, MouseEvent>
+                    | React.KeyboardEvent<Element>
+                ) => {
+                  preventDefault(e);
+                  onClick(e);
+                }}
+                onKeyDown={
+                  isSelected
+                    ? (
+                        e:
+                          | React.MouseEvent<Element, MouseEvent>
+                          | React.KeyboardEvent<Element>
+                      ) => {
+                        preventDefault(e);
+                        onClick(e);
+                      }
+                    : undefined
+                }
+                value={index}
+                key={index}
+                role="button"
+                tabIndex={0}
+                title={`${index + 1}`}
+                aria-label={`${index + 1}`}
                 style={{
-                  maxHeight: maxHeight,
-                  height: maxHeight,
-                  color: 'red',
+                  ...baseIndicator,
+                  ...selection(isSelected),
                 }}
               />
-            </div>
-          );
-        })}
-      </Carousel>
+            );
+          }}
+        >
+          {props?.images?.map((image, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  filter: 'grayscale(' + (props.disabled ? '1' : '0') + ')',
+                }}
+              >
+                <BackgroundImage alt={props.alt} src={props.lqip} />
+                <ImageStyle
+                  loading="lazy"
+                  src={image}
+                  alt={props.alt}
+                  ref={imgRef}
+                  onLoad={() => setLoaded(true)}
+                  className={clsx('source', loaded && 'loaded') + 'img-fluid'}
+                  style={{
+                    maxHeight: maxHeight,
+                    height: maxHeight,
+                    color: 'red',
+                  }}
+                />
+              </div>
+            );
+          })}
+        </Carousel>
+      </CarouselHolder>
     </>
   );
 }
