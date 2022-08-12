@@ -16,10 +16,11 @@ const getValues = <T>(object?: T) => {
 const removeElement = <T>(current?: T, index?: string | number): T => {
   if (current != undefined) {
     if (Array.isArray(current)) {
-      return current?.splice?.(index != undefined ?
+      current?.splice?.(index != undefined ?
         (typeof index === 'number' ? index : 0) :
         0
-      , 1) as unknown as T;
+      , 1) as unknown as T
+      return current;
     } else if (typeof current === 'object') {
       delete current[index || 0];
       return current;
@@ -68,7 +69,8 @@ const useObjectState = <T>(object?: T): [T | undefined, Dispatch<SetStateAction<
     console.log('update object:', indexes, value, current, root);
     if (indexes && indexes.length > 0) {
       if (indexes.length > 1) {
-        return update(indexes.splice(0, 1), value, current[indexes[0]], root);
+        indexes.splice(0, 1);
+        return update(indexes, value, current[indexes[0]], root);
       } else {
         current[indexes[0]] = value;
         const newState = JSON.parse(JSON.stringify(root));
@@ -84,7 +86,8 @@ const useObjectState = <T>(object?: T): [T | undefined, Dispatch<SetStateAction<
     root = root || current;
     if (indexes && indexes.length > 0) {
       if (indexes.length > 1) {
-        return remove(indexes.splice(0, 1), current[indexes[0]], root);
+        indexes.splice(0, 1);
+        return remove(indexes, current[indexes[0]], root);
       } else {
         removeElement(current, indexes[0])
         const newState = JSON.parse(JSON.stringify(root));
