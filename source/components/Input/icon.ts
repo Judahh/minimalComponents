@@ -75,7 +75,7 @@ export const BasicCheck = (disabled?:boolean, color?: string, size?: string, sel
   background-repeat: no-repeat !important;
 `;
 
-export const Icon = (type?: IconType, disabled?:boolean, color?: string, size?: string, self?: boolean, from?: string) => {
+export const Icon = (type?: IconType, disabled?:boolean, color?: string, size?: string, self?: boolean) => {
   // console.log('ICON:', type, disabled, color, size, self, from);
   switch (type) {
     case IconType.square:

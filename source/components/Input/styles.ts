@@ -116,7 +116,7 @@ export const Flags = styled.div`
 
 export const CloseButton = styled.div`
   ${(props) => baseConfig(props)}
-  ${(props) => Icon(props.iconType, props.disabled, props.iconType == IconType.circle ? (props?.color || 'red') : (props?.color || props?.theme?.primary || 'black'), undefined, undefined, 'CLOSE')}
+  ${(props) => Icon(props.iconType, props.disabled, props.iconType == IconType.circle ? (props?.color || 'red') : (props?.color || props?.theme?.primary || 'black'), undefined, undefined)}
   float: right;
 `;
 
@@ -300,7 +300,7 @@ export const Input = styled.input`
   }
 
   &[type='search'] , &[type='search']:focus, &[type='search']:hover {
-    ${(props) => Icon(props?.iconType === undefined ? IconType.magnifier : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'SEARCH')}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.magnifier : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
     background-repeat: no-repeat !important;
     background-position: 5px 5px !important;
     background-size: ${(props) => props?.theme?.input?.font?.size || '14px'} ${(props) => props?.theme?.input?.font?.size || '14px'} !important;
@@ -312,7 +312,7 @@ export const Input = styled.input`
   ::-webkit-search-cancel-button {
     content: '';
     appearance: none;
-    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 'px', true, 'SEARCH CANCEL')}
+    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 'px', true)}
     cursor: pointer;
     position: relative;
     right: 0px;
@@ -479,7 +479,7 @@ export const Input = styled.input`
     width: 20px;
     height: 20px;
     opacity: 0;
-    ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'Checkbox')}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
     left: 1px;
     top: 1px;
   }
@@ -492,7 +492,7 @@ export const Input = styled.input`
     left: 2px;
     bottom: 2px;
     border-width: 0 2px 2px 0;
-    ${(props) => Icon(props?.iconType === undefined ? IconType.square : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true, 'Radio')}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.square : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
     opacity: 0;
   }
 
