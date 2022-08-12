@@ -62,8 +62,6 @@ const Input = (props: {
     newProps.onSubmit= props.onSubmit;
     newProps.onKeyUp= props.onKeyUp;
     newProps.onKeyDown= props.onKeyDown;
-    if(newProps.value != undefined)
-      delete newProps.defaultValue;
     if(!props.setValue){
       newProps.defaultValue = props?.defaultValue || props?.value;
       newProps.value = valueState?.[0];
@@ -71,6 +69,9 @@ const Input = (props: {
         ? props.validate?.(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1])
         : basicValidate(event.target.value, valueState?.[1], props?.error || errorState?.[0], props?.setError || errorState?.[1]);
     }
+
+    if(newProps.value != undefined)
+      delete newProps.defaultValue;
     return newProps;
   }
 
