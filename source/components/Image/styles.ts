@@ -350,4 +350,3 @@ export const BackgroundImage = styled.img`
     position: relative;
   }
 `;
-
