@@ -30,6 +30,7 @@ import ToggleButton from '../../source/components/Input/toggleButton';
 import { CloseButton, TagList, Toggle, Flags, FlagHolder } from '../../source/components/Input/styles';
 import Table from '../../source/components/Table';
 import { IconType } from '../../source/components/Input/icon';
+import useObjectState from '../../source/components/Table/useObjectState';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -47,11 +48,19 @@ const BasicAll = (props:{theme}) => {
     boolean | undefined
   >(true);
   const personController = [
-    {name: 'id', defaultValue: 0, type: 'number', hasAdd: true, hasDelete:true},
-    {name: 'name', defaultValue: 'Someone', type: 'text', hasEdit: true},
-    {name: 'age', defaultValue: 0, type: 'number', hasEdit: true},
+    {name: 'id', defaultValue: 0, type: 'number', hasAdd: true, hasDelete:true },
+    {name: 'name', defaultValue: 'Someone', type: 'text', hasEdit: true, actions: {
+      onKeyDown: (e)=>{
+        console.log('name key:', e)
+      }
+    }},
+    {name: 'age', defaultValue: 0, type: 'number', hasEdit: true, actions: {
+      onKeyDown: (e)=>{
+        console.log('age key:', e)
+      }
+    }},
   ];
-  let people = [{
+  let [people, setPeople, updatePeople] = useObjectState([{
     id: 1,
     name: 'John Doe',
     age: 20,
@@ -59,11 +68,12 @@ const BasicAll = (props:{theme}) => {
     id: 2,
     name: 'Bob Smith',
     age: 18,
-  }];
-  const newPerson = {
+  }]);
+  const basePerson = {
     name: 'NEW',
     age: 25,
   };
+  const [newPerson, setNewPerson, updateNewPerson] = useObjectState(basePerson);
   const [notificationTimer, setNotificationTimer] = useState<
     number | undefined
   >(60000);
@@ -182,17 +192,19 @@ const BasicAll = (props:{theme}) => {
         </Modal>
         <Table
           controllers={personController}
-          data={people}
-          new={newPerson}
+          data={[people, updatePeople]}
+          new={[newPerson, updateNewPerson]}
           add={(value)=>{
-            value?.id?.[1]?.(Math.random());
             console.log('add', value);
-            people = [...people, value];
-            console.log('people', people);
-            //@ts-ignore
-            newPerson?.id?.[1]?.(undefined);
+            if(value != undefined) {
+              value.id = Math.random();
+              console.log('add', value);
+              setPeople([...(people||[]), value]);
+              console.log('people', people);
+              setNewPerson(basePerson);
+            }
           }}
-          delete={(index)=>{people = people.splice(index, 1)}}
+          delete={(index)=>{setPeople(people?.splice?.(index, 1)||[])}}
         />
         <TagList>
           <Input value={'tag 0'}/>

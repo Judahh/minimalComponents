@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
 import { InView } from 'react-intersection-observer';
 
-type PropTypes = {
+export type PropTypes = {
   lastPage?: number;
   page?: number;
   pages?: number;
@@ -23,7 +23,7 @@ type PropTypes = {
   setLoading?: any;
 };
 
-type StateTypes = {
+export type StateTypes = {
   lastPage?: number;
   page?: number;
   pages?: number;
