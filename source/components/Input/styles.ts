@@ -76,6 +76,10 @@ export const selectStyle = (props) => {
   };
 };
 
+export const FlagHolder = styled.div`
+  position: relative;
+`;
+
 export const Flags = styled.div`
   ${(props) => baseConfig(props)}
   z-index: 1000;
@@ -307,12 +311,18 @@ export const Input = styled.input`
 
   ::-webkit-search-cancel-button {
     content: '';
-    // appearance: none;
-    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10 + 'px', true, 'SEARCH CANCEL')}
+    appearance: none;
+    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 'px', true, 'SEARCH CANCEL')}
     cursor: pointer;
     position: relative;
-    right: 5px;
-    margin-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    right: 0px;
+    width: ${(props) => (props?.theme?.input?.font?.size || '14px')};
+    height: ${(props) => (props?.theme?.input?.font?.size || '14px')};
+    min-width: ${(props) => (props?.theme?.input?.font?.size || '14px')};
+    min-height: ${(props) => (props?.theme?.input?.font?.size || '14px')};
+    max-width: ${(props) => (props?.theme?.input?.font?.size || '14px')};
+    max-height: ${(props) => (props?.theme?.input?.font?.size || '14px')};
+    //margin-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
   }
 
   &[type='time'], &[type='week'], &[type='month'], &[type='date'], &[type='datetime-local'] {

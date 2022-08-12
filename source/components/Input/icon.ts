@@ -45,10 +45,13 @@ export const BasicCircle = (disabled?:boolean, color?: string, size?: string, se
 export const BasicX = (disabled?:boolean, color?: string, size?: string, self?: boolean) => `
   ${Basic(disabled, size, self)}
   background-color: transparent;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='auto' height='${(''+(size || '14px')).replace('px', '')}' viewBox='0 0 24 24' fill='${(color || 'black').replace('#', '%23')}'>
-    <path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/>
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${(''+(size || '14px')).replace('px', '')}' height='${(''+(size || '14px')).replace('px', '')}' viewBox='0 0 110 110' fill='black'>
+    <g fill='none' stroke='${(color || 'black').replace('#', '%23')}' stroke-width='10'>
+        <path stroke-linecap='butt' d='M 5 5 l 50 50 l 50 -50 l -100 100 l 50 -50 l 50 50' />
+    </g>
   </svg>");
   background-repeat: no-repeat !important;
+  opacity: 1;
 `;
 
 export const BasicMagnifier = (disabled?:boolean, color?: string, size?: string, self?: boolean) => `
@@ -73,7 +76,7 @@ export const BasicCheck = (disabled?:boolean, color?: string, size?: string, sel
 `;
 
 export const Icon = (type?: IconType, disabled?:boolean, color?: string, size?: string, self?: boolean, from?: string) => {
-  console.log('ICON:', type, disabled, color, size, self, from);
+  // console.log('ICON:', type, disabled, color, size, self, from);
   switch (type) {
     case IconType.square:
       return BasicSquare(disabled, color, size, self);

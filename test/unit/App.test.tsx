@@ -27,7 +27,7 @@ import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
 import { Item, ItemHolder } from '../../source/components/Drawer/styles';
 import ToggleButton from '../../source/components/Input/toggleButton';
-import { CloseButton, TagList, Toggle, Flags } from '../../source/components/Input/styles';
+import { CloseButton, TagList, Toggle, Flags, FlagHolder } from '../../source/components/Input/styles';
 import Table from '../../source/components/Table';
 import { IconType } from '../../source/components/Input/icon';
 
@@ -69,23 +69,27 @@ const BasicAll = (props:{theme}) => {
   >(60000);
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
+    console.log('openModal');
     setIsOpen(true);
   };
   const closeModal = () => {
+    console.log('closeModal');
     setIsOpen(false);
   };
   const [isOpen2, setIsOpen2] = useState(false);
   const openModal2 = () => {
+    console.log('openModal2');
     setIsOpen2(true);
   };
   const closeModal2 = () => {
+    console.log('closeModal2');
     setIsOpen2(false);
   };
 
 
   return (
     <ThemeProvider theme={props.theme}>
-      <div style={{backgroundColor: props.theme.background, padding: '10px'}}>
+      <div style={{backgroundColor: props.theme.background}}>
         <Drawer
           top={true}
           navToggleIndexes={[0]}
@@ -162,7 +166,7 @@ const BasicAll = (props:{theme}) => {
             ariaHideApp={false}
             iconType={IconType.x}
           >
-          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} left={'<'} right={'>'}/>
         </Modal>
 
         <Modal
@@ -174,7 +178,7 @@ const BasicAll = (props:{theme}) => {
             ariaHideApp={false}
             iconType={IconType.circle}
           >
-          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} left={'<'} right={'>'}/>
         </Modal>
         <Table
           controllers={personController}
@@ -299,20 +303,27 @@ const BasicAll = (props:{theme}) => {
         />
         <br />
         <br />
-        <Flags>
-          <Input
-            type="submit"
-            value={'BR'}
-          />
-          <Input
-            type="submit"
-            value={'EN'}
-          />
-        </Flags>
+        <FlagHolder>
+          <Flags>
+            <Input
+              type="submit"
+              value={'BR'}
+            />
+            <Input
+              type="submit"
+              value={'EN'}
+            />
+            <Input
+              type="submit"
+              value={'RUS'}
+            />
+          </Flags>
+        </FlagHolder>
         <br />
-        {/* <Image images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
+        <Image images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
         <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf']} alt={'2'} />
-        <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} /> */}
+        <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+        <br />
         <CopyrightText >CopyrightText</CopyrightText>
         <H1>Title</H1>
         <H2>Subtitle</H2>

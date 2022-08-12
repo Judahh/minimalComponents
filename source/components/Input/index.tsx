@@ -13,6 +13,7 @@ const Input = (props: {
   value?;
   setValue?;
   onChange?;
+  onClick?;
   onInput?;
   onSubmit?;
   onKeyUp?;
@@ -55,6 +56,7 @@ const Input = (props: {
     delete newProps.labelParentStyle;
     delete newProps.errorStyle;
     newProps.validate = props.validate;
+    newProps.onClick = props.onClick;
     newProps.onChange = props.onChange;
     newProps.onInput= props.onInput;
     newProps.onSubmit= props.onSubmit;
