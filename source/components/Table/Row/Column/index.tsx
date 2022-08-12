@@ -47,16 +47,16 @@ const Column = (props:
             value={data}
             setValue={(value)=> {
               console.log('Column setValue', value, updateData);
-              updateData?.([...indexes, controller?.name || ''], value)
+              updateData?.(indexes, value)
             }}
             defaultValue={data || controller?.defaultValue}
             aria-label={controller?.ariaLabel || controller?.name}
             placeholder={controller?.placeholder || controller?.name}
-            onKeyUp={(e) => actions?.onKeyUp?.(e, [...indexes, controller?.name || ''])}
-            onKeyDown={(e) => actions?.onKeyDown?.(e, [...indexes, controller?.name || ''])}
-            onInput={(e) => actions?.onInput?.(e, [...indexes, controller?.name || ''])}
-            onChange={(e) => actions?.onChange?.(e, [...indexes, controller?.name || ''])}
-            onClick={() => actions?.onClick?.([...indexes, controller?.name || ''])}
+            onKeyUp={(e) => actions?.onKeyUp?.(e, indexes)}
+            onKeyDown={(e) => actions?.onKeyDown?.(e, indexes)}
+            onInput={(e) => actions?.onInput?.(e, indexes)}
+            onChange={(e) => actions?.onChange?.(e, indexes)}
+            onClick={() => actions?.onClick?.(indexes)}
         />
         : (<Text>{data || controller?.name || controller?.defaultValue}</Text>)
       }

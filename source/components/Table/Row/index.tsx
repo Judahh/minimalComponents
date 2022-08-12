@@ -67,7 +67,7 @@ const Row = (props:
             : <></>}
             {<Column
                 controller={controller}
-                indexes={[...(indexes||[]), index]}
+                indexes={[...(indexes||[]), controller?.name]}
                 data={[row?.[controller?.name || ''], updateRow]}
                 actions={props?.actions}
             />}
