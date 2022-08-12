@@ -1,95 +1,104 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { withTheme } from 'styled-components';
 import Input from '../Input';
-import { SubmitButton, DeleteButton } from '../Input/Button';
 import { H2 } from '../Text';
 import { Table as TableStyle, TH, TR} from './styles';
 import { TableController } from './tableController';
 import { Text } from '../Text';
+import { Actions } from './actions';
+import useArrayState from './useArrayState';
+import useObjectState from './useObjectState';
 
 const Table = (props:
     {
         controllers?: TableController[];
+        newActions?: Actions;
         data?: {
-          [key: string]: [any, Dispatch<SetStateAction<any>>, {
-            onClick?: () => void;
-            onInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-            onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-            onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-            onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-          }];
+          [key: string]: any;
         }[];
         new?: {
-          [key: string]: [any, Dispatch<SetStateAction<any>>, {
-            onClick?: () => void;
-            onInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-            onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-            onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-            onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-          }];
+          [key: string]: any;
         };
         delete?: (index?: number) => void;
         add?: (value?: {
-          [key: string]: [any, Dispatch<SetStateAction<any>>, {
-            onClick?: () => void;
-            onInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-            onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-            onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-            onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-          }];
+          [key: string]: any;
         }) => void;
         Loading?;
         loading?;
     }) => {
+  const controllers = useArrayState(props?.controllers);
+  const newActions = useObjectState(props?.newActions);
+
+  const data = useArrayState(props?.data);
+  const newData = useObjectState(props?.new);
+
+  const addData = useObjectState(props?.add);
+  const deleteData = useObjectState(props?.delete);
+
+  const loading = useObjectState(props?.loading);
 
   useEffect(() => {
     console.log('Table Changed', props);
-  }, [props, ...Object.values(props)]);
+  }, [props]);
 
-  return (!props?.loading ? (
+  useEffect(() => {
+    console.log('controllers Changed', controllers, newActions);
+  }, [controllers, newActions]);
+
+  useEffect(() => {
+    console.log('Data Changed', data, newData);
+  }, [data, newData]);
+
+  useEffect(() => {
+    console.log('Data Functions Changed', addData, deleteData);
+  }, [addData, deleteData]);
+
+  useEffect(() => {
+    console.log('Loading Changed', loading, props?.Loading);
+  }, [loading, props?.Loading]);
+
+  return (!loading ? (
     <>
       {
-      (props?.controllers && props?.controllers.length > 0) ? (
+      (controllers && controllers.length > 0) ? (
         <>
           <TableStyle>
             <thead style={{ width: '100%', paddingBottom: '20px' }}>
               <TR>
-                {props?.controllers.map((controller) => (
+                {controllers.map((controller) => (
                   <TH>
-                    <H2>{controller.name}</H2>
+                    <H2>{controller?.[0]?.name || ''}</H2>
                   </TH>
                 ))}
               </TR>
             </thead>
             <tbody style={{ width: '100%', paddingBottom: '20px' }}>
               {
-                props?.data ?
-                props?.data.map((row, index) => (
+                data ?
+                data.map((row, index) => (
                   <TR style={{ cursor: 'pointer' }} key={index}>
-                    {props?.controllers?.map((controller) => (
+                    {controllers?.map((controller) => (
                       <TH>
-                        {controller?.hasDelete ?
-                          <DeleteButton
-                            onClick={() => props?.delete?.(index)}
-                          >
-                            -
-                          </DeleteButton>
-                        : <></>}
-                        {controller?.hasEdit ?
+                        {controller?.[0]?.hasDelete ?
                           <Input
-                          name={controller?.name}
-                          defaultValue={controller?.defaultValue}
-                          aria-label={controller?.ariaLabel || controller?.name}
-                          placeholder={controller?.placeholder || controller?.name}
-                          value={row?.[controller.name || '']?.[0]}
-                          setValue={row?.[controller.name || '']?.[1]}
-                          onKeyUp={row?.[controller.name || '']?.[2]?.onKeyUp}
-                          onKeyDown={row?.[controller.name || '']?.[2]?.onKeyDown}
-                          onInput={row?.[controller.name || '']?.[2]?.onInput}
-                          onChange={row?.[controller.name || '']?.[2]?.onChange}
-                          onClick={row?.[controller.name || '']?.[2]?.onClick}
+                            type={"button"}
+                            onClick={() => deleteData?.[0]?.(index)}
+                            value={"-"}
+                          />
+                        : <></>}
+                        {controller?.[0]?.hasEdit ?
+                          <Input
+                          name={controller?.[0]?.name}
+                          defaultValue={row?.[controller?.[0]?.name || ''] || controller?.[0]?.defaultValue}
+                          aria-label={controller?.[0]?.ariaLabel || controller?.[0]?.name}
+                          placeholder={controller?.[0]?.placeholder || controller?.[0]?.name}
+                          onKeyUp={(e) => controller?.[0]?.actions?.onKeyUp?.(e, index, controller?.[0].name || '')}
+                          onKeyDown={(e) => controller?.[0]?.actions?.onKeyDown?.(e, index, controller?.[0].name || '')}
+                          onInput={(e) => controller?.[0]?.actions?.onInput?.(e, index, controller?.[0].name || '')}
+                          onChange={(e) => controller?.[0]?.actions?.onChange?.(e, index, controller?.[0].name || '')}
+                          onClick={() => controller?.[0]?.actions?.onClick?.(index, controller?.[0].name || '')}
                         />
-                        : (<Text>{row[controller?.name || '']?.[0] || controller?.name}</Text>)}
+                        : (<Text>{row?.[0][controller?.[0]?.name || ''] || controller?.[0]?.name || controller?.[0]?.defaultValue}</Text>)}
                     </TH>
                     )
                     )}
@@ -97,33 +106,31 @@ const Table = (props:
                 )):(<></>)
               }
               {props.add ? (
-                <TR style={{ cursor: 'pointer' }} key={props?.data?.length || 0}>
-                {props?.controllers?.map((controller) => (
+                <TR style={{ cursor: 'pointer' }} key={data?.length || 0}>
+                {controllers?.map((controller) => (
                   <TH>
-                    {controller?.hasAdd ? (<>
-                      <SubmitButton
+                    {controller?.[0]?.hasAdd ? (<>
+                      <Input
+                        type={"button"}
                         onClick={()=>props.add?.(props.new)}
-                      >
-                        +
-                      </SubmitButton>
+                        value={"+"}
+                      />
                     </>) : (<></>)}
-                    {controller?.hasEdit ?
+                    {controller?.[0]?.hasEdit ?
                           <Input
-                            name={controller?.name}
-                            defaultValue={controller?.defaultValue}
-                            aria-label={controller?.ariaLabel || controller?.name}
-                            placeholder={controller?.placeholder || controller?.name}
-                            value={props?.new?.[controller?.name || '']?.[0]}
-                            setValue={(value) => {
-                              props?.new?.[controller?.name || '']?.[1]?.(value);
-                            }}
-                            onKeyUp={props?.new?.[controller?.name || '']?.[2]?.onKeyUp}
-                            onKeyDown={props?.new?.[controller?.name || '']?.[2]?.onKeyDown}
-                            onInput={props?.new?.[controller?.name || '']?.[2]?.onInput}
-                            onChange={props?.new?.[controller?.name || '']?.[2]?.onChange}
-                            onClick={props?.new?.[controller?.name || '']?.[2]?.onClick}
+                            name={controller?.[0]?.name}
+                            value={newData?.[controller?.[0]?.name || '']}
+                            setValue={(value)=> newData[controller?.[0]?.name || ''] = value}
+                            defaultValue={newData?.[controller?.[0]?.name || ''] || controller?.[0]?.defaultValue}
+                            aria-label={controller?.[0]?.ariaLabel || controller?.[0]?.name}
+                            placeholder={controller?.[0]?.placeholder || controller?.[0]?.name}
+                            onKeyUp={(e) => newActions?.[0]?.onKeyUp?.(e, undefined, controller?.[0]?.name || '')}
+                            onKeyDown={(e) => newActions?.[0]?.onKeyDown?.(e, undefined, controller?.[0]?.name || '')}
+                            onInput={(e) => newActions?.[0]?.onInput?.(e, undefined, controller?.[0]?.name || '')}
+                            onChange={(e) => newActions?.[0]?.onChange?.(e, undefined, controller?.[0]?.name || '')}
+                            onClick={() => newActions?.[0]?.onClick?.(undefined, controller?.[0]?.name || '')}
                           />
-                        : (<Text>{props?.new?.[controller?.name || '']?.[0] || controller?.name}</Text>)}
+                        : newData?.[controller?.[0]?.name || ''] ? (<Text>{newData?.[controller?.[0]?.name || '']}</Text>) : (<></>)}
                   </TH>
                 ))}
                 </TR>

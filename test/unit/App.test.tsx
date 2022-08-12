@@ -4,11 +4,6 @@ import Input from '../../source/components/Input';
 import { default as lightTheme } from '../../source/styles/themes/light.json';
 import { default as darkTheme } from '../../source/styles/themes/dark.json';
 import { ThemeProvider } from 'styled-components';
-import Checkbox from '../../source/components/Input/CheckBox';
-import { TagList, Tag } from '../../source/components/Input/Tag';
-import { ChangePicButton, CloseButton, ColorButton, DeleteButton, CleanButton, LinkButton, LocationButton, RedButton, SubmitButton } from '../../source/components/Input/Button';
-import { CloseType } from '../../source/components/Input/Button/closeType';
-import FileButton from '../../source/components/Input/Button/FileButton';
 import Image from '../../source/components/Image';
 import Notification from '../../source/components/Notification';
 import {
@@ -23,7 +18,6 @@ import {
   Link,
   FixedLink,
 } from '../../source/components/Text';
-import { Flags } from '../../source/components/Input/Switch/styles';
 import NotificationContextModel from '../../source/components/Notification/notificationContextModel';
 import { Bar, FlowType, Milk, Progress } from '../../source/components/Loading/Progress';
 import Animation from '../../source/components/Loading/Animation';
@@ -32,9 +26,10 @@ import { Logo, LogoHolder } from '../../source/components/Image/Icons/styles';
 import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
 import { Item, ItemHolder } from '../../source/components/Drawer/styles';
-import ToggleButton from '../../source/components/Input/Button/ToggleButton';
-import { Toggle } from '../../source/components/Input/Button/ToggleButton/styles';
+import ToggleButton from '../../source/components/Input/toggleButton';
+import { CloseButton, TagList, Toggle, Flags, FlagHolder } from '../../source/components/Input/styles';
 import Table from '../../source/components/Table';
+import { IconType } from '../../source/components/Input/icon';
 
 const NotificationContext = createContext<NotificationContextModel>({setError:(_error?: boolean)=>{}, setText:(_text?:string)=>{}, setChildren:(_children?)=>{}, setTimer:(_timer?:number)=>{}});
 
@@ -56,53 +51,38 @@ const BasicAll = (props:{theme}) => {
     {name: 'name', defaultValue: 'Someone', type: 'text', hasEdit: true},
     {name: 'age', defaultValue: 0, type: 'number', hasEdit: true},
   ];
-  const people = [{
-    id: [...useState<
-      number | undefined
-    >(1), {}],
-    name: [...useState<
-      string | undefined
-    >('John Doe'), {}],
-    age: [...useState<
-      number | undefined
-    >(20), {}],
+  let people = [{
+    id: 1,
+    name: 'John Doe',
+    age: 20,
   },{
-    id: [...useState<
-      number | undefined
-    >(2), {}],
-    name: [...useState<
-      string | undefined
-    >('Bob Smith'), {}],
-    age: [...useState<
-      number | undefined
-    >(18), {}],
+    id: 2,
+    name: 'Bob Smith',
+    age: 18,
   }];
   const newPerson = {
-    id: [...useState<
-      number | undefined
-    >(undefined), {}],
-    name: [...useState<
-      string | undefined
-    >('NEW'), {}],
-    age: [...useState<
-      number | undefined
-    >(25), {}],
+    name: 'NEW',
+    age: 25,
   };
   const [notificationTimer, setNotificationTimer] = useState<
     number | undefined
   >(60000);
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
+    console.log('openModal');
     setIsOpen(true);
   };
   const closeModal = () => {
+    console.log('closeModal');
     setIsOpen(false);
   };
   const [isOpen2, setIsOpen2] = useState(false);
   const openModal2 = () => {
+    console.log('openModal2');
     setIsOpen2(true);
   };
   const closeModal2 = () => {
+    console.log('closeModal2');
     setIsOpen2(false);
   };
 
@@ -184,9 +164,9 @@ const BasicAll = (props:{theme}) => {
             onRequestClose={closeModal}
             setOpen={openModal}
             ariaHideApp={false}
-            closeType={CloseType.x}
+            iconType={IconType.x}
           >
-          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} left={'<'} right={'>'}/>
         </Modal>
 
         <Modal
@@ -196,9 +176,9 @@ const BasicAll = (props:{theme}) => {
             onRequestClose={closeModal2}
             setOpen={openModal2}
             ariaHideApp={false}
-            closeType={CloseType.red}
+            iconType={IconType.circle}
           >
-          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+          <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} left={'<'} right={'>'}/>
         </Modal>
         <Table
           controllers={personController}
@@ -207,79 +187,143 @@ const BasicAll = (props:{theme}) => {
           add={(value)=>{
             value?.id?.[1]?.(Math.random());
             console.log('add', value);
-            people.push(value);
+            people = [...people, value];
+            console.log('people', people);
             //@ts-ignore
             newPerson?.id?.[1]?.(undefined);
           }}
-          delete={(index)=>{people.splice(index, 1)}}
+          delete={(index)=>{people = people.splice(index, 1)}}
         />
+        <TagList>
+          <Input value={'tag 0'}/>
+          <Input value={'tag 1'}/>
+        </TagList>
+        <br />
+        <CloseButton iconType={IconType.circle} />
+        <CloseButton iconType={IconType.x} />
+        <br />
+        <Input link type={'button'} value={'Link'}/>
+        <br />
+        <Input big roudedEdges inverted type={'submit'} value={'Submit'}/>
+        <br />
+        <Input big roudedEdges inverted color={'red'} type={'reset'} value={'Red'}/>
+        <br />
+        <Input small noBackground color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small noBackground inverted color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small noBackground crude color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small noBackground crude inverted color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small crude color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input small crude inverted color={'yellow'} type={'button'} value={'Edit'}/>
+        <br />
+        <Input roudedEdges inverted color={'red'} type={'button'} value={'-'}/>
+        <br />
+        <Input roudedEdges color={'green'} type={'button'} value={'+'}/>
+        <br />
+        <Input roudedEdges type={'button'} value={'-'} color={'red'}/>
+        <br />
+        <Input roudedEdges noBackground type={'button'} value={'+'} color={'green'}/>
+        <br />
+        <Input roudedEdges type={'file'} value={'File'} onChange={(a)=>{console.log('FILE', a);}}/>
+        <br />
+        <br />
+        <Input type="color"/>
+        <br />
+        <Input type="image"/>
+        <br />
+        <Input type="range"/>
+        <br />
+        <br />
+        <Input type="search"/>
+        <br />
+        <Input type="url"/>
+        <br />
+        <Input type="email"/>
+        <br />
+        <Input type="password"/>
+        <br />
+        <Input type="number"/>
+        <br />
+        <Input type="tel"/>
+        <br />
+        <Input type="text"/>
+        <br />
+        <br />
+        <Input type="datetime-local"/>
+        <br />
+        <Input type="date"/>
+        <br />
+        <Input type="month"/>
+        <br />
+        <Input type="week"/>
+        <br />
+        <Input type="time"/>
+        <br />
+        <br />
         <Input
-          style={{
-              fontSize: '16px',
-              width: 'calc( 60% - 20px )',
-              float: 'left',
-              display: 'flex',
-              padding: '10px',
-              margin: '0px 5px',
-            }}
+          style={{ fontSize: '16px' }}
           defaultValue={0}
           name="quantity"
           type="search"
-          closeType={CloseType.red}
+          closeIconType={IconType.circle}
         />
         <Input
-          style={{
-              fontSize: '16px',
-              width: 'calc( 60% - 20px )',
-              float: 'left',
-              display: 'flex',
-              padding: '10px',
-              margin: '0px 5px',
-            }}
+          style={{ fontSize: '16px' }}
           defaultValue={0}
           name="quantity"
           type="search"
-          closeType={CloseType.x}
+          closeIconType={IconType.x}
         />
-        <Checkbox
+        <Input
+          type={'checkbox'}
           style={{
             height: '20px',
             width: '20px',
           }}
-          checked={true}
-          onChange={(a)=>{console.log('Checkbox', a);}}
         />
-        <TagList>
-          <Tag>asdfasdf</Tag>
-          <Tag>jfgj</Tag>
-        </TagList>
-        <CloseButton closeType={CloseType.red} />
-        <CloseButton closeType={CloseType.x} />
-        <LinkButton>Link</LinkButton>
-        <SubmitButton>Submit</SubmitButton>
-        <RedButton>Red</RedButton>
-        <CleanButton>Edit</CleanButton>
-        <ChangePicButton>-</ChangePicButton>
-        <DeleteButton>-</DeleteButton>
-        <ColorButton color={'red'}>-</ColorButton>
-        <ColorButton color={'green'}>-</ColorButton>
-        <LocationButton>Location</LocationButton>
-        <FileButton Button={(p: {onClick}) => (<LinkButton onClick={p.onClick}>FILE</LinkButton>)} onChange={(a)=>{console.log('FILE', a);}}/>
-        <Flags>
-          <CleanButton
-            type="submit"
-          >
-            <Text>BR</Text>
-          </CleanButton>
-          <CleanButton
-            type="submit"
-          >
-            <Text>EN</Text>
-          </CleanButton>
-        </Flags>
+        <Input
+          name="radio"
+          type={'radio'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+        />
+        <Input
+          name="radio"
+          type={'radio'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+        />
+        <br />
+        <br />
+        <FlagHolder>
+          <Flags>
+            <Input
+              type="submit"
+              value={'BR'}
+            />
+            <Input
+              type="submit"
+              value={'EN'}
+            />
+            <Input
+              type="submit"
+              value={'RUS'}
+            />
+          </Flags>
+        </FlagHolder>
+        <br />
         <Image images={['https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147']} alt={'single'} />
         <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf']} alt={'2'} />
         <Image images={['https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8', 'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf', 'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg']} alt={'3'} />
+        <br />
         <CopyrightText >CopyrightText</CopyrightText>
         <H1>Title</H1>
         <H2>Subtitle</H2>
@@ -301,8 +345,8 @@ const BasicAll = (props:{theme}) => {
         <Animation Animation={Rowling}><Logo source={'img/bag.svg'}/></Animation>
         <Animation Animation={Hanging}><Logo source={'img/bag.svg'}/></Animation>
         <Animation Animation={Rowling} anti={true}><Logo source={'img/bag.svg'}/></Animation>
-        <SubmitButton onClick={()=>openModal()}>Open Modal</SubmitButton><br /><br />
-        <SubmitButton onClick={()=>openModal2()}>Open Modal 2</SubmitButton><br /><br />
+        <Input type={'button'} onClick={()=>openModal()} value={'Open Modal'}/><br /><br />
+        <Input type={'button'} onClick={()=>openModal2()} value={'Open Modal 2'}/><br /><br />
         <Drawer
           navToggleIndexes={[0]}
           nav={

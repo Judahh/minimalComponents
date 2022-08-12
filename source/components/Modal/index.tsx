@@ -1,11 +1,11 @@
 import React from "react";
 import RModal from 'react-modal';
 import { withTheme } from 'styled-components'
-import Close from "../Input/Button/close";
-import { CloseType } from "../Input/Button/closeType";
+import Close from "../Input/close";
+import { IconType } from "../Input/icon";
 import { H1 } from "../Text";
 
-const Modal = (props:{ title?:string, isOpen?: boolean, setClose?, setOpen?, children?, theme?, closeType?: CloseType}) => {
+const Modal = (props:{ title?:string, isOpen?: boolean, setClose?, setOpen?, children?, theme?, iconType?: IconType}) => {
   return (
   <RModal isOpen={props.isOpen}
     // onAfterOpen={afterOpenModal}
@@ -28,7 +28,7 @@ const Modal = (props:{ title?:string, isOpen?: boolean, setClose?, setOpen?, chi
         {props.title || ''}
       </H1>)
       <div style={{ display:'inline-flex', float: 'right', margin: '0px', boxSizing: 'border-box'}}>
-        <Close setClose={props.setClose} closeType={props.closeType} />
+        <Close setClose={props.setClose} iconType={props.iconType} />
       </div>
     </div>
     <div style={{ margin: '20px', boxSizing: 'border-box' }}>
