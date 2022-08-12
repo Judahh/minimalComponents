@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withTheme } from 'styled-components';
 import Input from '../../Input';
 import { Actions } from '../actions';
 import { TH, TR} from '../styles';
 import { TableController } from '../tableController';
-import useObjectState from '../useObjectState';
 import Column from './Column';
 
 
@@ -31,18 +30,18 @@ const Row = (props:
   const addData = props.add;
   const deleteData = props.delete;
 
-  const loading = useObjectState(props?.loading);
+  const loading = useState(props?.loading);
 
   useEffect(() => {
-    console.log('Data Changed', row);
+    console.log('Row Data Changed', row);
   }, [row, Object.values(row||{}), ...Object.values(row||{})]);
 
   useEffect(() => {
-    console.log('OUT Data Changed', props?.row?.[0]);
+    console.log('Row OUT Data Changed', props?.row?.[0]);
   }, [props?.row, Object.values(props?.row||{}), ...Object.values(props?.row||{})]);
 
   useEffect(() => {
-    console.log('Loading Changed', loading, props?.Loading);
+    console.log('Row Loading Changed', loading, props?.Loading);
   }, [loading, props?.Loading]);
 
   return (true ? //(!loading ?

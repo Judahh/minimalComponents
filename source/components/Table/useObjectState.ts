@@ -62,35 +62,37 @@ const useObjectState = <T>(object?: T): [T | undefined, Dispatch<SetStateAction<
   const [state, setState] = useState<T | undefined>(object);
   console.log('useObjectState', state);
 
-  const update = (indexes?: (string | number)[], value?, current?) => {
+  const update = (indexes?: (string | number)[], value?, current?, root?) => {
     console.log('update object:', indexes, value, current);
-    current = current || state;
-    const update = JSON.parse(JSON.stringify(current));
+    current = current || JSON.parse(JSON.stringify(state));
+    root = root || current;
     if (indexes && indexes.length > 0) {
       if (indexes.length > 1) {
-        return update(indexes.splice(0, 1), value, current[indexes[0]]);
+        return update(indexes.splice(0, 1), value, current[indexes[0]], root);
       } else {
         current[indexes[0]] = value;
-        const newState = JSON.parse(JSON.stringify(state));
+        const newState = JSON.parse(JSON.stringify(root));
         setState(newState);
+        return newState;
       }
     }
-    return update
+    return root;
   };
 
-  const remove = (indexes?: (string | number)[], current?) => {
-    current = current || state;
-    const update = JSON.parse(JSON.stringify(current));
+  const remove = (indexes?: (string | number)[], current?, root?) => {
+    current = current || JSON.parse(JSON.stringify(state));
+    root = root || current;
     if (indexes && indexes.length > 0) {
       if (indexes.length > 1) {
-        return remove(indexes.splice(0, 1), current[indexes[0]]);
+        return remove(indexes.splice(0, 1), current[indexes[0]], root);
       } else {
         removeElement(current, indexes[0])
-        const newState = JSON.parse(JSON.stringify(state));
+        const newState = JSON.parse(JSON.stringify(root));
         setState(newState);
+        return newState;
       }
     }
-    return update
+    return root
   };
 
   // useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withTheme } from 'styled-components';
 import { Table as TableStyle } from './styles';
 import { TableController } from './tableController';
@@ -32,26 +32,26 @@ const Table = (props:
   const [data, updateData] = props?.data || [];
   const [newData, updateNewData] = props?.new || [];
 
-  const loading = useObjectState(props?.loading);
+  const loading = useState(props?.loading);
 
   useEffect(() => {
-    console.log('NEW Data Changed', newData?.[0]);
+    console.log('Table NEW Data Changed', newData?.[0]);
   }, [newData, newData?.[0], ...Object.values(newData?.[0]||{})]);
 
   useEffect(() => {
-    console.log('Data Changed', data);
+    console.log('Table Data Changed', data);
   }, [data, ...(data||[])]);
 
   useEffect(() => {
-    console.log('OUT NEW Data Changed', props?.new?.[0]);
+    console.log('Table OUT NEW Data Changed', props?.new?.[0]);
   }, [props?.new, props?.new?.[0], ...Object.values(props?.new?.[0]||{})]);
 
   useEffect(() => {
-    console.log('OUT Data Changed', props?.data?.[0]);
+    console.log('Table OUT Data Changed', props?.data?.[0]);
   }, [props?.data, props?.data?.[0], ...(props?.data?.[0]||[])]);
 
   useEffect(() => {
-    console.log('Loading Changed', loading, props?.Loading);
+    console.log('Table Loading Changed', loading, props?.Loading);
   }, [loading, props?.Loading]);
 
   return (true ? //(!loading ?
