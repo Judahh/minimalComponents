@@ -62,6 +62,8 @@ const Input = (props: {
     newProps.onSubmit= props.onSubmit;
     newProps.onKeyUp= props.onKeyUp;
     newProps.onKeyDown= props.onKeyDown;
+    if(newProps.value != undefined)
+      delete newProps.defaultValue;
     if(!props.setValue){
       newProps.defaultValue = props?.defaultValue || props?.value;
       newProps.value = valueState?.[0];
