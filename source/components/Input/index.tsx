@@ -28,7 +28,7 @@ const Input = (props: {
   const errorState = props?.setError ? undefined : useState<any | undefined>(props.defaultError || props.error);
 
   const basicValidate = (value?, valueState?: [any, (error?) => void], error?, setError?: (error?:string) => void) => {
-    console.log('basicValidate', value, valueState);
+    // console.log('basicValidate', value, valueState);
     valueState?.[1]?.(value);
     setError?.(error);
   }
@@ -85,8 +85,8 @@ const Input = (props: {
     <InputStyle
       {...{...getProps(), type:'button'}}
       onClick={()=>{
-        console.log('CLICK');
-        console.log('click', inputRef?.current);
+        // console.log('CLICK');
+        // console.log('click', inputRef?.current);
         inputRef?.current?.click()
       }}
     />

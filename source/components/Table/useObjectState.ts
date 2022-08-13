@@ -76,7 +76,7 @@ const retriveIndexes = (indexes?: (string | number)[], current?, last?:boolean) 
 
 const useObjectState = <T>(object?: T): [T | undefined, Dispatch<SetStateAction<T | undefined>>, (indexes?: (string | number)[], value?) => void, (indexes?: (string | number)[], value?) => void, (indexes?: (string | number)[]) => void] => {
   const [state, setState] = useState<T | undefined>(object);
-  console.log('useObjectState', state);
+  // console.log('useObjectState', state);
 
   const update = (indexes?: (string | number)[], value?, current?, root?) => {
     // console.log('update object current:', current);

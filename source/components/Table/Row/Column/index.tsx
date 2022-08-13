@@ -48,7 +48,7 @@ const Column = (props:
             name={controller?.name}
             value={data}
             setValue={(value)=> {
-              console.log('Column setValue', value, indexes,updateData);
+              // console.log('Column setValue', value, indexes,updateData);
               updateData?.(indexes, value)
             }}
             defaultValue={data || controller?.defaultValue}
