@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { withTheme } from 'styled-components';
 import Input from '../../../Input';
 import { H2 } from '../../../Text';
@@ -14,6 +14,7 @@ const Column = (props:
         data?: [any, (indexes?: (string | number)[], value?) => void];
         Loading?;
         loading?;
+        style?: CSSProperties;
     }) => {
   const controller = props?.controller;
   const indexes = props?.indexes;
@@ -25,28 +26,29 @@ const Column = (props:
   const loading = useState(props?.loading);
 
   useEffect(() => {
-    console.log('Column Data Changed', data);
+    // console.log('Column Data Changed', data);
   }, [data]);
 
   useEffect(() => {
-    console.log('Column OUT Data Changed', props?.data);
+    // console.log('Column OUT Data Changed', props?.data);
   }, [props?.data]);
 
   useEffect(() => {
-    console.log('Column Loading Changed', loading, props?.Loading);
+    // console.log('Column Loading Changed', loading, props?.Loading);
   }, [loading, props?.Loading]);
 
   return (true ? //(!loading ?
     (<>
       {controller?.type === 'title' ?
-        <H2>{controller?.name || ''}</H2>
+        <H2 style={{...props?.style, ...controller?.titleStyle}}>{controller?.name || ''}</H2>
         : updateData && controller?.hasEdit ?
           <Input
+            style={{...props?.style, ...controller?.inputStyle}}
             type={controller.type || 'text'}
             name={controller?.name}
             value={data}
             setValue={(value)=> {
-              console.log('Column setValue', value, updateData);
+              console.log('Column setValue', value, indexes,updateData);
               updateData?.(indexes, value)
             }}
             defaultValue={data || controller?.defaultValue}
@@ -58,7 +60,9 @@ const Column = (props:
             onChange={(e) => actions?.onChange?.(e, indexes)}
             onClick={() => actions?.onClick?.(indexes)}
         />
-        : (<Text>{data || controller?.name || controller?.defaultValue}</Text>)
+        : controller?.hasAdd && !controller?.hasEdit && data == undefined ?
+          (<></>) :
+          (<Text style={{...(props?.style||{}), marginTop: '5px', marginBottom: '5px', ...controller?.textStyle}}>{data || controller?.name || controller?.defaultValue}</Text>)
       }
     </>) : (props?.Loading ? <props.Loading/> : <></>))
   ;

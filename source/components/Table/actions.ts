@@ -5,4 +5,4 @@ type Actions ={
     onKeyDown?: (e: any | React.KeyboardEvent<HTMLInputElement>, indexes?: (string | number)[]) => void;
     onKeyUp?: (e: any | React.KeyboardEvent<HTMLInputElement>, indexes?: (string | number)[]) => void;
 }
-export type {Actions};
+export type { Actions };

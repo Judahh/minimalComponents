@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { withTheme } from 'styled-components';
 import { Table as TableStyle } from './styles';
 import { TableController } from './tableController';
@@ -19,6 +19,13 @@ const Table = (props:
         add?: (value?: {
           [key: string]: any;
         }) => void;
+        style?: CSSProperties;
+        tableStyle?: CSSProperties;
+        headerStyle?: CSSProperties;
+        bodyStyle?: CSSProperties;
+        headerRowStyle?: CSSProperties;
+        rowStyle?: CSSProperties;
+        addRowStyle?: CSSProperties;
         Loading?;
         loading?;
     }) => {
@@ -34,23 +41,23 @@ const Table = (props:
   const loading = useState(props?.loading);
 
   useEffect(() => {
-    console.log('Table NEW Data Changed', newData?.[0]);
+    // console.log('Table NEW Data Changed', newData?.[0]);
   }, [newData, newData?.[0], ...Object.values(newData?.[0]||{})]);
 
   useEffect(() => {
-    console.log('Table Data Changed', data);
+    // console.log('Table Data Changed', data);
   }, [data, ...(data||[])]);
 
   useEffect(() => {
-    console.log('Table OUT NEW Data Changed', props?.new?.[0]);
+    // console.log('Table OUT NEW Data Changed', props?.new?.[0]);
   }, [props?.new, props?.new?.[0], ...Object.values(props?.new?.[0]||{})]);
 
   useEffect(() => {
-    console.log('Table OUT Data Changed', props?.data?.[0]);
+    // console.log('Table OUT Data Changed', props?.data?.[0]);
   }, [props?.data, props?.data?.[0], ...(props?.data?.[0]||[])]);
 
   useEffect(() => {
-    console.log('Table Loading Changed', loading, props?.Loading);
+    // console.log('Table Loading Changed', loading, props?.Loading);
   }, [loading, props?.Loading]);
 
   return (true ? //(!loading ?
@@ -58,36 +65,41 @@ const Table = (props:
       {
       (controllers && controllers.length > 0) ? (
         <>
-          <TableStyle>
-            <thead style={{ width: '100%', paddingBottom: '20px' }}>
-              <Row
-                controllers={controllers.map((controller) => {
-                  const newController = { ...controller };
-                  newController.type = 'title';
-                  return newController;
-                })}
-              />
-            </thead>
-            <tbody style={{ width: '100%', paddingBottom: '20px' }}>
-              {data?.map?.((row, index) => (
+          <div style={{ width: '100%', maxWidth: '100%', ...props.style }}>
+            <TableStyle style={props?.tableStyle}>
+              <thead style={{ width: '100%', maxWidth: '100%', paddingBottom: '20px', ...props?.headerStyle }}>
+                <Row
+                  controllers={controllers.map((controller) => {
+                    const newController = { ...controller };
+                    newController.type = 'title';
+                    return newController;
+                  })}
+                  style={{ ...props?.headerRowStyle }}
+                />
+              </thead>
+              <tbody style={{ width: '100%', paddingBottom: '20px', ...props?.bodyStyle }}>
+                {data?.map?.((row, index) => (
+                    <Row
+                      controllers={controllers}
+                      indexes={[index]}
+                      row={[row, updateData]}
+                      delete={deleteData}
+                      style={{ ...props?.rowStyle }}
+                    />
+                ))}
+                {addData ? (
                   <Row
                     controllers={controllers}
-                    indexes={[index]}
-                    row={[row, updateData]}
-                    delete={deleteData}
+                    indexes={[]}
+                    row={[newData, updateNewData]}
+                    add={addData}
+                    actions={newActions}
+                    style={{ ...props?.addRowStyle }}
                   />
-              ))}
-              {addData ? (
-                <Row
-                  controllers={controllers}
-                  indexes={[]}
-                  row={[newData, updateNewData]}
-                  add={addData}
-                  actions={newActions}
-                />
-              ) : (<></>)}
-            </tbody>
-          </TableStyle>
+                ) : (<></>)}
+              </tbody>
+            </TableStyle>
+          </div>
         </>) : (<></>)
       }
     </>) : (props?.Loading ? <props.Loading/> : <></>))
