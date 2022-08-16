@@ -45,15 +45,15 @@ const Column = (props:
           <Input
             style={{...props?.style, ...controller?.inputStyle}}
             type={controller.type || 'text'}
-            name={controller?.name}
+            name={controller?.name || controller?.index}
             value={data}
             setValue={(value)=> {
               // console.log('Column setValue', value, indexes,updateData);
               updateData?.(indexes, value)
             }}
             defaultValue={data || controller?.defaultValue}
-            aria-label={controller?.ariaLabel || controller?.name}
-            placeholder={controller?.placeholder || controller?.name}
+            aria-label={controller?.ariaLabel || controller?.name || controller?.index}
+            placeholder={controller?.placeholder || controller?.name || controller?.index}
             onKeyUp={(e) => actions?.onKeyUp?.(e, indexes)}
             onKeyDown={(e) => actions?.onKeyDown?.(e, indexes)}
             onInput={(e) => actions?.onInput?.(e, indexes)}
@@ -63,7 +63,7 @@ const Column = (props:
         />
         : controller?.hasAdd && !controller?.hasEdit && data == undefined ?
           (<></>) :
-          (<Text style={{...(props?.style||{}), marginTop: '5px', marginBottom: '5px', ...controller?.textStyle}}>{data || controller?.name || controller?.defaultValue}</Text>)
+          (<Text style={{...(props?.style||{}), marginTop: '5px', marginBottom: '5px', ...controller?.textStyle}}>{data || controller?.name || controller?.defaultValue || controller?.index}</Text>)
       }
     </>) : (props?.Loading ? <props.Loading/> : <></>))
   ;

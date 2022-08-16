@@ -3,6 +3,7 @@ import { Actions } from './actions';
 
 type TableController = {
   type?: string;
+  index: string;
   name?: string;
   defaultValue?: any;
   ariaLabel?: string;

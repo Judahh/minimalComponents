@@ -73,14 +73,16 @@ const BasicAll = (props: { theme }) => {
   >(true);
   const personController = [
     {
-      name: 'id',
+      index: 'id',
+      name: 'ID',
       defaultValue: 0,
       type: 'number',
       hasAdd: true,
       hasDelete: true,
     },
     {
-      name: 'name',
+      index: 'name',
+      name: 'FULL NAME',
       defaultValue: 'Someone',
       type: 'text',
       hasEdit: true,
@@ -95,7 +97,8 @@ const BasicAll = (props: { theme }) => {
       }
     },
     {
-      name: 'age',
+      index: 'age',
+      name: 'AGE',
       defaultValue: 0,
       type: 'number',
       hasEdit: true,

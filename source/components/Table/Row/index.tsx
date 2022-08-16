@@ -140,8 +140,8 @@ const Row = (props:
                     ...controller?.columnStyle,
                   }}
                   controller={controller}
-                  indexes={[...(indexes||[]), controller?.name]}
-                  data={[row?.[controller?.name || ''], updateRow]}
+                  indexes={[...(indexes||[]), controller?.index]}
+                  data={[row?.[controller?.index || ''], updateRow]}
                   actions={props?.actions}
               />}
           </div>
