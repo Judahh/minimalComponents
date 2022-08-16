@@ -9,6 +9,7 @@ const Table = (props:
     {
         controllers?: TableController[];
         newActions?: Actions;
+        rowActions?: Actions;
         data?: [{
           [key: string]: any;
         }[], (indexes?: (string | number)[], value?) => void];
@@ -32,6 +33,7 @@ const Table = (props:
     }) => {
   const controllers = props?.controllers;
   const newActions = props?.newActions;
+  const rowActions = props?.rowActions;
 
   const addData = props.add;
   const deleteData = props.delete;
@@ -84,6 +86,7 @@ const Table = (props:
                       controllers={controllers}
                       indexes={[index]}
                       row={[row, updateData]}
+                      actions={rowActions}
                       delete={deleteData}
                       style={{ ...props?.rowStyle }}
                     />
@@ -96,7 +99,7 @@ const Table = (props:
                       indexes={[]}
                       row={[newData, updateNewData]}
                       add={addData}
-                      actions={newActions}
+                      columnActions={newActions}
                       style={{ ...props?.addRowStyle }}
                     />
                 </tfoot>

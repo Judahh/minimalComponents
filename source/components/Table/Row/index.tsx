@@ -11,6 +11,7 @@ const Row = (props:
     {
         controllers?: TableController[];
         actions?: Actions;
+        columnActions?: Actions;
         indexes: (number|string)[];
         row?: [{
           [key: string]: any;
@@ -47,7 +48,8 @@ const Row = (props:
 
   return (true ? //(!loading ?
     (<>
-      <TR style={{
+      <TR
+        style={{
           cursor: 'pointer',
           alignItems: 'center',
           alignContent: 'center',
@@ -56,7 +58,13 @@ const Row = (props:
           textAlign: 'center',
           verticalAlign: 'middle',
           ...props?.style,
-        }}>
+        }}
+        onKeyUp={(e) => props?.actions?.onKeyUp?.(e, indexes)}
+        onKeyDown={(e) => props?.actions?.onKeyDown?.(e, indexes)}
+        onInput={(e) => props?.actions?.onInput?.(e, indexes)}
+        onChange={(e) => props?.actions?.onChange?.(e, indexes)}
+        onClick={() => props?.actions?.onClick?.(indexes)}
+      >
         {controllers?.map?.((controller, index) => (
           <TH
             key={'ELEMENT' + index}
@@ -142,7 +150,7 @@ const Row = (props:
                   controller={controller}
                   indexes={[...(indexes||[]), controller?.index]}
                   data={[row?.[controller?.index || ''], updateRow]}
-                  actions={props?.actions}
+                  actions={props?.columnActions}
               />}
           </div>
         </TH>
