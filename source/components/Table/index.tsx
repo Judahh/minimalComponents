@@ -23,6 +23,7 @@ const Table = (props:
         tableStyle?: CSSProperties;
         headerStyle?: CSSProperties;
         bodyStyle?: CSSProperties;
+        footerStyle?: CSSProperties;
         headerRowStyle?: CSSProperties;
         rowStyle?: CSSProperties;
         addRowStyle?: CSSProperties;
@@ -60,7 +61,7 @@ const Table = (props:
     // console.log('Table Loading Changed', loading, props?.Loading);
   }, [loading, props?.Loading]);
 
-  return (true ? //(!loading ?
+  return (!loading ?
     (<>
       {
       (controllers && controllers.length > 0) ? (
@@ -87,17 +88,19 @@ const Table = (props:
                       style={{ ...props?.rowStyle }}
                     />
                 ))}
-                {addData ? (
-                  <Row
-                    controllers={controllers}
-                    indexes={[]}
-                    row={[newData, updateNewData]}
-                    add={addData}
-                    actions={newActions}
-                    style={{ ...props?.addRowStyle }}
-                  />
-                ) : (<></>)}
               </tbody>
+              {addData ? (
+                <tfoot style={{ width: '100%', paddingBottom: '20px', ...props?.footerStyle }}>
+                    <Row
+                      controllers={controllers}
+                      indexes={[]}
+                      row={[newData, updateNewData]}
+                      add={addData}
+                      actions={newActions}
+                      style={{ ...props?.addRowStyle }}
+                    />
+                </tfoot>
+              ) : (<></>)}
             </TableStyle>
           </div>
         </>) : (<></>)
