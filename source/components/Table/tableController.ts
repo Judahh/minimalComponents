@@ -19,6 +19,7 @@ type TableController = {
   inputStyle?: CSSProperties;
   textStyle?: CSSProperties;
   titleStyle?: CSSProperties;
+  inputProps?: any;
 };
 
 export type { TableController };

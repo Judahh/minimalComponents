@@ -89,6 +89,10 @@ const BasicAll = (props: { theme }) => {
           console.log('name key:', e);
         },
       },
+      inputStyle: {
+        width: '100%',
+        minWidth: '100%',
+      }
     },
     {
       name: 'age',
@@ -100,6 +104,14 @@ const BasicAll = (props: { theme }) => {
           console.log('age key:', e);
         },
       },
+      inputStyle: {
+        width: '50px',
+        minWidth: '50px',
+      },
+      inputProps: {
+        min: 1,
+        max: 150,
+      }
     },
   ];
   let [people, setPeople, addPerson, updatePeople, deletePeople] =
@@ -260,7 +272,7 @@ const BasicAll = (props: { theme }) => {
           new={[newPerson, updateNewPerson]}
           add={(value) => {
             if (value != undefined) {
-              const newValue = { ...value, id: Math.random() };
+              const newValue = { ...value, id: Math.round(Math.random() * 100) };
               addPerson?.(undefined, newValue);
             }
           }}

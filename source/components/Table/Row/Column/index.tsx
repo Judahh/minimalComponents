@@ -59,6 +59,7 @@ const Column = (props:
             onInput={(e) => actions?.onInput?.(e, indexes)}
             onChange={(e) => actions?.onChange?.(e, indexes)}
             onClick={() => actions?.onClick?.(indexes)}
+            {...(controller?.inputProps || {})}
         />
         : controller?.hasAdd && !controller?.hasEdit && data == undefined ?
           (<></>) :
