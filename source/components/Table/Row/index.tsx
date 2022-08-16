@@ -1,53 +1,91 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, {
+  CSSProperties,
+  useEffect,
+  // useState
+} from 'react';
+import useState from 'react-usestateref';
 import { withTheme } from 'styled-components';
 import Input from '../../Input';
 import { Actions } from '../actions';
-import { TH, TR} from '../styles';
+import { TH, TR } from '../styles';
 import { TableController } from '../tableController';
 import Column from './Column';
 
-
-const Row = (props:
+const Row = (props: {
+  controllers?: TableController[];
+  actions?: Actions;
+  columnActions?: Actions;
+  indexes: (number | string)[];
+  row?: [
     {
-        controllers?: TableController[];
-        actions?: Actions;
-        columnActions?: Actions;
-        indexes: (number|string)[];
-        row?: [{
-          [key: string]: any;
-        }, (indexes?: (string | number)[], value?) => void];
-        delete?: (index?: number) => void;
-        add?: (value?: {
-          [key: string]: any;
-        }) => void;
-        style?: CSSProperties;
-        Loading?;
-        loading?;
-    }) => {
-  const controllers = props?.controllers;
-  const indexes = props?.indexes;
+      [key: string]: any;
+    },
+    (indexes?: (string | number)[], value?) => void
+  ];
+  delete?: (index?: number) => void;
+  add?: (value?: { [key: string]: any }) => void;
+  style?: CSSProperties;
+}) => {
+  const [controllers, setControllers] = useState(props?.controllers);
+  const [indexes, setIndexes] = useState(props?.indexes);
 
-  const [row, updateRow] = props?.row || [];
+  // const [addData, setAdd] = useState<((value?: {
+  //   [key: string]: any;
+  // }) => void)|undefined>(props?.add);
+  // const [deleteData, setDelete] = useState<((index?: number) => void)|undefined>(props?.delete);
 
-  const addData = props.add;
-  const deleteData = props.delete;
+  useEffect(() => {
+    setControllers(props?.controllers);
+  }, [props?.controllers, ...(props?.controllers || [])]);
 
-  const loading = useState(props?.loading);
+  useEffect(() => {
+    setIndexes(props?.indexes);
+  }, [props?.indexes]);
+
+  useEffect(() => {
+    // setAdd(props?.add);
+  }, [props?.add]);
+
+  useEffect(() => {
+    // setDelete(props?.delete);
+  }, [props?.delete]);
+
+  useEffect(() => {
+  }, [
+    // deleteData,
+    // addData,
+    controllers,
+    indexes
+  ]);
 
   useEffect(() => {
     // console.log('Row Data Changed', row);
-  }, [row, Object.values(row||{}), ...Object.values(row||{})]);
+  }, [
+    props?.row?.[0],
+    Object.values(props?.row?.[0] || {}),
+    ...Object.values(props?.row?.[0] || {}),
+  ]);
 
   useEffect(() => {
     // console.log('Row OUT Data Changed', props?.row?.[0]);
-  }, [props?.row, Object.values(props?.row||{}), ...Object.values(props?.row||{})]);
+  }, [
+    props?.row,
+    Object.values(props?.row || {}),
+    ...Object.values(props?.row || {}),
+  ]);
 
-  useEffect(() => {
-    // console.log('Row Loading Changed', loading, props?.Loading);
-  }, [loading, props?.Loading]);
+  useEffect(() => {}, [
+    props?.indexes,
+    props?.controllers,
+    props?.row,
+    props?.actions,
+    props?.columnActions,
+    props?.add,
+    props?.delete,
+  ]);
 
-  return (true ? //(!loading ?
-    (<>
+  return (
+    <>
       <TR
         style={{
           cursor: 'pointer',
@@ -67,7 +105,7 @@ const Row = (props:
       >
         {controllers?.map?.((controller, index) => (
           <TH
-            key={'ELEMENT' + index}
+            key={'th' + index}
             style={{
               cursor: 'pointer',
               alignItems: 'center',
@@ -89,29 +127,34 @@ const Row = (props:
                 justifyContent: 'center',
                 display: 'flex',
                 ...controller?.contentStyle,
-              }}>
-              {addData && controller?.hasAdd ? (<>
-                <Input
-                  style={{
-                    float: 'left',
-                    marginLeft: '5px',
-                    marginRight: '5px',
-                    marginBottom: '0px',
-                    marginTop: '0px',
-                    alignItems: 'center',
-                    alignContent: 'center',
-                    alignSelf: 'center',
-                    alignmentBaseline: 'central',
-                    verticalAlign: 'middle',
-                    ...controller?.addStyle,
-                  }}
-                  type={"button"}
-                  color={"green"}
-                  onClick={()=>addData?.(row)}
-                  value={"+"}
-                />
-              </>) : (<></>)}
-              {deleteData && controller?.hasDelete ?
+              }}
+            >
+              {props?.add && controller?.hasAdd ? (
+                <>
+                  <Input
+                    style={{
+                      float: 'left',
+                      marginLeft: '5px',
+                      marginRight: '5px',
+                      marginBottom: '0px',
+                      marginTop: '0px',
+                      alignItems: 'center',
+                      alignContent: 'center',
+                      alignSelf: 'center',
+                      alignmentBaseline: 'central',
+                      verticalAlign: 'middle',
+                      ...controller?.addStyle,
+                    }}
+                    type={'button'}
+                    color={'green'}
+                    onClick={() => props?.add?.(props?.row?.[0])}
+                    value={'+'}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+              {props?.delete && controller?.hasDelete ? (
                 <Input
                   style={{
                     float: 'left',
@@ -126,13 +169,16 @@ const Row = (props:
                     verticalAlign: 'middle',
                     ...controller?.deleteStyle,
                   }}
-                  type={"button"}
+                  type={'button'}
                   color={'red'}
-                  onClick={() => deleteData?.(indexes?.[0] as number)}
-                  value={"-"}
+                  onClick={() => props?.delete?.(indexes?.[0] as number)}
+                  value={'-'}
                 />
-              : <></>}
-              {<Column
+              ) : (
+                <></>
+              )}
+              {
+                <Column
                   style={{
                     float: 'left',
                     cursor: 'pointer',
@@ -148,16 +194,19 @@ const Row = (props:
                     ...controller?.columnStyle,
                   }}
                   controller={controller}
-                  indexes={[...(indexes||[]), controller?.index]}
-                  data={[row?.[controller?.index || ''], updateRow]}
+                  indexes={[...(indexes || []), controller?.index]}
+                  data={[
+                    props?.row?.[0]?.[controller?.index || ''],
+                    props?.row?.[1],
+                  ]}
                   actions={props?.columnActions}
-              />}
-          </div>
-        </TH>
-        )
-        )}
+                />
+              }
+            </div>
+          </TH>
+        ))}
       </TR>
-    </>) : (props?.Loading ? <props.Loading/> : <></>))
-  ;
+    </>
+  );
 };
 export default withTheme(Row);
