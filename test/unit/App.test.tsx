@@ -285,6 +285,7 @@ const BasicAll = (props: { theme }) => {
               deletePeople?.([index]);
             }
           }}
+          loading={false}
         />
         <TagList>
           <Input type={'button'} value={'tag 0'} />

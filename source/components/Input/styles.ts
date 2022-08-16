@@ -143,7 +143,7 @@ export const Toggle = styled.div`
   position: relative;
 
   span {
-    background-color: ${(props) => props?.color || props?.theme?.background || 'white'};
+    background-color: ${(props) => props?.color || props?.theme?.primary || 'black'};
     content: "";
     display: block;
     height: 2px;
@@ -162,7 +162,7 @@ export const Toggle = styled.div`
   }
 
   span:before, span:after {
-    background-color: ${(props) => props?.color || props?.theme?.background || 'white'};
+    background-color: ${(props) => props?.color || props?.theme?.primary || 'black'};
     content: "";
     display: block;
     height: 2px;
