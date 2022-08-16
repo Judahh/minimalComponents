@@ -4,6 +4,7 @@ import { baseConfig } from "../../utils/util";
 export const CarouselHolder = styled.div`
   width: 100%;
   height: 100%;
+  position: relative;
 .carousel .control-arrow,
 .carousel.carousel-slider .control-arrow {
   -webkit-transition: all 0.25s ease-in;
@@ -321,7 +322,8 @@ export const CarouselHolder = styled.div`
 
 export const Indicator = styled.li`
   ${(props) => baseConfig(props)}
-  background: ${(props) => props.theme.primary};
+  background: ${(props) => props?.theme?.background || 'white'};
+  border: ${(props) => props?.theme?.primary || 'black'} 1px solid;
   width: 15px;
   height: 15px;
   opacity: 0.5;
@@ -344,10 +346,29 @@ export const Image = styled.img`
     content: "";
   }
 `;
+
 export const BackgroundImage = styled.img`
   position:absolute;
   &::after {
     position: relative;
+  }
+`;
+
+export const LeftElementHolder = styled.div`
+  position:absolute;
+  top: 15px;
+  left: 15px;
+  & > * {
+    margin-bottom: 15px;
+  }
+`;
+
+export const RightElementHolder = styled.div`
+  position:absolute;
+  top: 15px;
+  right: 15px;
+  & > * {
+    margin-bottom: 15px;
   }
 `;
 

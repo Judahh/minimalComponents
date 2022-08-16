@@ -475,6 +475,14 @@ const BasicAll = (props: { theme }) => {
             'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg',
           ]}
           alt={'3'}
+          leftElement={<>
+            <Input roudedEdges color={'green'} type={'button'} value={'+'} />
+            <Input roudedEdges type={'button'} value={'-'} color={'red'} />
+          </>}
+          rightElement={<>
+            <Input roudedEdges color={'yellow'} type={'button'} value={'+'} />
+            <Input roudedEdges type={'button'} value={'-'} color={'red'} />
+          </>}
         />
         <br />
         <CopyrightText>CopyrightText</CopyrightText>

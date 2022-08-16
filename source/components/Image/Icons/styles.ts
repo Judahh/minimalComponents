@@ -40,13 +40,13 @@ export const LogoHolder = styled.div`
 export const Holder = styled.a`
   ${(props) => baseConfig(props)}
   cursor: pointer;
-  background: ${(props) => props.theme.background};
-  color: ${(props) => props.theme.text};
+  background: ${(props) => props?.theme?.background || 'white'};
+  color: ${(props) => props?.theme?.text || 'primary'};
   transition: all ${(props) => props?.theme?.transition?.holder?.duration || 0.2}s;
 
   &: hover {
-    background: ${(props) => props.theme.background};
-    color: ${(props) => props.theme.bright};
+    background: ${(props) => props?.theme?.background || 'white'};
+    color: ${(props) => props?.theme?.bright};
   }
 
   span {
@@ -57,14 +57,14 @@ export const Holder = styled.a`
 
 export const Path = styled.path`
   ${(props) => baseConfig(props)}
-  stroke: ${(props) => props.theme.primary} !important;
-  ${(props) => props.withFill ? "fill: " + props.theme.primary + "!important;" : ""}
+  stroke: ${(props) => props?.theme?.primary || 'black'} !important;
+  ${(props) => props.withFill ? "fill: " + props?.theme?.primary + "!important;" : ""}
 `;
 
 export const PathL = styled.path`
   ${(props) => baseConfig(props)}
-  stroke: ${(props) => props.theme.holder} !important;
-  ${(props) => props.withFill ? "fill: " + props.theme.holder + "!important;" : ""}
+  stroke: ${(props) => props?.theme?.holder} !important;
+  ${(props) => props.withFill ? "fill: " + props?.theme?.holder + "!important;" : ""}
 `;
 
 export const APTI = styled.svg`
@@ -93,7 +93,7 @@ export const Theme = styled.svg`
 
 export const Coffee = styled.svg`
 ${(props) => baseConfig(props)}
---secondary: ${(props) => props.theme.primary} !important;
+--secondary: ${(props) => props?.theme?.primary || 'black'} !important;
 height: 100%;
 align-self: center;
 padding-top: 10vh;

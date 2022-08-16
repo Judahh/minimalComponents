@@ -1,7 +1,7 @@
 import React, { CSSProperties, useEffect, useRef } from 'react';
 import useState from 'react-usestateref';
 import clsx from 'clsx';
-import { Image as ImageStyle, BackgroundImage, Indicator, CarouselHolder } from './styles';
+import { Image as ImageStyle, BackgroundImage, Indicator, CarouselHolder, LeftElementHolder, RightElementHolder } from './styles';
 // import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { withTheme } from 'styled-components';
@@ -25,6 +25,8 @@ function Image(props: {
   titleElement?;
   left?: string;
   right?: string;
+  leftElement?: JSX.Element;
+  rightElement?: JSX.Element;
 }) {
   const imgRef = useRef();
   const [loaded, setLoaded] = useState(false);
@@ -38,7 +40,7 @@ function Image(props: {
     }
   }, []);
 
-  useEffect(() => {}, [props.disabled, props.images, props.images?.length]);
+  useEffect(() => {}, [props.disabled, props.images, props.images?.length, props.leftElement, props.rightElement]);
 
   useEffect(() => {
     if (props.titleElement) {
@@ -186,6 +188,12 @@ function Image(props: {
             );
           })}
         </Carousel>
+        <LeftElementHolder>
+          {props.leftElement}
+        </LeftElementHolder>
+        <RightElementHolder>
+          {props.rightElement}
+        </RightElementHolder>
       </CarouselHolder>
     </>
   );

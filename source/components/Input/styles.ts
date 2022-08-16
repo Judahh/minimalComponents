@@ -143,7 +143,7 @@ export const Toggle = styled.div`
   position: relative;
 
   span {
-    background-color: ${(props) => props?.color || props?.theme?.primary};
+    background-color: ${(props) => props?.color || props?.theme?.background || 'white'};
     content: "";
     display: block;
     height: 2px;
@@ -162,7 +162,7 @@ export const Toggle = styled.div`
   }
 
   span:before, span:after {
-    background-color: ${(props) => props?.color || props?.theme?.primary};
+    background-color: ${(props) => props?.color || props?.theme?.background || 'white'};
     content: "";
     display: block;
     height: 2px;
@@ -214,21 +214,21 @@ export const DebounceInputWrapper = styled.div`
     min-width: 25px;
     border-radius: 0;
     background-color: transparent;
-    border-bottom: 1px solid ${(props) => transparentize(0.5, props?.color || props?.theme?.primary)};
-    color: ${(props) => props?.color || props?.theme?.primary};
+    border-bottom: 1px solid ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
+    color: ${(props) => props?.color || props?.theme?.primary || 'black'};
     letter-spacing: 1.2px;
     margin-bottom: 16px;
 
     &:focus {
-      border-color: ${(props) => props?.color || props?.theme?.primary};
-      color: ${(props) => props?.color || props?.theme?.primary};
+      border-color: ${(props) => props?.color || props?.theme?.primary || 'black'};
+      color: ${(props) => props?.color || props?.theme?.primary || 'black'};
       &::-webkit-input-placeholder {
-        color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary)};
+        color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
       }
     }
 
     &::-webkit-input-placeholder {
-      color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary)};
+      color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
     }
 
     @media screen and (max-width: 1000px) {
@@ -251,9 +251,9 @@ export const Input = styled.input`
   padding: ${(props) => (((props?.theme?.input?.font?.size || 14) + 2) - 4) / 2 + 'px 0px'};
   margin: 0;
   color: ${(props) =>
-    props.active ? props?.theme?.background : props?.color || props?.theme?.primary};
+    props.active ? props?.theme?.background || 'white' : props?.color || props?.theme?.primary || 'black'};
   background: ${(props) =>
-    props.active ? props?.color || props?.theme?.primary : props?.theme?.background};
+    props.active ? props?.color || props?.theme?.primary || 'black' : props?.theme?.background || 'white'};
   letter-spacing: 1.2px;
   color-scheme: ${(props) => ( props?.theme === lightTheme ? "light" : "dark" )};
 
@@ -273,10 +273,10 @@ export const Input = styled.input`
 
   transition: all ${(props) => props?.theme?.transition?.input?.duration || 0.15}s;
 
-  ${(props) => ( props?.roudedEdges ? 'border-radius: 4px;' : '' )};
+  ${(props) => ( props?.roudedEdges ? 'border-radius: 4px;' : 'border-radius: 0px;' )};
 
   &::-webkit-input-placeholder {
-    color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'red')};
+    color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
   }
 
   &:last-child {
@@ -354,22 +354,22 @@ export const Input = styled.input`
       (props.inverted ?
         (props.filled ?
           (
-            `color: ${props?.theme?.primary || 'black'};
-             background: ${props?.color || (props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
-          ):(
-            `border: 1px solid ${props?.theme?.primary || 'black'};
-              color: ${props?.theme?.primary || 'black'};
-              background: ${props?.color || (props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
-          )
-        ) :
-        (props.filled ?
-          (
             `color: ${props?.theme?.background || 'white'};
              background: ${props?.color || props?.theme?.primary || 'black'};`
           ):(
             `border: 1px solid ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};
              color: ${props?.theme?.background || 'white'};
              background: ${props?.color || props?.theme?.primary || 'black'};`
+          )
+        ) :
+        (props.filled ?
+          (
+            `color: ${props?.theme?.primary || 'black'};
+             background: ${props?.color || (props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
+          ):(
+            `border: 1px solid ${props?.theme?.primary || 'black'};
+              color: ${props?.theme?.primary || 'black'};
+              background: ${props?.color || (props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
           )
         )
       )
@@ -378,12 +378,12 @@ export const Input = styled.input`
     ${(props) => (props.crude ?
       (props.inverted ?
         `border: 0;
-         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'black'};
-         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'white'};`
+         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'black'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'white'};`
       :
         `border: 0;
-         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'white'};
-         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
+         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'white'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
       ):
       (``)
     )}
@@ -395,28 +395,29 @@ export const Input = styled.input`
       `border-bottom: 1px solid ${props?.color || props?.theme?.primary || 'black'};` :
       props.inverted ?
         (props.filled ?
-          `color: ${props?.color || props?.theme?.background || 'white'};
-          background: ${props?.theme?.primary || 'black'};`:
-          `border: 1px solid ${props?.color || props?.theme?.background || 'white'};
-          color: ${props?.color || props?.theme?.background || 'white'};
-          background: ${props?.theme?.primary || 'black'};`
-          ) :
-        (props.filled ?
           `color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`:
+           background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`:
           `border: 1px solid ${props?.color || props?.theme?.primary || 'black'};
-            color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`)
+           color: ${props?.color || props?.theme?.primary || 'black'};
+           background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
+        ) :
+        (props.filled ?
+          `color: ${props?.color || props?.theme?.background || 'white'};
+           background: ${props?.theme?.primary || 'black'};`:
+          `border: 1px solid ${props?.color || props?.theme?.background || 'white'};
+           color: ${props?.color || props?.theme?.background || 'white'};
+           background: ${props?.theme?.primary || 'black'};`
+        )
     }
     ${(props) => (props.crude ?
       (props.inverted ?
         `border: 0;
-         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'white'};
-         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
+         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'white'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
       :
         `border: 0;
-         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'black'};
-         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'white'};`
+         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'black'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
       ):
       (``)
     )}
@@ -428,28 +429,29 @@ export const Input = styled.input`
       `border-bottom: 1px dashed ${props?.color || props?.theme?.primary || 'black'};` :
       props.inverted ?
         (props.filled ?
-          `color: ${props?.color || props?.theme?.background || 'white'};
-          background: ${props?.theme?.primary || 'black'};`:
-          `border: 1px dashed ${props?.color || props?.theme?.background || 'white'};
-          color: ${props?.color || props?.theme?.background || 'white'};
-          background: ${props?.theme?.primary || 'black'};`
-          ) :
-        (props.filled ?
           `color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`:
+           background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`:
           `border: 1px dashed ${props?.color || props?.theme?.primary || 'black'};
-            color: ${props?.color || props?.theme?.primary || 'black'};
-            background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`)
+           color: ${props?.color || props?.theme?.primary || 'black'};
+           background: ${(props.noBackground ? 'transparent' : props?.theme?.background) || 'white'};`
+        ) :
+        (props.filled ?
+          `color: ${props?.color || props?.theme?.background || 'white'};
+           background: ${props?.theme?.primary || 'black'};`:
+          `border: 1px dashed ${props?.color || props?.theme?.background || 'white'};
+           color: ${props?.color || props?.theme?.background || 'white'};
+           background: ${props?.theme?.primary || 'black'};`
+          )
     }
     ${(props) => (props.crude ?
       (props.inverted ?
         `border: 0;
-         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'white'};
-         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
+         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'white'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
       :
         `border: 0;
-         color: ${(!props.filled && props?.color) ? props?.color : props?.theme?.background || 'black'};
-         background: ${(!props.filled && props?.color) ? 'transparent' : props?.color || props?.theme?.primary || 'white'};`
+         color: ${(!props.filled && props?.color) ? props?.theme?.primary : props?.color || props?.theme?.primary || 'black'};
+         background: ${(!props.filled && props?.color) ? 'transparent' : props.noBackground ? 'transparent' : props?.color || props?.theme?.primary || 'black'};`
       ):
       (``)
     )}
@@ -565,7 +567,8 @@ export const Input = styled.input`
     appearance: none;
     width: 16px;
     height: 16px;
-    background: ${(props) => props?.color || props?.theme?.primary || 'black'};
+    background: ${(props) => props?.theme?.background || 'white'};
+    border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     cursor: pointer;
     top: 0px;
     margin-top: -3px;
@@ -576,7 +579,8 @@ export const Input = styled.input`
     appearance: none;
     width: 16px;
     height: 16px;
-    background: ${(props) => props?.color || props?.theme?.primary || 'black'};
+    background: ${(props) => props?.theme?.background || 'white'};
+    border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     cursor: pointer;
     top: 0px;
     margin-top: -3px;
@@ -618,7 +622,7 @@ export const Input = styled.input`
 
     :hover {
       :before {
-        background-color: ${props?.color || props?.theme?.primary};
+        background-color: ${props?.color || props?.theme?.primary || 'black'};
         visibility: visible;
         width: 100%;
       }
