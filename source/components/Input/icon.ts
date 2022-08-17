@@ -67,7 +67,7 @@ export const BasicMagnifier = (disabled?:boolean, color?: string, size?: string,
 export const BasicCheck = (disabled?:boolean, color?: string, size?: string, self?: boolean) => `
   ${Basic(disabled, size, self)}
   background-color: transparent;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${(''+(size || '21px')).replace('px', '')}' height='${(''+(size || '21px')).replace('px', '')}' viewBox='0 0 110 75'>
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${(''+(size || '26px')).replace('px', '')}' height='${(''+(size || '26px')).replace('px', '')}' viewBox='0 0 110 75'>
   <g fill='none' stroke='${(color || 'black').replace('#', '%23')}' stroke-width='10'>
     <path stroke-linecap='butt' d='M 5 50 l 25 25 l 75 -75' />
   </g>

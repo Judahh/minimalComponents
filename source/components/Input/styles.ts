@@ -465,12 +465,12 @@ export const Input = styled.input`
     position: relative;
     appearance: none;
     content: '';
-    width: 25px;
-    height: 25px;
-    min-width: 25px;
-    min-height: 25px;
-    max-width: 25px;
-    max-height: 25px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
     border: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     background: transparent;
   }
@@ -478,10 +478,10 @@ export const Input = styled.input`
   &[type='checkbox']::before {
     position: absolute;
     content: "";
-    width: 20px;
-    height: 20px;
+    width: ${(props) => (props.size || 30) - 3 }px;
+    height: ${(props) => (props.size || 30) - 3 }px;
     opacity: 0;
-    ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
+    ${(props) => Icon(props?.iconType === undefined ? IconType.check : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', (props.size || 30) - 4 + 'px', true)}
     left: 1px;
     top: 1px;
   }
@@ -489,8 +489,8 @@ export const Input = styled.input`
   &[type='radio']::before {
     position: absolute;
     content: "";
-    width: 19px;
-    height: 19px;
+    width: ${(props) => (props.size || 30) - 6 }px;
+    height: ${(props) => (props.size || 30) - 6 }px;
     left: 2px;
     bottom: 2px;
     border-width: 0 2px 2px 0;
