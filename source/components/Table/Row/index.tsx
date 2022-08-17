@@ -54,6 +54,13 @@ const Row = (props: {
   }, [props?.delete]);
 
   useEffect(() => {
+    console.log('Update Row',
+    deleteData,
+    addData,
+    updateData,
+    controllers,
+    indexes,
+    row);
   }, [
     deleteData,
     addData,

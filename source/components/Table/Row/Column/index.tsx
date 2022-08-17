@@ -15,7 +15,7 @@ const Column = (props: {
   controller?: TableController;
   actions?: Actions;
   indexes: (number | string)[];
-  data?: {[key: string]: any;};
+  data?: (number | string);
   update?: (indexes?: (string | number)[], value?) => void;
   style?: CSSProperties;
 }) => {
@@ -47,11 +47,7 @@ const Column = (props: {
   }, [props?.actions, controller, controller?.actions]);
 
   useEffect(() => {
-    console.log('Column OUT Data Changed', data);
-  }, [data]);
-
-  useEffect(() => {
-    // console.log('Column OUT Data Changed', data);
+    console.log('Update Column', controller, indexes, actions, data, updateData);
   }, [controller, indexes, actions, data, updateData]);
 
   return (

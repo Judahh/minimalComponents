@@ -92,18 +92,23 @@ const Table = (props: {
   useEffect(() => {}, [props?.Loading]);
 
   useEffect(() => {
-    // console.log('addData', addData, addData != undefined, addData !== undefined);
-  }, [
-    loading,
-    // deleteData,
-    // addData,
+    console.log('Update Table', loading,
     controllers,
     newActions,
     rowActions,
     newData,
-    ...Object.values(newData || {}),
     data,
-    ...Object.values(data || {}),
+    updateData,
+    updateNewData,
+    addData,
+    deleteData);
+  }, [
+    loading,
+    controllers,
+    newActions,
+    rowActions,
+    newData,
+    data,
     updateData,
     updateNewData,
     addData,
