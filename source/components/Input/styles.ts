@@ -342,6 +342,7 @@ export const Input = styled.input`
   }
 
   &[type='button'], &[type='file'], &[type='submit'], &[type='reset'], &[type='checkbox'], &[type='radio'] {
+    ${(props) => props?.iconValue ? 'font-family: ui-monospace;' : ''}
     border: none;
     cursor: pointer;
     align-content: center;

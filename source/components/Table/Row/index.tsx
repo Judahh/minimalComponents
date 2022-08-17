@@ -154,6 +154,7 @@ const Row = (props: {
                     color={'green'}
                     onClick={() => addData?.(row)}
                     value={'+'}
+                    iconValue
                   />
                 </>
               ) : (
@@ -177,7 +178,8 @@ const Row = (props: {
                   type={'button'}
                   color={'red'}
                   onClick={() => deleteData?.(indexes?.[0] as number)}
-                  value={'-'}
+                  value={'−'}
+                  iconValue
                 />
               ) : (
                 <></>

@@ -10,6 +10,7 @@ const Input = (props: {
   errorStyle?: CSSProperties;
   setError?;
   defaultValue?;
+  iconValue?: boolean;
   value?;
   setValue?;
   onChange?;

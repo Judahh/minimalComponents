@@ -26,7 +26,7 @@ const Modal = (props:{ title?:string, isOpen?: boolean, setClose?, setOpen?, chi
     <div style={{ display:'inline-flex', float: 'left', padding: '10px', boxSizing: 'border-box', width: '100%'}}>
       <H1 style={{ marginBottom: '0', display:'inline-flex', float: 'left', margin: '0px', boxSizing: 'border-box' }}>
         {props.title || ''}
-      </H1>)
+      </H1>
       <div style={{ display:'inline-flex', float: 'right', margin: '0px', boxSizing: 'border-box'}}>
         <Close setClose={props.setClose} iconType={props.iconType} />
       </div>

@@ -360,11 +360,11 @@ const BasicAll = (props: { theme }) => {
           value={'Edit'}
         />
         <br />
-        <Input roudedEdges inverted color={'red'} type={'button'} value={'-'} />
+        <Input roudedEdges inverted color={'red'} type={'button'} value={'−'} iconValue />
         <br />
-        <Input roudedEdges color={'green'} type={'button'} value={'+'} />
+        <Input roudedEdges color={'green'} type={'button'} value={'+'} iconValue />
         <br />
-        <Input roudedEdges type={'button'} value={'-'} color={'red'} />
+        <Input roudedEdges type={'button'} value={'−'} color={'red'} iconValue />
         <br />
         <Input
           roudedEdges
@@ -372,6 +372,7 @@ const BasicAll = (props: { theme }) => {
           type={'button'}
           value={'+'}
           color={'green'}
+          iconValue
         />
         <br />
         <Input
@@ -487,12 +488,12 @@ const BasicAll = (props: { theme }) => {
           ]}
           alt={'3'}
           leftElement={<>
-            <Input roudedEdges color={'green'} type={'button'} value={'+'} />
-            <Input roudedEdges type={'button'} value={'-'} color={'red'} />
+            <Input roudedEdges color={'green'} type={'button'} value={'+'} iconValue />
+            <Input roudedEdges type={'button'} value={'−'} color={'red'} iconValue />
           </>}
           rightElement={<>
-            <Input roudedEdges color={'yellow'} type={'button'} value={'+'} />
-            <Input roudedEdges type={'button'} value={'-'} color={'red'} />
+            <Input roudedEdges color={'yellow'} type={'button'} value={'+'} iconValue />
+            <Input roudedEdges type={'button'} value={'−'} color={'red'} iconValue />
           </>}
         />
         <br />
