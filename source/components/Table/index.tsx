@@ -42,6 +42,8 @@ const Table = (props: {
   const [controllers, setControllers] = useState(props?.controllers);
   const [newActions, setNewActions] = useState(props?.newActions);
   const [rowActions, setRowActions] = useState(props?.rowActions);
+  const [newData, setNewData] = useState(props?.new);
+  const [data, setData] = useState(props?.data);
 
   // const [addData, setAdd] = useState<
   //   ((value?: { [key: string]: any }) => void) | undefined
@@ -63,6 +65,14 @@ const Table = (props: {
   useEffect(() => {
     setRowActions(props?.rowActions);
   }, [props?.rowActions]);
+
+  useEffect(() => {
+    setNewData(props?.new);
+  }, [props?.new]);
+
+  useEffect(() => {
+    setData(props?.data);
+  }, [props?.data]);
 
   useEffect(() => {
     console.log('props?.add', props?.add);
@@ -88,23 +98,25 @@ const Table = (props: {
     controllers,
     newActions,
     rowActions,
+    newData,
+    data,
   ]);
 
   useEffect(() => {
-    console.log('Table NEW Data Changed', props?.new?.[0]?.[0]);
+    console.log('Table NEW Data Changed', newData?.[0]?.[0]);
   }, [
-    props?.new?.[0],
-    props?.new?.[0]?.[0],
-    ...Object.values(props?.new?.[0]?.[0] || {}),
+    newData?.[0],
+    newData?.[0]?.[0],
+    ...Object.values(newData?.[0]?.[0] || {}),
   ]);
 
   useEffect(() => {
-    console.log('Table Data Changed', props?.data?.[0]);
-  }, [props?.data, props?.data?.[0], ...(props?.data?.[0] || [])]);
+    console.log('Table Data Changed', data?.[0]);
+  }, [data, data?.[0], ...(data?.[0] || [])]);
 
   useEffect(() => {
-    console.log('Table OUT NEW Data Changed', props?.new?.[0]);
-  }, [props?.new, props?.new?.[0], ...Object.values(props?.new?.[0] || {})]);
+    console.log('Table OUT NEW Data Changed', newData?.[0]);
+  }, [newData, newData?.[0], ...Object.values(newData?.[0] || {})]);
 
   return !loading ? (
     <>
@@ -130,12 +142,12 @@ const Table = (props: {
                 />
               </thead>
               <tbody style={{ width: '100%', ...props?.bodyStyle }}>
-                {props?.data?.[0]?.map?.((row, index) => (
+                {data?.[0]?.map?.((row, index) => (
                   <Row
                     key={'row' + index}
                     controllers={controllers}
                     indexes={[index]}
-                    row={[row, props?.data?.[1]]}
+                    row={[row, data?.[1]]}
                     actions={rowActions}
                     delete={props?.delete}
                     style={{ ...props?.rowStyle }}
@@ -154,7 +166,7 @@ const Table = (props: {
                   <Row
                     controllers={controllers}
                     indexes={[]}
-                    row={props?.new}
+                    row={newData}
                     add={props?.add}
                     columnActions={newActions}
                     style={{ ...props?.addRowStyle }}

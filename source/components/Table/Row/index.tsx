@@ -28,6 +28,7 @@ const Row = (props: {
 }) => {
   const [controllers, setControllers] = useState(props?.controllers);
   const [indexes, setIndexes] = useState(props?.indexes);
+  const [row, setRow] = useState(props?.row);
 
   // const [addData, setAdd] = useState<((value?: {
   //   [key: string]: any;
@@ -43,6 +44,10 @@ const Row = (props: {
   }, [props?.indexes]);
 
   useEffect(() => {
+    setRow(props?.row);
+  }, [props?.row]);
+
+  useEffect(() => {
     // setAdd(props?.add);
   }, [props?.add]);
 
@@ -55,18 +60,19 @@ const Row = (props: {
     // deleteData,
     // addData,
     controllers,
-    indexes
+    indexes,
+    row,
   ]);
 
   useEffect(() => {
-    console.log('Row Data Changed', props?.row);
+    console.log('Row Data Changed', row);
   }, [
-    props?.row,
-    Object.values(props?.row || {}),
-    ...Object.values(props?.row || {}),
-    props?.row?.[0],
-    Object.values(props?.row?.[0] || {}),
-    ...Object.values(props?.row?.[0] || {}),
+    row,
+    Object.values(row || {}),
+    ...Object.values(row || {}),
+    row?.[0],
+    Object.values(row?.[0] || {}),
+    ...Object.values(row?.[0] || {}),
   ]);
 
   useEffect(() => {}, [
@@ -142,7 +148,7 @@ const Row = (props: {
                     }}
                     type={'button'}
                     color={'green'}
-                    onClick={() => props?.add?.(props?.row?.[0])}
+                    onClick={() => props?.add?.(row?.[0])}
                     value={'+'}
                   />
                 </>
@@ -191,8 +197,8 @@ const Row = (props: {
                   controller={controller}
                   indexes={[...(indexes || []), controller?.index]}
                   data={[
-                    props?.row?.[0]?.[controller?.index || ''],
-                    props?.row?.[1],
+                    row?.[0]?.[controller?.index || ''],
+                    row?.[1],
                   ]}
                   actions={props?.columnActions}
                 />
