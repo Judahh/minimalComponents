@@ -209,9 +209,10 @@ const Input = (props: {
         />
         <InputStyle
           {...{ ...getProps(), type: 'button' }}
-          onClick={() => {
+          onClick={(event) => {
             // console.log('CLICK');
             // console.log('click', inputRef?.current);
+            checkAndstopPropagation(props?.stopPropagation, event);
             inputRef?.current?.click();
           }}
         />
