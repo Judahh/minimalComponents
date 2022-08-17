@@ -14,18 +14,16 @@ const Table = (props: {
   controllers?: TableController[];
   newActions?: Actions;
   rowActions?: Actions;
-  data?: [
+  data?: {
+    [key: string]: any;
+  }[];
+  new?:
     {
       [key: string]: any;
-    }[],
-    (indexes?: (string | number)[], value?) => void
-  ];
-  new?: [
-    {
-      [key: string]: any;
-    },
-    (indexes?: (string | number)[], value?) => void
-  ];
+    }
+  ;
+  update?: (indexes?: (string | number)[], value?) => void;
+  updateNew?: (indexes?: (string | number)[], value?) => void;
   delete?: (index?: number) => void;
   add?: (value?: { [key: string]: any }) => void;
   style?: CSSProperties;
@@ -44,13 +42,10 @@ const Table = (props: {
   const [rowActions, setRowActions] = useState(props?.rowActions);
   const [newData, setNewData] = useState(props?.new);
   const [data, setData] = useState(props?.data);
-
-  // const [addData, setAdd] = useState<
-  //   ((value?: { [key: string]: any }) => void) | undefined
-  // >(props?.add);
-  // const [deleteData, setDelete] = useState<
-  //   ((index?: number) => void) | undefined
-  // >(props?.delete);
+  let updateData = props?.update;
+  let updateNewData = props?.updateNew;
+  let addData = props?.add;
+  let deleteData = props?.delete;
 
   const [loading, setLoading] = useState(props?.loading);
 
@@ -71,16 +66,23 @@ const Table = (props: {
   }, [props?.new]);
 
   useEffect(() => {
+    updateNewData = props?.updateNew;
+  }, [props?.updateNew]);
+
+  useEffect(() => {
     setData(props?.data);
   }, [props?.data]);
 
   useEffect(() => {
-    console.log('props?.add', props?.add);
-    // setAdd(props?.add);
+    updateData = props?.update;
+  }, [props?.update]);
+
+  useEffect(() => {
+    addData = props?.add;
   }, [props?.add]);
 
   useEffect(() => {
-    // setDelete(props?.delete);
+    deleteData = props?.delete;
   }, [props?.delete]);
 
   useEffect(() => {
@@ -99,24 +101,14 @@ const Table = (props: {
     newActions,
     rowActions,
     newData,
+    ...Object.values(newData || {}),
     data,
+    ...Object.values(data || {}),
+    updateData,
+    updateNewData,
+    addData,
+    deleteData,
   ]);
-
-  useEffect(() => {
-    console.log('Table NEW Data Changed', newData?.[0]?.[0]);
-  }, [
-    newData?.[0],
-    newData?.[0]?.[0],
-    ...Object.values(newData?.[0]?.[0] || {}),
-  ]);
-
-  useEffect(() => {
-    console.log('Table Data Changed', data?.[0]);
-  }, [data, data?.[0], ...(data?.[0] || [])]);
-
-  useEffect(() => {
-    console.log('Table OUT NEW Data Changed', newData?.[0]);
-  }, [newData, newData?.[0], ...Object.values(newData?.[0] || {})]);
 
   return !loading ? (
     <>
@@ -142,14 +134,15 @@ const Table = (props: {
                 />
               </thead>
               <tbody style={{ width: '100%', ...props?.bodyStyle }}>
-                {data?.[0]?.map?.((row, index) => (
+                {data?.map?.((row, index) => (
                   <Row
                     key={'row' + index}
                     controllers={controllers}
                     indexes={[index]}
-                    row={[row, data?.[1]]}
+                    row={row}
+                    update={updateData}
                     actions={rowActions}
-                    delete={props?.delete}
+                    delete={deleteData}
                     style={{ ...props?.rowStyle }}
                   />
                 ))}
@@ -162,12 +155,13 @@ const Table = (props: {
                   ...props?.footerStyle,
                 }}
               >
-                {props?.add ? (
+                {addData ? (
                   <Row
                     controllers={controllers}
                     indexes={[]}
                     row={newData}
-                    add={props?.add}
+                    update={updateNewData}
+                    add={addData}
                     columnActions={newActions}
                     style={{ ...props?.addRowStyle }}
                   />

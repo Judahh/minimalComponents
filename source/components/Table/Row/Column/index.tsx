@@ -15,12 +15,14 @@ const Column = (props: {
   controller?: TableController;
   actions?: Actions;
   indexes: (number | string)[];
-  data?: [any, (indexes?: (string | number)[], value?) => void];
+  data?: {[key: string]: any;};
+  update?: (indexes?: (string | number)[], value?) => void;
   style?: CSSProperties;
 }) => {
   const [controller, setController] = useState(props?.controller);
   const [indexes, setIndexes] = useState(props?.indexes);
   const [data, setData] = useState(props?.data);
+  let updateData = props?.update;
 
   const [actions, setActions] = useState(props?.actions || controller?.actions || {});
 
@@ -34,7 +36,11 @@ const Column = (props: {
 
   useEffect(() => {
     setData(props?.data);
-  }, [props?.data, props?.data?.[0]]);
+  }, [props?.data]);
+
+  useEffect(() => {
+    updateData = props?.update;
+  }, [props?.update]);
 
   useEffect(() => {
     setActions(props?.actions || controller?.actions || {});
@@ -46,7 +52,7 @@ const Column = (props: {
 
   useEffect(() => {
     // console.log('Column OUT Data Changed', data);
-  }, [controller, indexes, actions, data]);
+  }, [controller, indexes, actions, data, updateData]);
 
   return (
     <>
@@ -54,17 +60,17 @@ const Column = (props: {
         <H2 style={{ ...props?.style, ...controller?.titleStyle }}>
           {controller?.name || ''}
         </H2>
-      ) : data?.[1] && controller?.hasEdit ? (
+      ) : updateData && controller?.hasEdit ? (
         <Input
           style={{ ...props?.style, ...controller?.inputStyle }}
           type={controller.type || 'text'}
           name={controller?.name || controller?.index}
-          value={data?.[0]}
+          value={data}
           setValue={(value) => {
-            // console.log('Column setValue', value, indexes,data?.[1]);
-            data?.[1]?.(indexes, value);
+            // console.log('Column setValue', value, indexes,updateData);
+            updateData?.(indexes, value);
           }}
-          defaultValue={data?.[0] || controller?.defaultValue}
+          defaultValue={data || controller?.defaultValue}
           aria-label={
             controller?.ariaLabel ||
             controller?.name ||
@@ -84,7 +90,7 @@ const Column = (props: {
         />
       ) : controller?.hasAdd &&
         !controller?.hasEdit &&
-        data?.[0] == undefined ? (
+        data == undefined ? (
         <></>
       ) : (
         <Text
@@ -95,7 +101,7 @@ const Column = (props: {
             ...controller?.textStyle,
           }}
         >
-          {data?.[0] ||
+          {data ||
             controller?.name ||
             controller?.defaultValue ||
             controller?.index}

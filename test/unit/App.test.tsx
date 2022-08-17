@@ -271,9 +271,12 @@ const BasicAll = (props: { theme }) => {
         </Modal>
         <Table
           controllers={personController}
-          data={[people, updatePeople]}
-          new={[newPerson, updateNewPerson]}
+          data={people}
+          update={updatePeople}
+          new={newPerson}
+          updateNew={updateNewPerson}
           add={(value) => {
+            console.log('add:', value);
             if (value != undefined) {
               const newValue = { ...value, id: Math.round(Math.random() * 100) };
               addPerson?.(undefined, newValue);

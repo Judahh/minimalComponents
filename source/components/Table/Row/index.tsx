@@ -16,12 +16,8 @@ const Row = (props: {
   actions?: Actions;
   columnActions?: Actions;
   indexes: (number | string)[];
-  row?: [
-    {
-      [key: string]: any;
-    },
-    (indexes?: (string | number)[], value?) => void
-  ];
+  row?:{[key: string]: any;};
+  update?: (indexes?: (string | number)[], value?) => void;
   delete?: (index?: number) => void;
   add?: (value?: { [key: string]: any }) => void;
   style?: CSSProperties;
@@ -29,11 +25,9 @@ const Row = (props: {
   const [controllers, setControllers] = useState(props?.controllers);
   const [indexes, setIndexes] = useState(props?.indexes);
   const [row, setRow] = useState(props?.row);
-
-  // const [addData, setAdd] = useState<((value?: {
-  //   [key: string]: any;
-  // }) => void)|undefined>(props?.add);
-  // const [deleteData, setDelete] = useState<((index?: number) => void)|undefined>(props?.delete);
+  let updateData = props?.update;
+  let addData = props?.add;
+  let deleteData = props?.delete;
 
   useEffect(() => {
     setControllers(props?.controllers);
@@ -48,17 +42,22 @@ const Row = (props: {
   }, [props?.row]);
 
   useEffect(() => {
-    // setAdd(props?.add);
+    updateData = props?.update;
+  }, [props?.update]);
+
+  useEffect(() => {
+    addData = props?.add;
   }, [props?.add]);
 
   useEffect(() => {
-    // setDelete(props?.delete);
+    deleteData = props?.delete;
   }, [props?.delete]);
 
   useEffect(() => {
   }, [
-    // deleteData,
-    // addData,
+    deleteData,
+    addData,
+    updateData,
     controllers,
     indexes,
     row,
@@ -70,9 +69,6 @@ const Row = (props: {
     row,
     Object.values(row || {}),
     ...Object.values(row || {}),
-    row?.[0],
-    Object.values(row?.[0] || {}),
-    ...Object.values(row?.[0] || {}),
   ]);
 
   useEffect(() => {}, [
@@ -83,6 +79,7 @@ const Row = (props: {
     props?.columnActions,
     props?.add,
     props?.delete,
+    props?.update,
   ]);
 
   return (
@@ -130,7 +127,7 @@ const Row = (props: {
                 ...controller?.contentStyle,
               }}
             >
-              {props?.add && controller?.hasAdd ? (
+              {addData && controller?.hasAdd ? (
                 <>
                   <Input
                     style={{
@@ -148,14 +145,14 @@ const Row = (props: {
                     }}
                     type={'button'}
                     color={'green'}
-                    onClick={() => props?.add?.(row?.[0])}
+                    onClick={() => addData?.(row)}
                     value={'+'}
                   />
                 </>
               ) : (
                 <></>
               )}
-              {props?.delete && controller?.hasDelete ? (
+              {deleteData && controller?.hasDelete ? (
                 <Input
                   style={{
                     float: 'left',
@@ -172,7 +169,7 @@ const Row = (props: {
                   }}
                   type={'button'}
                   color={'red'}
-                  onClick={() => props?.delete?.(indexes?.[0] as number)}
+                  onClick={() => deleteData?.(indexes?.[0] as number)}
                   value={'-'}
                 />
               ) : (
@@ -196,10 +193,8 @@ const Row = (props: {
                   }}
                   controller={controller}
                   indexes={[...(indexes || []), controller?.index]}
-                  data={[
-                    row?.[0]?.[controller?.index || ''],
-                    row?.[1],
-                  ]}
+                  data={row?.[controller?.index || '']}
+                  update={updateData}
                   actions={props?.columnActions}
                 />
               }
