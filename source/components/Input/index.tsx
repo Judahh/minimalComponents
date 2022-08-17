@@ -79,13 +79,21 @@ const Input = (props: {
     eventF?
   ) => void;
 }) => {
+  const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
   const inputRef = useRef<HTMLButtonElement>(null);
   const valueState: [any, (error?) => void] = props?.setValue
     ? [props?.value, props?.setValue]
-    : useState<any | undefined>(props.defaultValue || props.value);
+    : useState<any | undefined>(type === 'checkbox' || type === 'radio' ? (props.defaultValue || props.value) : (props.defaultValue || props.value));
   const errorState = props?.setError
     ? undefined
     : useState<any | undefined>(props.defaultError || props.error);
+
+  useEffect(() => {
+    setType(props?.type?.toLowerCase?.() || 'text');
+  } , [props?.type]);
+
+  useEffect(() => {
+  } , [type]);
 
   const basicValidate = (
     event?,
@@ -95,12 +103,14 @@ const Input = (props: {
     setError?: (error?: string) => void,
     eventF?
   ) => {
-    // console.log('basicValidate', value, valueState);
+    console.log('basicValidate', value, valueState);
     checkAndstopPropagation(props?.stopPropagation, event);
     if (props?.validate)
       props.validate(value, valueState, error, setError, event, eventF);
     else {
-      valueState?.[1]?.(value);
+      if (type === 'checkbox' || type === 'radio')
+        valueState?.[1]?.(!!!valueState?.[0]);
+      else valueState?.[1]?.(value);
       setError?.(error);
     }
     eventF?.(event, value, valueState, error, setError);
@@ -109,14 +119,14 @@ const Input = (props: {
   useEffect(() => {}, [props?.error]);
 
   useEffect(() => {
-    if (!props?.setValue)
-      if (props?.validate)
-        props.validate?.(
-          props?.value,
-          props?.setValue,
-          props?.error,
-          props?.setError
-        );
+    // basicValidate(
+    //   undefined,
+    //   props?.value,
+    //   valueState,
+    //   props?.error || errorState?.[0],
+    //   props?.setError || errorState?.[1]
+    // );
+    valueState?.[1]?.(props?.value);
   }, [props?.value]);
 
   useEffect(() => {}, [props, Object.values(props)]);
@@ -134,7 +144,11 @@ const Input = (props: {
     newProps.validate = props.validate;
 
     newProps.defaultValue = props?.defaultValue || props?.value;
+
+    if (type === 'checkbox' || type === 'radio')
+      newProps.checked = valueState?.[0];
     newProps.value = valueState?.[0];
+
     newProps.onChange = (event) =>
       basicValidate(
         event,
@@ -195,12 +209,12 @@ const Input = (props: {
       );
     };
 
-    if (newProps.value != undefined) delete newProps.defaultValue;
+    if (newProps.value != undefined && newProps.checked != undefined) delete newProps.defaultValue;
     return newProps;
   };
 
   const input =
-    props.type === 'file' ? (
+    type === 'file' ? (
       <>
         <InputStyle
           {...{ ...getProps(), value: '' }}
@@ -218,7 +232,7 @@ const Input = (props: {
         />
       </>
     ) : (
-      <InputStyle {...getProps()} ref={inputRef} />
+      <InputStyle checked={valueState?.[0]} {...getProps()} ref={inputRef} />
     );
 
   const fullInput = props.label ? (

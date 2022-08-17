@@ -140,6 +140,7 @@ const BasicAll = (props: { theme }) => {
     number | undefined
   >(60000);
   const [isOpen, setIsOpen] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
   const [searchValue, setSearchValue] = useState<string | undefined>(
     'asdfasdf'
   );
@@ -431,6 +432,15 @@ const BasicAll = (props: { theme }) => {
           name="quantity"
           type="search"
           closeIconType={IconType.x}
+        />
+        <Input
+          type={'checkbox'}
+          value={checkbox}
+          setValue={setCheckbox}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
         />
         <Input
           type={'checkbox'}
