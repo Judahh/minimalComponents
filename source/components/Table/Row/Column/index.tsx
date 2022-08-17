@@ -40,7 +40,7 @@ const Column = (props: {
   }, [props?.actions, controller, controller?.actions]);
 
   useEffect(() => {
-    // console.log('Column OUT Data Changed', props?.data);
+    console.log('Column OUT Data Changed', props?.data);
   }, [props?.data]);
 
   useEffect(() => {

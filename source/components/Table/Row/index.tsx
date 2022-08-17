@@ -59,19 +59,14 @@ const Row = (props: {
   ]);
 
   useEffect(() => {
-    // console.log('Row Data Changed', row);
-  }, [
-    props?.row?.[0],
-    Object.values(props?.row?.[0] || {}),
-    ...Object.values(props?.row?.[0] || {}),
-  ]);
-
-  useEffect(() => {
-    // console.log('Row OUT Data Changed', props?.row?.[0]);
+    console.log('Row Data Changed', props?.row);
   }, [
     props?.row,
     Object.values(props?.row || {}),
     ...Object.values(props?.row || {}),
+    props?.row?.[0],
+    Object.values(props?.row?.[0] || {}),
+    ...Object.values(props?.row?.[0] || {}),
   ]);
 
   useEffect(() => {}, [
