@@ -84,6 +84,7 @@ function Image(props: {
       <CarouselHolder>
         <div
           onClick={props?.onClick}
+          style={{ cursor: props?.onClick ? 'pointer' : 'auto' }}
         >
           <Carousel
             selectedItem={props.index || 0}
