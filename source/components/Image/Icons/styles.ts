@@ -96,7 +96,7 @@ ${(props) => baseConfig(props)}
 --secondary: ${(props) => props?.theme?.primary || 'black'} !important;
 height: 100%;
 align-self: center;
-padding-top: 10vh;
+padding-top: 10px;
 
 #steamL {
   stroke-dasharray: 13;

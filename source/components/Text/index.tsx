@@ -6,7 +6,7 @@ export const H1 = styled.h1`
   width: 100%;
   font-size: ${(props) => props?.theme?.h1?.font?.size || '18px'};
   font-weight: ${(props) => props?.theme?.h1?.font?.weight || 'bold'};
-  margin-bottom: 5vh;
+  margin: 10px;
   color: ${(props) => props.theme.primary};
 `;
 
