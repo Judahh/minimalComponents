@@ -54,7 +54,7 @@ const Column = (props: {
     <>
       {controller?.type === 'title' ? (
         <H2 style={{ ...props?.style, ...controller?.titleStyle }}>
-          {controller?.name || ''}
+          {controller?.name || controller?.index || ''}
         </H2>
       ) : updateData && controller?.hasEdit ? (
         <Input
@@ -98,8 +98,8 @@ const Column = (props: {
           }}
         >
           {data ||
-            controller?.name ||
             controller?.defaultValue ||
+            controller?.name ||
             controller?.index}
         </Text>
       )}
