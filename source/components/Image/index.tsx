@@ -16,6 +16,7 @@ const getMaxHeight = (props, titleHeightOffset) =>
 function Image(props: {
   images?: string[];
   index?: number;
+  onClick?: () => void;
   setIndex?: (index: number) => void;
   alt?: string;
   lqip?: string;
@@ -81,113 +82,117 @@ function Image(props: {
   return (
     <>
       <CarouselHolder>
-        <Carousel
-          selectedItem={props.index || 0}
-          autoPlay={false}
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={
-            props?.images?.length !== undefined &&
-            props?.images?.length !== null &&
-            props?.images?.length > 1
-          }
-          swipeable={true}
-          emulateTouch={true}
-          dynamicHeight={true}
-          useKeyboardArrows={true}
-          onChange={onChange}
-          onSwipeStart={preventDefault}
-          onSwipeEnd={preventDefault}
-          onSwipeMove={preventDefault}
-          renderArrowPrev={(onClick, hasPrev) =>
-            hasPrev && (
-              <Input
-                type={"button"}
-                onClick={(e) => {
-                  preventDefault(e);
-                  onClick();
-                }}
-                style={{ ...arrowStyles, left: 15 }}
-                value={props.left || "⯇"}
-              />
-            )
-          }
-          renderArrowNext={(onClick, hasNext) =>
-            hasNext && (
-              <Input
-                type={"button"}
-                onClick={(e) => {
-                  preventDefault(e);
-                  onClick();
-                }}
-                style={{ ...arrowStyles, right: 15 }}
-                value={props.right || "⯈"}
-              />
-            )
-          }
-          renderIndicator={(onClick, isSelected, index) => {
-            return (
-              <Indicator
-                onClick={(
-                  e:
-                    | React.MouseEvent<Element, MouseEvent>
-                    | React.KeyboardEvent<Element>
-                ) => {
-                  preventDefault(e);
-                  onClick(e);
-                }}
-                onKeyDown={
-                  isSelected
-                    ? (
-                        e:
-                          | React.MouseEvent<Element, MouseEvent>
-                          | React.KeyboardEvent<Element>
-                      ) => {
-                        preventDefault(e);
-                        onClick(e);
-                      }
-                    : undefined
-                }
-                value={index}
-                key={index}
-                role="button"
-                tabIndex={0}
-                title={`${index + 1}`}
-                aria-label={`${index + 1}`}
-                style={{
-                  ...baseIndicator,
-                  ...selection(isSelected),
-                }}
-              />
-            );
-          }}
+        <div
+          onClick={props?.onClick}
         >
-          {props?.images?.map((image, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  filter: 'grayscale(' + (props.disabled ? '1' : '0') + ')',
-                }}
-              >
-                <BackgroundImage alt={props.alt} src={props.lqip} />
-                <ImageStyle
-                  loading="lazy"
-                  src={image}
-                  alt={props.alt}
-                  ref={imgRef}
-                  onLoad={() => setLoaded(true)}
-                  className={clsx('source', loaded && 'loaded') + 'img-fluid'}
+          <Carousel
+            selectedItem={props.index || 0}
+            autoPlay={false}
+            showThumbs={false}
+            showStatus={false}
+            showIndicators={
+              props?.images?.length !== undefined &&
+              props?.images?.length !== null &&
+              props?.images?.length > 1
+            }
+            swipeable={true}
+            emulateTouch={true}
+            dynamicHeight={true}
+            useKeyboardArrows={true}
+            onChange={onChange}
+            onSwipeStart={preventDefault}
+            onSwipeEnd={preventDefault}
+            onSwipeMove={preventDefault}
+            renderArrowPrev={(onClick, hasPrev) =>
+              hasPrev && (
+                <Input
+                  type={"button"}
+                  onClick={(e) => {
+                    preventDefault(e);
+                    onClick();
+                  }}
+                  style={{ ...arrowStyles, left: 15 }}
+                  value={props.left || "⯇"}
+                />
+              )
+            }
+            renderArrowNext={(onClick, hasNext) =>
+              hasNext && (
+                <Input
+                  type={"button"}
+                  onClick={(e) => {
+                    preventDefault(e);
+                    onClick();
+                  }}
+                  style={{ ...arrowStyles, right: 15 }}
+                  value={props.right || "⯈"}
+                />
+              )
+            }
+            renderIndicator={(onClick, isSelected, index) => {
+              return (
+                <Indicator
+                  onClick={(
+                    e:
+                      | React.MouseEvent<Element, MouseEvent>
+                      | React.KeyboardEvent<Element>
+                  ) => {
+                    preventDefault(e);
+                    onClick(e);
+                  }}
+                  onKeyDown={
+                    isSelected
+                      ? (
+                          e:
+                            | React.MouseEvent<Element, MouseEvent>
+                            | React.KeyboardEvent<Element>
+                        ) => {
+                          preventDefault(e);
+                          onClick(e);
+                        }
+                      : undefined
+                  }
+                  value={index}
+                  key={index}
+                  role="button"
+                  tabIndex={0}
+                  title={`${index + 1}`}
+                  aria-label={`${index + 1}`}
                   style={{
-                    maxHeight: maxHeight,
-                    height: maxHeight,
-                    color: 'red',
+                    ...baseIndicator,
+                    ...selection(isSelected),
                   }}
                 />
-              </div>
-            );
-          })}
-        </Carousel>
+              );
+            }}
+          >
+            {props?.images?.map((image, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{
+                    filter: 'grayscale(' + (props.disabled ? '1' : '0') + ')',
+                  }}
+                >
+                  <BackgroundImage alt={props.alt} src={props.lqip} />
+                  <ImageStyle
+                    loading="lazy"
+                    src={image}
+                    alt={props.alt}
+                    ref={imgRef}
+                    onLoad={() => setLoaded(true)}
+                    className={clsx('source', loaded && 'loaded') + 'img-fluid'}
+                    style={{
+                      maxHeight: maxHeight,
+                      height: maxHeight,
+                      color: 'red',
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </Carousel>
+        </div>
         <LeftElementHolder>
           {props.leftElement}
         </LeftElementHolder>
