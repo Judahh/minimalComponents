@@ -118,16 +118,8 @@ const Input = (props: {
 
   useEffect(() => {}, [props?.error]);
 
-  useEffect(() => {
-    // basicValidate(
-    //   undefined,
-    //   props?.value,
-    //   valueState,
-    //   props?.error || errorState?.[0],
-    //   props?.setError || errorState?.[1]
-    // );
-    valueState?.[1]?.(props?.value);
-  }, [props?.value]);
+  // useEffect(() => {
+  // }, [props?.value]);
 
   useEffect(() => {}, [props, Object.values(props)]);
 
