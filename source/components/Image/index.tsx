@@ -113,7 +113,7 @@ function Image(props: {
                     onClick();
                   }}
                   style={{ ...arrowStyles, left: 15 }}
-                  value={props.left || "◀" || "◁" || "◂" || "⦉" || "❮" || "◃" }
+                  value={props.left || "◃" || "◀" || "◁" || "◂" || "⦉" || "❮" }
                 />
               )
             }
@@ -126,7 +126,7 @@ function Image(props: {
                     onClick();
                   }}
                   style={{ ...arrowStyles, right: 15 }}
-                  value={props.right || "▶" || "▷" || "▸"|| "⦊" || "❯" || "▹" }
+                  value={props.right || "▹" || "▶" || "▷" || "▸"|| "⦊" || "❯" }
                 />
               )
             }
