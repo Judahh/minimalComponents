@@ -3,6 +3,17 @@ import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
 import { Error } from '../Text';
 
+const stopPropagation = (event) => {
+  event?.stopImmediatePropagation?.();
+  event?.stopPropagation?.();
+  event?.nativeEvent?.stopPropagation?.();
+  event?.nativeEvent?.stopImmediatePropagation?.();
+}
+
+const checkAndstopPropagation = (stop?, event?) => {
+  if(stop) stopPropagation(event);
+}
+
 const Input = (props: {
   defaultError?;
   type?;
@@ -85,7 +96,7 @@ const Input = (props: {
     eventF?
   ) => {
     // console.log('basicValidate', value, valueState);
-    if (props?.stopPropagation) event?.stopPropagation();
+    checkAndstopPropagation(props?.stopPropagation, event);
     if (props?.validate)
       props.validate(value, valueState, error, setError, event, eventF);
     else {
@@ -134,7 +145,7 @@ const Input = (props: {
         props.onChange
       );
     newProps.onClick = (event) => {
-      if (props?.stopPropagation) event?.stopPropagation();
+      checkAndstopPropagation(props?.stopPropagation, event);
       return props?.onClick?.(
         event,
         event.target.value,
@@ -144,7 +155,7 @@ const Input = (props: {
       );
     };
     newProps.onInput = (event) => {
-      if (props?.stopPropagation) event?.stopPropagation();
+      checkAndstopPropagation(props?.stopPropagation, event);
       return props?.onInput?.(
         event,
         event.target.value,
@@ -154,7 +165,7 @@ const Input = (props: {
       );
     };
     newProps.onSubmit = (event) => {
-      if (props?.stopPropagation) event?.stopPropagation();
+      checkAndstopPropagation(props?.stopPropagation, event);
       return props?.onSubmit?.(
         event,
         event.target.value,
@@ -164,7 +175,7 @@ const Input = (props: {
       );
     };
     newProps.onKeyUp = (event) => {
-      if (props?.stopPropagation) event?.stopPropagation();
+      checkAndstopPropagation(props?.stopPropagation, event);
       return props?.onKeyUp?.(
         event,
         event.target.value,
@@ -174,7 +185,7 @@ const Input = (props: {
       );
     };
     newProps.onKeyDown = (event) => {
-      if (props?.stopPropagation) event?.stopPropagation();
+      checkAndstopPropagation(props?.stopPropagation, event);
       return props?.onKeyDown?.(
         event,
         event.target.value,
