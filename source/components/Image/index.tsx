@@ -112,8 +112,8 @@ function Image(props: {
                     preventDefault(e);
                     onClick();
                   }}
-                  style={{ ...arrowStyles, left: 15 }}
-                  value={props.left || "◃" || "◀" || "◁" || "◂" || "⦉" || "❮" }
+                  style={{ ...arrowStyles, left: 15, fontFamily: 'ui-monospace' }}
+                  value={props.left || "❮" || "◃" || "◀" || "◁" || "◂" || "⦉" }
                 />
               )
             }
@@ -125,8 +125,8 @@ function Image(props: {
                     preventDefault(e);
                     onClick();
                   }}
-                  style={{ ...arrowStyles, right: 15 }}
-                  value={props.right || "▹" || "▶" || "▷" || "▸"|| "⦊" || "❯" }
+                  style={{ ...arrowStyles, right: 15, fontFamily: 'ui-monospace' }}
+                  value={props.right || "❯" || "▹" || "▶" || "▷" || "▸"|| "⦊" }
                 />
               )
             }
