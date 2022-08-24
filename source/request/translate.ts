@@ -19,28 +19,31 @@ const decodeText = (text: string) => {
     .replace(new RegExp(escapeRegExp('$UR$'), 'g'), '\n');
 };
 
-const translateText = async (key: string, text: string, targetLanguage?: string) => {
+const translateText = async (
+  key: string,
+  text: string,
+  targetLanguage?: string
+) => {
   if (
     targetLanguage === undefined ||
     targetLanguage === null ||
     targetLanguage?.toLowerCase()?.includes('en')
   )
     return text;
+  if (key)
+    try {
+      const data = await request(
+        `https://translation.googleapis.com/language/translate/v2?key=${key}`,
+        'get',
+        `&q=${encodeText(text)}&target=${targetLanguage}&source=en`
+      );
 
-  const data = await request(
-    `https://translation.googleapis.com/language/translate/v2?key=${key}`,
-    'get',
-    `&q=${encodeText(text)}&target=${targetLanguage}&source=en`,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    {}
-  );
-
-  text = decodeText(data?.data?.data?.translations[0]?.translatedText) || text;
+      text =
+        decodeText(data?.data?.data?.translations[0]?.translatedText) || text;
+      return text;
+    } catch (error) {
+      console.error(error);
+    }
   return text;
 };
 
