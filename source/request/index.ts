@@ -1,6 +1,58 @@
 import axios from 'axios';
 import RequestError from './requestError';
 
+const improveErrorMessage = (error: any, url?, method?) => {
+  let code =
+    error.status ||
+    error.statusCode ||
+    error.request?.statusCode ||
+    error.response?.statusCode ||
+    error.response?.status;
+  let codeText =
+    error.statusText ||
+    error.request?.statusText ||
+    error.response?.statusText ||
+    error.response?.name ||
+    error.request?.name ||
+    error.name ||
+    '';
+  let response =
+    (typeof error.response === 'string' && error.response) ||
+    error.responseText ||
+    error.request?.response ||
+    error.request?.responseText ||
+    error.response?.response ||
+    error.response?.responseText ||
+    error.message ||
+    '{}';
+  console.error('AN ERROR:', error, url, method);
+
+  try {
+    response = JSON.parse(response);
+  } catch (error) {
+    console.error('Error response:', error);
+    response = response;
+  }
+
+  for (const key in error) {
+    if (Object.prototype.hasOwnProperty.call(error, key)) {
+      const element = error[key];
+      console.error(key, element);
+    }
+  }
+
+  if (code === undefined || code === null || code === '') {
+    code = 400;
+    if (url.includes('wroom') || url.includes('user') || url.includes('auth')) {
+      code = 503;
+    }
+    codeText = 'CORS Error:' + codeText;
+    response = 'CORS Error:' + response;
+  }
+
+  return new RequestError(code, codeText, response);
+};
+
 const request = async (
   address: string,
   method: string,
@@ -25,7 +77,7 @@ const request = async (
       http = 'https://';
       if (url.includes('localhost')) http = 'http://';
     }
-    let config: { headers: {}, data?:{} } = {
+    let config: { headers: {}; data?: {} } = {
       headers: {
         'Access-Control-Allow-Origin': '*',
         Accept: '*/*',
@@ -58,10 +110,13 @@ const request = async (
       };
     }
 
-    config = method === 'get' ||
-    method === 'delete' ||
-    method === 'head' ||
-    method === 'options' ? { ...config, data: data } : config;
+    config =
+      method === 'get' ||
+      method === 'delete' ||
+      method === 'head' ||
+      method === 'options'
+        ? { ...config, data: data }
+        : config;
 
     const param2 =
       method === 'get' ||
@@ -86,72 +141,10 @@ const request = async (
 
     return received;
   } catch (error: any) {
-    let code =
-      error.status ||
-      error.statusCode ||
-      error.request?.statusCode ||
-      error.response?.statusCode ||
-      error.response?.status;
-    let codeText =
-      error.statusText ||
-      error.request?.statusText ||
-      error.response?.statusText ||
-      error.response?.name ||
-      error.request?.name ||
-      error.name ||
-      '';
-    let response =
-      (typeof error.response === 'string' && error.response) ||
-      error.responseText ||
-      error.request?.response ||
-      error.request?.responseText ||
-      error.response?.response ||
-      error.response?.responseText ||
-      '{}';
-    console.error('AN ERROR:', error, address, method, path);
-    try {
-      response = JSON.parse(response);
-    } catch (error) {
-      console.error('Error response:', error);
-      response = response;
-    }
+    error = improveErrorMessage(error, url, method);
 
-    for (const key in error) {
-      if (Object.prototype.hasOwnProperty.call(error, key)) {
-        const element = error[key];
-        console.error(key, element);
-      }
-    }
-
-    if (code === undefined || code === null || code === '') {
-      code = 400;
-      if (
-        url.includes('wroom') ||
-        url.includes('user') ||
-        url.includes('auth')
-      ) {
-        code = 503;
-      }
-      codeText = 'CORS Error';
-      response = 'CORS Error';
-    }
-
-    //! todo: refresh token
-    // if (code === 401) {
-    //   return await request(
-    //     address,
-    //     method,
-    //     path,
-    //     await token(),
-    //     data,
-    //     clearBaseURL,
-    //     page,
-    //     pageSize
-    //   );
-    // }
-
-    if (code >= 500 && code < 600) {
-      console.error('codeError:', error);
+    if (error.code >= 500 && error.code < 600) {
+      console.error('CodeError:', error);
       return await request(
         address,
         method,
@@ -163,9 +156,9 @@ const request = async (
         pageSize
       );
     } else {
-      console.error('Error:', code, codeText, response);
+      console.error('Error:', error);
       console.error(error);
-      throw new RequestError(code, codeText, response);
+      throw error;
     }
   }
 };
