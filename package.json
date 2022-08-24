@@ -1,6 +1,6 @@
 {
   "name": "minimal-components-react",
-  "version": "1.0.62",
+  "version": "1.0.63",
   "main": "server.js",
   "license": "MIT",
   "config": {
@@ -18,7 +18,7 @@
     "build": "rm -rf dist/ && tsc",
     "test": "node_modules/cypress/bin/cypress run --component",
     "prestart": "",
-    "visual-test": "node_modules/cypress/bin/cypress open --component"
+    "dev": "node_modules/cypress/bin/cypress open --component"
   },
   "dependencies": {
     "axios": "latest",
