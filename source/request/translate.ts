@@ -20,8 +20,8 @@ const decodeText = (text: string) => {
 };
 
 const translateText = async (
-  key: string,
-  text: string,
+  key?: string,
+  text?: string,
   targetLanguage?: string
 ) => {
   if (
@@ -30,7 +30,7 @@ const translateText = async (
     targetLanguage?.toLowerCase()?.includes('en')
   )
     return text;
-  if (key != undefined && key?.trim?.() !== '')
+  if (key != undefined && key?.trim?.() !== '' && text != undefined && text?.trim?.() !== '')
     try {
       const data = await request(
         `https://translation.googleapis.com/language/translate/v2?key=${key}`,
