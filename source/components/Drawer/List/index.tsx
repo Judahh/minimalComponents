@@ -18,6 +18,7 @@ const List = (props: {
 }) => {
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
+    console.log('list passProps', elements, toggleIndexes, openIndexes, closeIndexes, noClickIndexes);
     return (
       elements &&
       React.Children.map(elements, (child, index) => {
@@ -48,7 +49,7 @@ const List = (props: {
         if (has)
           delete newProps.onClick
 
-        console.log('newProps', index, newProps);
+        console.log('list newProps', index, newProps);
 
         const cloneChild = React.cloneElement(child, newProps);
         return cloneChild;

@@ -1,6 +1,6 @@
 {
   "name": "minimal-components-react",
-  "version": "1.0.81",
+  "version": "1.0.82",
   "main": "server.js",
   "license": "MIT",
   "config": {
