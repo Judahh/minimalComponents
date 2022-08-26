@@ -22,16 +22,15 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
     state[1](false);
   };
 
+  const filterIndexes = (indexes:number[], children:number) => {
+    return indexes.map(index=>{
+      return index-children;
+    }).filter(index => index>=0);
+  }
+
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
-    let grandchildren = React.Children.map(elements, (element) => {
-      if (element.props?.children)
-        return React.Children.map(element.props?.children, (grandchild) => grandchild);
-    });
-    console.log('grandchildren', grandchildren);
-    grandchildren = grandchildren?.flat?.();
-    console.log('grandchildren flat', grandchildren);
     return (
-      grandchildren?.map?.(elements, (child, index) => {
+      React.Children.map?.(elements, (child, index) => {
         let find = toggleIndexes?.findIndex?.(openIndex => openIndex === index);
         let has = find !== null && find !== undefined && find > -1;
         let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined = toggle;
@@ -65,12 +64,42 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
     );
   };
 
+  const passPropsToNav = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
+    let currentToggleIndexes = toggleIndexes || [];
+    let currentOpenIndexes = openIndexes || [];
+    let currentCloseIndexes = closeIndexes || [];
+    let currentNoClickIndexes = noClickIndexes || [];
+    return (
+      elements &&
+      React.Children.map(elements, (child) => {
+        currentToggleIndexes = filterIndexes(currentToggleIndexes, child.props?.children?.length);
+        currentOpenIndexes = filterIndexes(currentOpenIndexes, child.props?.children?.length);
+        currentCloseIndexes = filterIndexes(currentCloseIndexes, child.props?.children?.length);
+        currentNoClickIndexes = filterIndexes(currentNoClickIndexes, child.props?.children?.length);
+
+        const newProps = {
+          toggleIndexes: currentToggleIndexes,
+          openIndexes: currentOpenIndexes,
+          closeIndexes: currentCloseIndexes,
+          noClickIndexes: currentNoClickIndexes,
+          drawerState: state,
+          drawerOpen: open,
+          drawerClose: close,
+          drawerToggle: toggle,
+        };
+
+        const cloneChild = React.cloneElement(child, newProps);
+        return cloneChild;
+      })
+    );
+  };
+
   const [children, setChildren] = useState(props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>));
-  const [navElements, setNavElements] = useState(props?.nav?.props?.children ? (passProps(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>));
+  const [navElements, setNavElements] = useState(props?.nav?.props?.children ? (passPropsToNav(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>));
 
   useEffect(() => {
     setChildren(props.children ? (passProps(props.children, props.childrenToggleIndexes, props.childrenOpenIndexes, props.childrenCloseIndexes, props.childrenNoClickIndexes)):(<></>))
-    setNavElements(props?.nav?.props?.children ? (passProps(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>))
+    setNavElements(props?.nav?.props?.children ? (passPropsToNav(props?.nav?.props?.children, props.navToggleIndexes, props.navOpenIndexes, props.navCloseIndexes, props.navNoClickIndexes)):(<></>))
   }, [props?.children, props?.nav?.props?.children, state?.[0]]);
 
   return (
