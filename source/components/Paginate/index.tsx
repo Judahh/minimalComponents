@@ -209,7 +209,7 @@ export default class Paginate extends Component<PropTypes, StateTypes> {
       this.setState(() => ({
         elements: this.props.elements,
       }));
-      if (this.props.elements === []) await this.clear();
+      if (this?.props?.elements == undefined || this?.props?.elements?.length === 0) await this.clear();
     }
     if (prevProps.populate !== this.props.populate) {
       this.setState(() => ({
