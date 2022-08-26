@@ -26,7 +26,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
     const filtered = indexes.map(index=>{
       return index - children;
     }).filter(index => index>=0);
-    console.log('filtered', filtered);
+    console.log('filtered', filtered, children);
     return filtered;
   }
 
@@ -67,10 +67,12 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
   };
 
   const passPropsToNav = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
-    let currentToggleIndexes = toggleIndexes || [];
-    let currentOpenIndexes = openIndexes || [];
-    let currentCloseIndexes = closeIndexes || [];
-    let currentNoClickIndexes = noClickIndexes || [];
+    let currentToggleIndexes = JSON.parse(JSON.stringify(toggleIndexes || []));
+    let currentOpenIndexes = JSON.parse(JSON.stringify(openIndexes || []));
+    let currentCloseIndexes = JSON.parse(JSON.stringify(closeIndexes || []));
+    let currentNoClickIndexes = JSON.parse(JSON.stringify(noClickIndexes || []));
+    console.log('passPropsToNav', currentToggleIndexes, currentOpenIndexes, currentCloseIndexes, currentNoClickIndexes);
+
     return (
       elements &&
       React.Children.map(elements, (child, index) => {
