@@ -31,8 +31,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
     return (
       React.Children.map?.(elements, (child, index) => {
-        let has = exists(toggleIndexes, index);
-
+        let has = exists(openIndexes, index);
         let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined;
 
         if (has) {
