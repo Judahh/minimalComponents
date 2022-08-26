@@ -48,6 +48,8 @@ const List = (props: {
         if (has)
           delete newProps.onClick
 
+        console.log('newProps', index, newProps);
+
         const cloneChild = React.cloneElement(child, newProps);
         return cloneChild;
       })
@@ -58,6 +60,7 @@ const List = (props: {
 
   useEffect(() => {
     setChildren(props.children ? (passProps(props?.children, props?.toggleIndexes, props?.openIndexes, props?.closeIndexes, props?.noClickIndexes)):(<></>))
+    console.log('children', children);
   }, [props?.children, props?.state, props?.state?.[0], props?.toggleIndexes, props?.openIndexes, props?.closeIndexes, props?.noClickIndexes]);
 
   return (

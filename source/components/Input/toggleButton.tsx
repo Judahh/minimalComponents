@@ -34,7 +34,7 @@ const ToggleButton = (props: { children?:any[]; drawerState?: [boolean|undefined
   return (
     <ToggleHolder
       onClick={()=>{
-        props.onClick();
+        props?.onClick?.();
       }}
       className={props?.drawerState?.[0] ? 'openned': 'closed'}>
       {children}

@@ -71,7 +71,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
     let currentNoClickIndexes = noClickIndexes || [];
     return (
       elements &&
-      React.Children.map(elements, (child) => {
+      React.Children.map(elements, (child, index) => {
         currentToggleIndexes = filterIndexes(currentToggleIndexes, child.props?.children?.length);
         currentOpenIndexes = filterIndexes(currentOpenIndexes, child.props?.children?.length);
         currentCloseIndexes = filterIndexes(currentCloseIndexes, child.props?.children?.length);
@@ -87,6 +87,8 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
           drawerClose: close,
           drawerToggle: toggle,
         };
+
+        console.log('newProps base', index, newProps);
 
         const cloneChild = React.cloneElement(child, newProps);
         return cloneChild;
