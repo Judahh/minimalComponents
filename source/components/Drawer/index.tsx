@@ -23,9 +23,13 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
   };
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
+    const grandchildren = React.Children.map(elements, (element) => {
+      if (element.props?.children)
+        return React.Children.map(element.props?.children, (grandchild) => grandchild);
+    }).flat();
     return (
       elements &&
-      React.Children.map(elements, (child, index) => {
+      grandchildren.map(elements, (child, index) => {
         let find = toggleIndexes?.findIndex?.(openIndex=>openIndex === index);
         let has = find !== null && find !== undefined && find > -1;
         let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined = toggle;
