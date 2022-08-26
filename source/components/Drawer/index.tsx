@@ -25,7 +25,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
   const filterIndexes = (indexes:number[], children = 0) => {
     const filtered = indexes.map(index=> index - children).filter(index => index >= 0);
     console.log('filtered', filtered, children);
-    return filtered;
+    return JSON.parse(JSON.stringify(filtered));
   }
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
@@ -75,13 +75,6 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
       elements &&
       React.Children.map(elements, (child, index) => {
         console.log('child', index, child);
-
-        const length = React.Children.count(child.props?.children);
-        currentToggleIndexes = filterIndexes(currentToggleIndexes, length);
-        currentOpenIndexes = filterIndexes(currentOpenIndexes, length);
-        currentCloseIndexes = filterIndexes(currentCloseIndexes, length);
-        currentNoClickIndexes = filterIndexes(currentNoClickIndexes, length);
-
         const newProps = {
           toggleIndexes: currentToggleIndexes,
           openIndexes: currentOpenIndexes,
@@ -96,6 +89,12 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
         console.log('newProps base', index, newProps);
 
         const cloneChild = React.cloneElement(child, newProps);
+
+        const length = React.Children.count(child.props?.children);
+        currentToggleIndexes = filterIndexes(currentToggleIndexes, length);
+        currentOpenIndexes = filterIndexes(currentOpenIndexes, length);
+        currentCloseIndexes = filterIndexes(currentCloseIndexes, length);
+        currentNoClickIndexes = filterIndexes(currentNoClickIndexes, length);
         return cloneChild;
       })
     );
