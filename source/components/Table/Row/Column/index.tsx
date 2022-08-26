@@ -47,7 +47,7 @@ const Column = (props: {
   }, [props?.actions, controller, controller?.actions]);
 
   useEffect(() => {
-    console.log('Update Column', controller, indexes, actions, data, updateData);
+    // console.log('Update Column', controller, indexes, actions, data, updateData);
   }, [controller, indexes, actions, data, updateData]);
 
   return (

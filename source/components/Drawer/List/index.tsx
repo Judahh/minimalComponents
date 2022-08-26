@@ -4,6 +4,7 @@ import {
   List as DrawerList,
 } from './styles';
 import { withTheme } from 'styled-components';
+import { exists } from '../../../utils/util';
 
 const List = (props: {
   children?:any[];
@@ -22,23 +23,29 @@ const List = (props: {
     return (
       elements &&
       React.Children.map(elements, (child, index) => {
-        let find = toggleIndexes?.findIndex?.(openIndex=>openIndex === index);
-        let has = find !== null && find !== undefined && find > -1;
-        let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined = props?.toggle;
+        let has = exists(toggleIndexes, index);
+        let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined;
 
-        if (!has) {
-          find = openIndexes?.findIndex?.(openIndex=>openIndex === index);
-          has = find !== null && find !== undefined && find > -1;
+        if (has) {
           drawerAction = props?.open;
-          if (!has) {
-            find = closeIndexes?.findIndex?.(closeIndex=>closeIndex === index);
-            has = find !== null && find !== undefined && find > -1;
-            drawerAction = has ? props?.close : undefined;
+          has = exists(closeIndexes, index);
+          if(has) {
+            drawerAction = props?.toggle;
+          }
+        } else {
+          has = exists(closeIndexes, index);
+          if(has) {
+            drawerAction = props?.close;
           }
         }
-        find = noClickIndexes?.findIndex?.(openIndex=>openIndex === index);
-        has = find !== null && find !== undefined && find > -1;
-        const newProps = {
+
+        has = exists(toggleIndexes, index);
+
+        if(has) {
+          drawerAction = props?.toggle;
+        }
+
+        const newProps: {onClick?, drawerAction, drawerState, drawerOpen, drawerClose, drawerToggle} = {
           onClick: drawerAction,
           drawerAction: drawerAction,
           drawerState: props?.state,
@@ -46,10 +53,11 @@ const List = (props: {
           drawerClose: props?.close,
           drawerToggle: props?.toggle,
         };
-        if (has)
-          delete newProps.onClick
 
-        console.log('list newProps', index, newProps);
+        has = exists(noClickIndexes, index);
+
+        if(drawerAction == undefined && has)
+          delete newProps.onClick;
 
         const cloneChild = React.cloneElement(child, newProps);
         return cloneChild;
@@ -61,7 +69,6 @@ const List = (props: {
 
   useEffect(() => {
     setChildren(props.children ? (passProps(props?.children, props?.toggleIndexes, props?.openIndexes, props?.closeIndexes, props?.noClickIndexes)):(<></>))
-    console.log('children', children);
   }, [props?.children, props?.state, props?.state?.[0], props?.toggleIndexes, props?.openIndexes, props?.closeIndexes, props?.noClickIndexes]);
 
   return (

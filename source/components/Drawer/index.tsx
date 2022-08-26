@@ -6,6 +6,7 @@ import {
   DrawerHolder,
 } from './styles';
 import { withTheme } from 'styled-components';
+import { exists } from '../../utils/util';
 
 const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?:any[];}; }; navOpenIndexes?:number[]; navCloseIndexes?:number[]; navToggleIndexes?:number[]; navNoClickIndexes?:number[]; childrenOpenIndexes?:number[]; childrenCloseIndexes?:number[]; childrenToggleIndexes?:number[]; childrenNoClickIndexes?:number[];}) => {
   const state: [boolean, React.Dispatch<React.SetStateAction<boolean>>, any] = useState(false);
@@ -24,30 +25,36 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
 
   const filterIndexes = (indexes:number[], children = 0) => {
     const filtered = indexes.map(index=> index - children).filter(index => index >= 0);
-    console.log('filtered', filtered, children);
     return JSON.parse(JSON.stringify(filtered));
   }
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
     return (
       React.Children.map?.(elements, (child, index) => {
-        let find = toggleIndexes?.findIndex?.(openIndex => openIndex === index);
-        let has = find !== null && find !== undefined && find > -1;
-        let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined = toggle;
+        let has = exists(toggleIndexes, index);
 
-        if (!has) {
-          find = openIndexes?.findIndex?.(openIndex=>openIndex === index);
-          has = find !== null && find !== undefined && find > -1;
+        let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined;
+
+        if (has) {
           drawerAction = open;
-          if (!has) {
-            find = closeIndexes?.findIndex?.(closeIndex=>closeIndex === index);
-            has = find !== null && find !== undefined && find > -1;
-            drawerAction = has ? close : undefined;
+          has = exists(closeIndexes, index);
+          if(has) {
+            drawerAction = toggle;
+          }
+        } else {
+          has = exists(closeIndexes, index);
+          if(has) {
+            drawerAction = close;
           }
         }
-        find = noClickIndexes?.findIndex?.(openIndex=>openIndex === index);
-        has = find !== null && find !== undefined && find > -1;
-        const newProps = {
+
+        has = exists(toggleIndexes, index);
+
+        if(has) {
+          drawerAction = toggle;
+        }
+
+        const newProps: {onClick?, drawerAction, drawerState, drawerOpen, drawerClose, drawerToggle} = {
           onClick: drawerAction,
           drawerAction: drawerAction,
           drawerState: state,
@@ -55,8 +62,11 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
           drawerClose: close,
           drawerToggle: toggle,
         };
-        if (has)
-          delete newProps.onClick
+
+        has = exists(noClickIndexes, index);
+
+        if(drawerAction == undefined && has)
+          delete newProps.onClick;
 
         const cloneChild = React.cloneElement(child, newProps);
         return cloneChild;
@@ -69,12 +79,10 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
     let currentOpenIndexes = JSON.parse(JSON.stringify(openIndexes || []));
     let currentCloseIndexes = JSON.parse(JSON.stringify(closeIndexes || []));
     let currentNoClickIndexes = JSON.parse(JSON.stringify(noClickIndexes || []));
-    console.log('passPropsToNav', currentToggleIndexes, currentOpenIndexes, currentCloseIndexes, currentNoClickIndexes);
 
     return (
       elements &&
       React.Children.map(elements, (child, index) => {
-        console.log('child', index, child);
         const newProps = {
           toggleIndexes: currentToggleIndexes,
           openIndexes: currentOpenIndexes,

@@ -103,7 +103,7 @@ const Input = (props: {
     setError?: (error?: string) => void,
     eventF?
   ) => {
-    console.log('basicValidate', value, valueState);
+    // console.log('basicValidate', value, valueState);
     checkAndstopPropagation(props?.stopPropagation, event);
     if (props?.validate)
       props.validate(value, valueState, error, setError, event, eventF);

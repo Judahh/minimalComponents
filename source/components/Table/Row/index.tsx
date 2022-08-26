@@ -54,13 +54,13 @@ const Row = (props: {
   }, [props?.delete]);
 
   useEffect(() => {
-    console.log('Update Row',
-    deleteData,
-    addData,
-    updateData,
-    controllers,
-    indexes,
-    row);
+    // console.log('Update Row',
+    // deleteData,
+    // addData,
+    // updateData,
+    // controllers,
+    // indexes,
+    // row);
   }, [
     deleteData,
     addData,
@@ -71,7 +71,7 @@ const Row = (props: {
   ]);
 
   useEffect(() => {
-    console.log('Row Data Changed', row);
+    // console.log('Row Data Changed', row);
   }, [
     row,
     Object.values(row || {}),
