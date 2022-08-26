@@ -29,6 +29,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
   }
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
+    console.log('children passProps', elements, toggleIndexes, openIndexes, closeIndexes, noClickIndexes);
     return (
       React.Children.map?.(elements, (child, index) => {
         let has = exists(openIndexes, index);
@@ -66,6 +67,8 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
 
         if(drawerAction == undefined && has)
           delete newProps.onClick;
+
+        console.log('children newProps', newProps);
 
         const cloneChild = React.cloneElement(child, newProps);
         return cloneChild;
