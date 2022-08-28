@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { baseConfig } from "../../utils/util";
+import { baseConfig } from "../../utils/config";
 
 export const Form = styled.form`
   ${(props) => baseConfig(props)}

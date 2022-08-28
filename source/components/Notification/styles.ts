@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { baseConfig } from "../../utils/util";
+import { baseConfig } from "../../utils/config";
 
 const getElement = (props:{children?, text?}) => {
   const element = props.children || props.text;

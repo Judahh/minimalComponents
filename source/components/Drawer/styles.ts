@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { baseConfig } from "../../utils/util";
+import { baseConfig } from "../../utils/config";
 
 export const StyledHeader = styled.div`
   ${(props) => baseConfig(props)}

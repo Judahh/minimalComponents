@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { default as lightTheme } from '../../styles/themes/light.json';
 import { transparentize } from 'polished';
-import { baseConfig } from '../../utils/util';
+import { baseConfig } from '../../utils/config';
 import { Icon, IconType } from './icon';
 
 export const selectStyle = (props) => {
