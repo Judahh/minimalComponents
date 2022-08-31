@@ -33,6 +33,17 @@ const getTTL = async (currentToken: string | undefined, offset?: number) => {
   return ttl;
 };
 
+const getStorageToken = (storage: number): string | undefined => {
+  const currentStorage = 'current' + storage;
+
+  const isBrowser = typeof window !== 'undefined';
+  const token = isBrowser
+    ? localStorage.getItem(currentStorage) || undefined
+    : undefined;
+
+  return token;
+}
+
 const refreshSingleToken = async (
   storage: number,
   token: string | undefined,
@@ -48,15 +59,12 @@ const refreshSingleToken = async (
   offset?: number,
   refreshMethod?: string
 ): Promise<string | undefined> => {
-  let receivedToken: string;
+  let receivedToken: string | undefined;
   const currentStorage = 'current' + storage;
 
-  const isBrowser = typeof window !== 'undefined';
   token = token
     ? token
-    : isBrowser
-    ? localStorage.getItem(currentStorage) || undefined
-    : undefined;
+    : getStorageToken(storage);
 
   let ttl = await getTTL(token, offset);
 
@@ -98,8 +106,6 @@ const refreshSingleToken = async (
     // console.log(currentStorage);
     // console.log('localStorage' + localStorage);
 
-    localStorage.setItem(currentStorage, receivedToken);
-
     ttl = await getTTL(receivedToken, offset);
     // console.log('ttl:', ttl);
 
@@ -107,7 +113,6 @@ const refreshSingleToken = async (
       setTimeoutFunction?.((token) => newTimeoutFuntion(token));
       setCurrentTimeout?.(setTimeout(newTimeoutFuntion, ttl));
     } else {
-      localStorage.removeItem(currentStorage);
       receivedToken = '';
     }
   } else {
@@ -127,10 +132,13 @@ const refreshSingleToken = async (
   // console.log('pre setToken receivedToken:', receivedToken);
   console.log('pre setToken user:', user);
 
-  setToken?.(receivedToken === '' ? undefined : receivedToken);
+  receivedToken = receivedToken === '' ? undefined : receivedToken;
+  setToken?.(receivedToken);
+  if (receivedToken) localStorage.setItem(currentStorage, receivedToken);
+  else localStorage.removeItem(currentStorage);
   setUser?.(user);
   // console.log('final receivedToken:', receivedToken);
-  return receivedToken === '' ? undefined : receivedToken;
+  return receivedToken;
 };
 
 const refreshToken = async (
@@ -299,44 +307,65 @@ const getUserFlow = (userType: UserType): UserFlow => {
   }
 };
 
-const createUserContext = <User>() => createContext<
-  | {
-      token: {
-        refresh: (
-          address?: string,
-          path?: string,
-          data?,
-          offset?: number,
-          refreshMethod?: string
-        ) => Promise<string | undefined>;
-        current: string | undefined;
-      };
+const createUserContext = <User>() =>
+  createContext<
+    | {
+        token: {
+          refresh: (
+            address?: string,
+            path?: string,
+            data?,
+            offset?: number,
+            refreshMethod?: string
+          ) => Promise<string | undefined>;
+          current: string | undefined;
+        };
 
-      current: User | undefined;
+        current: User | undefined;
 
-      signOut: (offset?: number) => Promise<string | undefined | void>;
+        signOut: (offset?: number) => Promise<string | undefined | void>;
 
-      doSignOut: (content?: string) => boolean | undefined;
+        doSignOut: (content?: string) => boolean | undefined;
 
-      isHidden: (
-        item?: {
-          content?: string;
-          href?: string;
-        },
-        userTypes?: UserType[]
-      ) => boolean | undefined;
-    }
-  | undefined
->({
-  token: {
-    refresh: async (
-      address?: string,
-      path?: string,
-      data?,
-      offset?: number,
-      refreshMethod?: string
-    ) =>
-      refreshToken(
+        isHidden: (
+          item?: {
+            content?: string;
+            href?: string;
+          },
+          userTypes?: UserType[]
+        ) => boolean | undefined;
+      }
+    | undefined
+  >({
+    token: {
+      refresh: async (
+        address?: string,
+        path?: string,
+        data?,
+        offset?: number,
+        refreshMethod?: string
+      ) =>
+        refreshToken(
+          () => undefined,
+          () => {},
+          () => {},
+          undefined,
+          () => {},
+          () => {},
+          () => {},
+          address,
+          path,
+          data,
+          offset,
+          refreshMethod
+        ),
+      current: undefined,
+    },
+
+    current: undefined,
+
+    signOut: async (offset?: number) =>
+      signOut(
         () => undefined,
         () => {},
         () => {},
@@ -344,33 +373,13 @@ const createUserContext = <User>() => createContext<
         () => {},
         () => {},
         () => {},
-        address,
-        path,
-        data,
         offset,
-        refreshMethod
+        'put'
       ),
-    current: undefined,
-  },
+    doSignOut: () => undefined,
 
-  current: undefined,
-
-  signOut: async (offset?: number) =>
-    signOut(
-      () => undefined,
-      () => {},
-      () => {},
-      undefined,
-      () => {},
-      () => {},
-      () => {},
-      offset,
-      'put'
-    ),
-  doSignOut: () => undefined,
-
-  isHidden: () => undefined,
-});
+    isHidden: () => undefined,
+  });
 
 const isSignedIn = (element?, userTypes?: UserType[]): boolean => {
   console.log('isSignedIn element:', element, userTypes);
@@ -419,4 +428,5 @@ export {
   isSignedIn,
   signOut,
   catalog,
+  getStorageToken,
 };
