@@ -79,6 +79,8 @@ const BasicAll = (props: { theme }) => {
       type: 'number',
       hasAdd: true,
       hasDelete: true,
+      addProps: { inverted: true },
+      deleteProps: { inverted: true },
     },
     {
       index: 'name',
