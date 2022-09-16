@@ -48,8 +48,8 @@ const Column = (props: {
 
   useEffect(() => {
     // console.log('Update Column', controller, indexes, actions, data, updateData);
-    if (controller?.inputProps)
-      console.log('Update Column', controller?.inputProps);
+    // if (controller?.inputProps)
+      // console.log('Update Column', controller?.inputProps);
   }, [controller, indexes, actions, data, updateData, controller?.inputProps]);
 
   return (
