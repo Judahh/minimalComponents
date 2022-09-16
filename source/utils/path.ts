@@ -16,7 +16,7 @@ const getPath = (oldPath?: string): string => {
 };
 
 const addPath = (oldPath?: string, addPath?: string) => {
-  console.log('get addPath', oldPath, '-', addPath);
+  // console.log('get addPath', oldPath, '-', addPath);
   return addPath != undefined && addPath != ''
     ? getPath(oldPath) + addPath
     : oldPath;
@@ -72,7 +72,7 @@ const cleanFromObject = (object, toClean) => {
   for (const key in object) {
     if (Object.prototype.hasOwnProperty.call(object, key)) {
       const element: string = object[key].replace('/','');
-      console.log('getElement', element);
+      // console.log('getElement', element);
       if (toClean == element)
         toClean = undefined;
     }

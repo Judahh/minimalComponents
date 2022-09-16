@@ -13,12 +13,16 @@ const Notification = (props: {context: Context<NotificationContextModel>} ) => {
   };
 
   useEffect(() => {
+    let timeout;
     if (
       ((text && text.length > 0) || (children && children.length > 0)) &&
       timer &&
       timer > 0
     ) {
-      setTimeout(clear, timer);
+      timeout = setTimeout(clear, timer);
+    }
+    return () => {
+      clearTimeout(timeout);
     }
   }, [error, children, text, timer]);
 

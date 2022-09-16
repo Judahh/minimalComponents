@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect } from 'react';
+import useState from 'react-usestateref';
 import { mount } from '@cypress/react';
 import Input from '../../source/components/Input';
 import { default as lightTheme } from '../../source/styles/themes/light.json';
@@ -118,6 +119,54 @@ const BasicAll = (props: { theme }) => {
         max: 150,
       }
     },
+    {
+      index: 'enabled',
+      name: 'ENABLED',
+      defaultValue: true,
+      type: 'checkbox',
+      hasEdit: true,
+      actions: {
+        onClick: (indexes: [index: number, prop: string]) => {
+          console.log('enabled value', indexes);
+        },
+      },
+    },
+    {
+      index: 'blocked',
+      name: 'BLOCKED',
+      defaultValue: false,
+      type: 'checkbox',
+      hasEdit: true,
+      actions: {
+        onChange: (e, indexes: [index: number, prop: string]) => {
+          console.log('blocked value', e.target.value, indexes);
+        },
+      },
+    },
+    {
+      index: 'namingSystem',
+      name: 'NAMING SYSTEM',
+      defaultValue: 'ssd',
+      type: 'test',
+      hasEdit: true,
+      actions: {
+        onChange: (e, indexes: [index: number, prop: string]) => {
+          console.log('namingSystem value', e.target.value, indexes);
+        },
+      },
+    },
+    {
+      index: 'namingSystem2',
+      name: 'NAMING SYSTEM2',
+      defaultValue: 'ssd',
+      type: 'test',
+      hasEdit: true,
+      actions: {
+        onKeyUp: (e, indexes: [index: number, prop: string]) => {
+          console.log('namingSystem2 value', e.target.value, indexes);
+        },
+      },
+    },
   ];
   let [people, setPeople, addPerson, updatePeople, deletePeople] =
     useObjectState([
@@ -125,16 +174,28 @@ const BasicAll = (props: { theme }) => {
         id: 1,
         name: 'John Doe',
         age: 20,
+        enabled: true,
+        blocked: false,
+        namingSystem: 'ssd',
+        namingSystem2: 'ssd',
       },
       {
         id: 2,
         name: 'Bob Smith',
         age: 18,
+        enabled: false,
+        blocked: true,
+        namingSystem: 'ssv',
+        namingSystem2: 'ssv',
       },
     ]);
   const basePerson = {
     name: 'NEW',
     age: 25,
+    enabled: true,
+    blocked: false,
+    namingSystem: 'ssd',
+    namingSystem2: 'ssd',
   };
   const [newPerson, setNewPerson, _addNewPerson, updateNewPerson] =
     useObjectState({ ...basePerson });

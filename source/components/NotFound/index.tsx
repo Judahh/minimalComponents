@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import useState from 'react-usestateref';
 import { StyledNotFound } from './styles';
 
 const NotFound = (props: {languageContext?: {notFound?: {title?: string, description?: string}}}) => {

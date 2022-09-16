@@ -17,11 +17,9 @@ const Table = (props: {
   data?: {
     [key: string]: any;
   }[];
-  new?:
-    {
-      [key: string]: any;
-    }
-  ;
+  new?: {
+    [key: string]: any;
+  };
   update?: (indexes?: (string | number)[], value?) => void;
   updateNew?: (indexes?: (string | number)[], value?) => void;
   delete?: (index?: number) => void;
@@ -139,18 +137,21 @@ const Table = (props: {
                 />
               </thead>
               <tbody style={{ width: '100%', ...props?.bodyStyle }}>
-                {data?.map?.((row, index) => (
-                  <Row
-                    key={'row' + index}
-                    controllers={controllers}
-                    indexes={[index]}
-                    row={row}
-                    update={updateData}
-                    actions={rowActions}
-                    delete={deleteData}
-                    style={{ ...props?.rowStyle }}
-                  />
-                ))}
+                {data?.map?.((row, index) => {
+                  // console.log('INIT Row', row, index);
+                  return (
+                    <Row
+                      key={'row' + index}
+                      controllers={controllers}
+                      indexes={[index]}
+                      row={row}
+                      update={updateData}
+                      actions={rowActions}
+                      delete={deleteData}
+                      style={{ ...props?.rowStyle }}
+                    />
+                  );
+                })}
               </tbody>
 
               <tfoot

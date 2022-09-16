@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import useState from 'react-usestateref';
 import { ProgressText, Quantity } from "../../Text";
 import { withTheme } from 'styled-components';
 

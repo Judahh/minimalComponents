@@ -92,7 +92,7 @@ const refreshSingleToken = async (
 
   if (address || path || ttl <= 0) {
     clearTimeout(currentTimeout);
-    console.log('ttl: ' + ttl, address, path, token);
+    // console.log('ttl: ' + ttl, address, path, token);
 
     const received = await request(
       address || '',
@@ -130,7 +130,7 @@ const refreshSingleToken = async (
       : await jwt.decode(receivedToken);
 
   // console.log('pre setToken receivedToken:', receivedToken);
-  console.log('pre setToken user:', user);
+  // console.log('pre setToken user:', user);
 
   receivedToken = receivedToken === '' ? undefined : receivedToken;
   setToken?.(receivedToken);
@@ -237,7 +237,7 @@ const signOut = async (
 ) => {
   const baseToken = token(UserFlow.base);
   const lastToken = token(UserFlow.last);
-  console.log('signOut', baseToken, lastToken);
+  // console.log('signOut', baseToken, lastToken);
 
   let receivedToken = await refreshSingleToken(
     UserFlow.last,
@@ -256,7 +256,7 @@ const signOut = async (
     refreshMethod
   );
 
-  console.log('receivedToken 0', receivedToken);
+  // console.log('receivedToken 0', receivedToken);
 
   receivedToken = await refreshSingleToken(
     UserFlow.current,
@@ -275,7 +275,7 @@ const signOut = async (
     refreshMethod
   );
 
-  console.log('receivedToken 1', receivedToken);
+  // console.log('receivedToken 1', receivedToken);
 
   return receivedToken;
 };
@@ -382,7 +382,7 @@ const createUserContext = <User>() =>
   });
 
 const isSignedIn = (element?, userTypes?: UserType[]): boolean => {
-  console.log('isSignedIn element:', element, userTypes);
+  // console.log('isSignedIn element:', element, userTypes);
   let signed = false;
   if (userTypes)
     for (

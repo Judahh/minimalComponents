@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 const ScrollToSection = (props: {map}) => {
-  // const [section, setSection] = useState("#intro");
   let currentSection = "#intro";
 
   const indexOfSmallest = (a?) => {

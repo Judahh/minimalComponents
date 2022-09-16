@@ -1,4 +1,5 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef } from 'react';
+import useState from 'react-usestateref';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
 import { Error } from '../Text';
@@ -27,42 +28,42 @@ const Input = (props: {
   onChange?: (
     event?,
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?) => void
   ) => void;
   onClick?: (
     event?,
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?) => void
   ) => void;
   onInput?: (
     event?,
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?) => void
   ) => void;
   onSubmit?: (
     event?,
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?) => void
   ) => void;
   onKeyUp?: (
     event?,
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?) => void
   ) => void;
   onKeyDown?: (
     event?,
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?) => void
   ) => void;
@@ -72,21 +73,26 @@ const Input = (props: {
   stopPropagation?: boolean;
   validate?: (
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?) => void,
     event?,
     eventF?
   ) => void;
 }) => {
+  // const [changed, setChanged] = useState(props?.onChange);
   const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
   const inputRef = useRef<HTMLButtonElement>(null);
-  const valueState: [any, (error?) => void] = props?.setValue
-    ? [props?.value, props?.setValue]
-    : useState<any | undefined>(type === 'checkbox' || type === 'radio' ? (props.defaultValue || props.value) : (props.defaultValue || props.value));
+  const valueState: [any, (error?) => void, any] = props?.setValue
+    ? [props?.value, props?.setValue, undefined]
+    : useState<any | undefined>(props.defaultValue || props.value);
   const errorState = props?.setError
     ? undefined
     : useState<any | undefined>(props.defaultError || props.error);
+
+  // useEffect(() => {
+  //   setChanged(props?.onChange);
+  // } , [props?.onChange]);
 
   useEffect(() => {
     setType(props?.type?.toLowerCase?.() || 'text');
@@ -98,7 +104,7 @@ const Input = (props: {
   const basicValidate = (
     event?,
     value?,
-    valueState?: [any, (error?) => void],
+    valueState?: [any, (error?) => void, any],
     error?,
     setError?: (error?: string) => void,
     eventF?
@@ -113,7 +119,7 @@ const Input = (props: {
       else valueState?.[1]?.(value);
       setError?.(error);
     }
-    eventF?.(event, value, valueState, error, setError);
+    return eventF?.(event, value, valueState, error, setError);
   };
 
   useEffect(() => {}, [props?.error]);
@@ -141,15 +147,17 @@ const Input = (props: {
       newProps.checked = valueState?.[0];
     newProps.value = valueState?.[0];
 
-    newProps.onChange = (event) =>
-      basicValidate(
+    newProps.onChange = (event) => {
+      // console.log('onChange', event.target.value);
+      return basicValidate(
         event,
         event.target.value,
         valueState,
         props?.error || errorState?.[0],
         props?.setError || errorState?.[1],
-        props.onChange
+        props?.onChange // changed
       );
+    };
     newProps.onClick = (event) => {
       checkAndstopPropagation(props?.stopPropagation, event);
       return props?.onClick?.(
@@ -181,6 +189,7 @@ const Input = (props: {
       );
     };
     newProps.onKeyUp = (event) => {
+      // console.log('onKeyUp', event.target.value);
       checkAndstopPropagation(props?.stopPropagation, event);
       return props?.onKeyUp?.(
         event,

@@ -16,7 +16,7 @@ const Row = (props: {
   actions?: Actions;
   columnActions?: Actions;
   indexes: (number | string)[];
-  row?:{[key: string]: any;};
+  row?: { [key: string]: any };
   update?: (indexes?: (string | number)[], value?) => void;
   delete?: (index?: number) => void;
   add?: (value?: { [key: string]: any }) => void;
@@ -61,22 +61,12 @@ const Row = (props: {
     // controllers,
     // indexes,
     // row);
-  }, [
-    deleteData,
-    addData,
-    updateData,
-    controllers,
-    indexes,
-    row,
-  ]);
+    // console.log('Update Row', indexes);
+  }, [deleteData, addData, updateData, controllers, indexes, row]);
 
   useEffect(() => {
     // console.log('Row Data Changed', row);
-  }, [
-    row,
-    Object.values(row || {}),
-    ...Object.values(row || {}),
-  ]);
+  }, [row, Object.values(row || {}), ...Object.values(row || {})]);
 
   useEffect(() => {}, [
     props?.indexes,

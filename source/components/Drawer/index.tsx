@@ -29,7 +29,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
   }
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
-    console.log('children passProps', elements, toggleIndexes, openIndexes, closeIndexes, noClickIndexes);
+    // console.log('children passProps', elements, toggleIndexes, openIndexes, closeIndexes, noClickIndexes);
     return (
       React.Children.map?.(elements, (child, index) => {
         let has = exists(openIndexes, index);
@@ -68,7 +68,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
         if(drawerAction == undefined && has)
           delete newProps.onClick;
 
-        console.log('children newProps', newProps);
+        // console.log('children newProps', newProps);
 
         const cloneChild = React.cloneElement(child, newProps);
         return cloneChild;
@@ -84,7 +84,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
 
     return (
       elements &&
-      React.Children.map(elements, (child, index) => {
+      React.Children.map(elements, (child, _index) => {
         const newProps = {
           toggleIndexes: currentToggleIndexes,
           openIndexes: currentOpenIndexes,
@@ -96,7 +96,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
           toggle: toggle,
         };
 
-        console.log('newProps base', index, newProps);
+        // console.log('newProps base', index, newProps);
 
         const cloneChild = React.cloneElement(child, newProps);
 

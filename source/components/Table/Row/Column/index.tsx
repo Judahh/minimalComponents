@@ -15,7 +15,7 @@ const Column = (props: {
   controller?: TableController;
   actions?: Actions;
   indexes: (number | string)[];
-  data?: (number | string);
+  data?: number | string;
   update?: (indexes?: (string | number)[], value?) => void;
   style?: CSSProperties;
 }) => {
@@ -24,7 +24,9 @@ const Column = (props: {
   const [data, setData] = useState(props?.data);
   let updateData = props?.update;
 
-  const [actions, setActions] = useState(props?.actions || controller?.actions || {});
+  const [actions, setActions] = useState(
+    props?.actions || controller?.actions || {}
+  );
 
   useEffect(() => {
     setController(props?.controller);
@@ -47,9 +49,9 @@ const Column = (props: {
   }, [props?.actions, controller, controller?.actions]);
 
   useEffect(() => {
-    // console.log('Update Column', controller, indexes, actions, data, updateData);
+    // console.log('Update Column', indexes);
     // if (controller?.inputProps)
-      // console.log('Update Column', controller?.inputProps);
+    // console.log('Update Column', controller?.inputProps);
   }, [controller, indexes, actions, data, updateData, controller?.inputProps]);
 
   return (
@@ -70,25 +72,25 @@ const Column = (props: {
           }}
           defaultValue={data || controller?.defaultValue}
           aria-label={
-            controller?.ariaLabel ||
-            controller?.name ||
-            controller?.index
+            controller?.ariaLabel || controller?.name || controller?.index
           }
           placeholder={
-            controller?.placeholder ||
-            controller?.name ||
-            controller?.index
+            controller?.placeholder || controller?.name || controller?.index
           }
-          onKeyUp={(e) => actions?.onKeyUp?.(e, indexes)}
+          onKeyUp={(e) => {
+            // console.log('Column onKeyUp', e, indexes);
+            return actions?.onKeyUp?.(e, indexes);
+          }}
           onKeyDown={(e) => actions?.onKeyDown?.(e, indexes)}
           onInput={(e) => actions?.onInput?.(e, indexes)}
-          onChange={(e) => actions?.onChange?.(e, indexes)}
+          onChange={(e) => {
+            // console.log('Column onChange', e, indexes);
+            return actions?.onChange?.(e, indexes);
+          }}
           onClick={() => actions?.onClick?.(indexes)}
           {...(controller?.inputProps || {})}
         />
-      ) : controller?.hasAdd &&
-        !controller?.hasEdit &&
-        data == undefined ? (
+      ) : controller?.hasAdd && !controller?.hasEdit && data == undefined ? (
         <></>
       ) : (
         <Text
