@@ -38,6 +38,7 @@ function Image(props: {
   autoPlay?: boolean;
   showThumbs?: boolean;
   showStatus?: boolean;
+  onClickItem?: (index: number) => void;
 }) {
   const imgRef = useRef();
   const [loaded, setLoaded] = useState(false);
@@ -121,6 +122,7 @@ function Image(props: {
           onSwipeStart={preventDefault}
           onSwipeEnd={preventDefault}
           onSwipeMove={preventDefault}
+          onClickItem={props?.onClickItem}
           renderArrowPrev={(onClick, hasPrev) =>
             hasPrev && (
               <Input
