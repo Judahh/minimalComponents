@@ -188,6 +188,37 @@ export const Link = styled.a`
   }
 `;
 
+export const AFixedLink = styled.a`
+  ${(props) => baseConfig(props)}
+  color: ${(props) => props.theme.primary};
+  margin: 0 20px;
+  position: relative;
+  cursor: pointer;
+  transition: all ${(props) => props?.theme?.transition?.fixedLink?.duration || 0.15}s ease-in-out;
+
+  &:before {
+    content: '';
+    position: absolute;
+    height: 2px;
+    bottom: -3px;
+    left: 0;
+    // visibility: hidden;
+    width: 0;
+  }
+
+  &:hover {
+    &:before {
+      background-color: ${(props) => props.theme.primary};
+      visibility: visible;
+      width: 100%;
+    }
+  }
+
+  &:visited {
+    color: ${(props) => props.theme.text};
+  }
+`;
+
 export const FixedLink = styled.div`
   ${(props) => baseConfig(props)}
   color: ${(props) => props.theme.primary};

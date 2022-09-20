@@ -35,6 +35,9 @@ function Image(props: {
   right?: string;
   leftElement?: JSX.Element;
   rightElement?: JSX.Element;
+  autoPlay?: boolean;
+  showThumbs?: boolean;
+  showStatus?: boolean;
 }) {
   const imgRef = useRef();
   const [loaded, setLoaded] = useState(false);
@@ -102,9 +105,9 @@ function Image(props: {
       >
         <Carousel
           selectedItem={props.index || 0}
-          autoPlay={false}
-          showThumbs={false}
-          showStatus={false}
+          autoPlay={props?.autoPlay || false}
+          showThumbs={props?.showThumbs || false}
+          showStatus={props?.showStatus || false}
           showIndicators={
             props?.images?.length !== undefined &&
             props?.images?.length !== null &&
