@@ -36,9 +36,13 @@ function Image(props: {
   leftElement?: JSX.Element;
   rightElement?: JSX.Element;
   autoPlay?: boolean;
+  interval?: number;
+  dynamicHeight?: boolean;
+  infiniteLoop?: boolean;
   showThumbs?: boolean;
   showStatus?: boolean;
   onClickItem?: (index: number) => void;
+  onClickThumb?: (index: number) => void;
 }) {
   const imgRef = useRef();
   const [loaded, setLoaded] = useState(false);
@@ -107,6 +111,8 @@ function Image(props: {
         <Carousel
           selectedItem={props.index || 0}
           autoPlay={props?.autoPlay || false}
+          interval={props?.interval || 3000}
+          infiniteLoop={props?.infiniteLoop || false}
           showThumbs={props?.showThumbs || false}
           showStatus={props?.showStatus || false}
           showIndicators={
@@ -116,13 +122,14 @@ function Image(props: {
           }
           swipeable={true}
           emulateTouch={true}
-          dynamicHeight={true}
+          dynamicHeight={props?.dynamicHeight != undefined ? props?.dynamicHeight : true}
           useKeyboardArrows={true}
           onChange={onChange}
           onSwipeStart={preventDefault}
           onSwipeEnd={preventDefault}
           onSwipeMove={preventDefault}
           onClickItem={props?.onClickItem}
+          onClickThumb={props?.onClickThumb}
           renderArrowPrev={(onClick, hasPrev) =>
             hasPrev && (
               <Input
