@@ -233,8 +233,16 @@ const signOut = async (
     timeoutFunction?: (token?) => void
   ) => void,
   offset?: number,
-  refreshMethod?: string
+  refreshMethod?: string,
+  clear?: boolean
 ) => {
+  if (clear) {
+    localStorage.removeItem('current' + UserFlow.base);
+    localStorage.removeItem('current' + UserFlow.current);
+    localStorage.removeItem('current' + UserFlow.last);
+    return undefined;
+  }
+
   const baseToken = token(UserFlow.base);
   const lastToken = token(UserFlow.last);
   // console.log('signOut', baseToken, lastToken);
@@ -323,9 +331,9 @@ const createUserContext = <User>() =>
 
         current: User | undefined;
 
-        signOut: (offset?: number) => Promise<string | undefined | void>;
+        signOut: (offset?: number, clear?: boolean) => Promise<string | undefined | void>;
 
-        doSignOut: (content?: string) => boolean | undefined;
+        doSignOut: (content?: string, clear?: boolean) => boolean | undefined;
 
         isHidden: (
           item?: {
@@ -364,7 +372,7 @@ const createUserContext = <User>() =>
 
     current: undefined,
 
-    signOut: async (offset?: number) =>
+    signOut: async (offset?: number, clear?: boolean) =>
       signOut(
         () => undefined,
         () => {},
@@ -374,10 +382,10 @@ const createUserContext = <User>() =>
         () => {},
         () => {},
         offset,
-        'put'
+        'put',
+        clear
       ),
-    doSignOut: () => undefined,
-
+    doSignOut: (_content, _clear) => undefined,
     isHidden: () => undefined,
   });
 
