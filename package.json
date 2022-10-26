@@ -46,7 +46,7 @@
   "devDependencies": {
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
-    "@cypress/react": "latest",
+    "@cypress/react18": "latest",
     "@types/cypress": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
@@ -58,7 +58,6 @@
     "cypress": "latest",
     "cypress-react-unit-test": "latest",
     "enzyme": "latest",
-    "enzyme-adapter-react-16": "latest",
     "eslint": "latest",
     "mini-css-extract-plugin": "latest",
     "style-loader": "latest",

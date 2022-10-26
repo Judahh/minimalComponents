@@ -90,10 +90,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
           openIndexes: currentOpenIndexes,
           closeIndexes: currentCloseIndexes,
           noClickIndexes: currentNoClickIndexes,
-          state: state,
-          open: open,
-          close: close,
-          toggle: toggle,
+          drawerState: state,
         };
 
         // console.log('newProps base', index, newProps);

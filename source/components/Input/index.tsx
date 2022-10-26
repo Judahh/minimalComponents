@@ -141,7 +141,7 @@ const Input = (props: {
     delete newProps.errorStyle;
     newProps.validate = props.validate;
 
-    newProps.defaultValue = props?.defaultValue || props?.value;
+    newProps.defaultValue = props?.value ? undefined : props?.defaultValue;
 
     if (type === 'checkbox' || type === 'radio')
       newProps.checked = valueState?.[0];

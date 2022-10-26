@@ -1,6 +1,6 @@
 import React, { createContext, useEffect } from 'react';
 import useState from 'react-usestateref';
-import { mount } from '@cypress/react';
+import { mount } from '@cypress/react18';
 import Input from '../../source/components/Input';
 import { default as lightTheme } from '../../source/styles/themes/light.json';
 import { default as darkTheme } from '../../source/styles/themes/dark.json';
@@ -8,17 +8,9 @@ import { ThemeProvider } from 'styled-components';
 import Image from '../../source/components/Image';
 import Notification from '../../source/components/Notification';
 import {
-  CopyrightText,
   Text,
-  SubText,
   P,
   Quantity,
-  H1,
-  H2,
-  H3,
-  H4,
-  H5,
-  H6,
   Error,
   Notification as NotificationText,
   Link,
@@ -36,10 +28,9 @@ import {
   Hanging,
   Rowling,
 } from '../../source/components/Loading/Animation/styles';
-import { Logo, LogoHolder } from '../../source/components/Image/Icons/styles';
 import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
-import { Item, ItemHolder } from '../../source/components/Drawer/styles';
+import { DrawerItem, IconItem, ItemHolder } from '../../source/components/Drawer/styles';
 import ToggleButton from '../../source/components/Input/toggleButton';
 import {
   CloseButton,
@@ -240,29 +231,29 @@ const BasicAll = (props: { theme }) => {
                   <span></span>
                 </Toggle>
               </ToggleButton>
-              <LogoHolder>
+              <ItemHolder>
                 <Link to="/">
                   <FixedLink>
-                    <Logo alt="catalog" />
+                    <IconItem size={'large'}  alt="catalog" />
                   </FixedLink>
                 </Link>
-              </LogoHolder>
-              <LogoHolder>
+              </ItemHolder>
+              <ItemHolder>
                 <Link to="/cart">
                   <FixedLink>
-                    <Logo alt="cart" />
+                    <IconItem size={'large'} alt="cart" />
                   </FixedLink>
                 </Link>
-              </LogoHolder>
+              </ItemHolder>
             </>
           }
         >
-          <Item>
+          <DrawerItem>
             <ItemHolder>A</ItemHolder>
-          </Item>
-          <Item>
+          </DrawerItem>
+          <DrawerItem>
             <ItemHolder>B</ItemHolder>
-          </Item>
+          </DrawerItem>
         </Drawer>
         <NotificationContext.Provider
           value={{
@@ -570,15 +561,15 @@ const BasicAll = (props: { theme }) => {
           </>}
         />
         <br />
-        <CopyrightText>CopyrightText</CopyrightText>
-        <H1>Title</H1>
-        <H2>Subtitle</H2>
-        <H3>Subtitle 2</H3>
-        <H4>Subtitle 3</H4>
-        <H5>Subtitle 4</H5>
-        <H6>Subtitle 5</H6>
+        <Text type={'minimal'}>CopyrightText</Text>
+        <Text type={'h1'}>Title</Text>
+        <Text type={'h2'}>Subtitle</Text>
+        <Text type={'h3'}>Subtitle 2</Text>
+        <Text type={'h4'}>Subtitle 3</Text>
+        <Text type={'h5'}>Subtitle 4</Text>
+        <Text type={'h6'}>Subtitle 5</Text>
         <Text>Text</Text>
-        <SubText>SubText</SubText>
+        <Text type={'small'}>SubText</Text>
         <P>Paragraph</P>
         <br />
         <br />
@@ -621,13 +612,13 @@ const BasicAll = (props: { theme }) => {
           <Bar />
         </Progress>
         <Animation Animation={Rowling}>
-          <Logo source={'img/bag.svg'} />
+          <IconItem source={'img/bag.svg'} />
         </Animation>
         <Animation Animation={Hanging}>
-          <Logo source={'img/bag.svg'} />
+          <IconItem source={'img/bag.svg'} />
         </Animation>
         <Animation Animation={Rowling} anti={true}>
-          <Logo source={'img/bag.svg'} />
+          <IconItem source={'img/bag.svg'} />
         </Animation>
         <Input
           type={'button'}
@@ -652,29 +643,29 @@ const BasicAll = (props: { theme }) => {
                   <span></span>
                 </Toggle>
               </ToggleButton>
-              <LogoHolder>
+              <ItemHolder>
                 <Link to="/">
                   <FixedLink>
-                    <Logo alt="catalog" />
+                    <IconItem alt="catalog" />
                   </FixedLink>
                 </Link>
-              </LogoHolder>
-              <LogoHolder>
+              </ItemHolder>
+              <ItemHolder>
                 <Link to="/cart">
                   <FixedLink>
-                    <Logo alt="cart" />
+                    <IconItem alt="cart" />
                   </FixedLink>
                 </Link>
-              </LogoHolder>
+              </ItemHolder>
             </>
           }
         >
-          <Item>
+          <DrawerItem>
             <ItemHolder>A</ItemHolder>
-          </Item>
-          <Item>
+          </DrawerItem>
+          <DrawerItem>
             <ItemHolder>B</ItemHolder>
-          </Item>
+          </DrawerItem>
         </Drawer>
       </div>
     </ThemeProvider>

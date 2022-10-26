@@ -20,6 +20,10 @@ type TableController = {
   inputStyle?: CSSProperties;
   textStyle?: CSSProperties;
   titleStyle?: CSSProperties;
+  textLimitationType?: string;
+  textType?: string;
+  titleLimitationType?: string;
+  titleType?: string;
   inputProps?: any;
   addProps?: any;
   deleteProps?: any;

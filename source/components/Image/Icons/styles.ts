@@ -1,59 +1,6 @@
 import styled from "styled-components";
 import { baseConfig } from "../../../utils/config";
 
-export const IconList = styled.div`
-  ${(props) => baseConfig(props)}
-  display: flex;
-
-  @media screen and (max-width: 380px) {
-    flex-wrap: wrap;
-  }
-`;
-
-export const Logo = styled.img`
-  ${(props) => baseConfig(props)}
-  cursor: pointer;
-  height: 30px;
-`;
-
-export const LogoSmall = styled.img`
-  ${(props) => baseConfig(props)}
-  cursor: pointer;
-  // width: 45px;
-  // height: 20px;
-  height: 25px;
-  // margin-top: 10px;
-`;
-
-export const Icon = styled.img`
-  ${(props) => baseConfig(props)}
-  cursor: pointer;
-  height: 25px;
-  margin: 0 20px;
-`;
-
-export const LogoHolder = styled.div`
-  ${(props) => baseConfig(props)}
-  transition: all ${(props) => props?.theme?.transition?.logo?.duration || 0.2}s;
-`;
-
-export const Holder = styled.a`
-  ${(props) => baseConfig(props)}
-  cursor: pointer;
-  background: ${(props) => props?.theme?.background || 'white'};
-  color: ${(props) => props?.theme?.text || 'primary'};
-  transition: all ${(props) => props?.theme?.transition?.holder?.duration || 0.2}s;
-
-  &: hover {
-    background: ${(props) => props?.theme?.background || 'white'};
-    color: ${(props) => props?.theme?.bright};
-  }
-
-  span {
-    margin-top: 25px;
-    display: inline-block;
-  }
-`;
 
 export const Path = styled.path`
   ${(props) => baseConfig(props)}

@@ -1,88 +1,24 @@
 import styled from 'styled-components';
-import { baseConfig } from '../../utils/config';
+import { baseConfig, getTextLimitationType, isHeading, textLimitation } from '../../utils/config';
 
-export const H1 = styled.h1`
-  ${(props) => baseConfig(props)}
-  width: 100%;
-  font-size: ${(props) => props?.theme?.h1?.font?.size || '18px'};
-  font-weight: ${(props) => props?.theme?.h1?.font?.weight || 'bold'};
-  margin: 10px;
-  color: ${(props) => props.theme.primary};
-`;
 
-export const H2 = styled.h2`
-  ${(props) => baseConfig(props)}
-  width: 100%;
-  font-size: ${(props) => props?.theme?.h2?.font?.size || '16px'};
-  font-weight: ${(props) => props?.theme?.h2?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.primary};
-
-  text-align: justify;
-`;
-
-export const H3 = styled.h3`
-  ${(props) => baseConfig(props)}
-  width: 100%;
-  font-size: ${(props) => props?.theme?.h3?.font?.size || '14px'};
-  font-weight: ${(props) => props?.theme?.h3?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.primary};
-
-  text-align: justify;
-`;
-
-export const H4 = styled.h4`
-  ${(props) => baseConfig(props)}
-  width: 100%;
-  font-size: ${(props) => props?.theme?.h4?.font?.size || '12px'};
-  font-weight: ${(props) => props?.theme?.h4?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.primary};
-
-  text-align: justify;
-`;
-
-export const H5 = styled.h5`
-  ${(props) => baseConfig(props)}
-  width: 100%;
-  font-size: ${(props) => props?.theme?.h5?.font?.size || '10px'};
-  font-weight: ${(props) => props?.theme?.h5?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.primary};
-
-  text-align: justify;
-`;
-
-export const H6 = styled.h6`
-  ${(props) => baseConfig(props)}
-  width: 100%;
-  font-size: ${(props) => props?.theme?.h6?.font?.size || '8px'};
-  font-weight: ${(props) => props?.theme?.h6?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.primary};
-
-  text-align: justify;
-`;
 
 export const Text = styled.div`
   ${(props) => baseConfig(props)}
-  max-width: 256px;
-  margin: 8px 0;
-  line-height: 150%;
-  color: ${(props) => props.theme.primary};
+  width: 100%;
+  max-width: ${(props) => textLimitation(props?.theme)[getTextLimitationType(props?.limitationType)]};
+  color: ${(props) => props?.color || props.theme.primary};
+  margin: ${(props) => props.margin || isHeading(props.type)? '10px' : '0px'};
+  text-align: ${(props) => props.textAlign || 'justify'};
 `;
 
-export const SubText = styled.span`
-  ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.subText?.font?.size || '10px'};
-  font-weight: ${(props) => props?.theme?.subText?.font?.weight || 'bold'};
-  max-width: 256px;
-  margin: 8px 0;
-  line-height: 150%;
-  color: ${(props) => props.theme.primary};
+export const Error = styled(Text)`
+  color: ${(props) => props.theme.error};
+  max-width: ${(props) => textLimitation(props?.theme)[getTextLimitationType(props?.limitationType || 'limited')]};
 `;
 
-export const CopyrightText = styled.span`
-  ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.copyrightText?.font?.size || '10px'};
-  font-weight: ${(props) => props?.theme?.copyrightText?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.primary};
+export const Notification = styled(Text)`
+  max-width: ${(props) => textLimitation(props?.theme)[getTextLimitationType(props?.limitationType || 'limited')]};
 `;
 
 export const P = styled.p`
@@ -131,26 +67,12 @@ export const ProgressText = styled.div`
   bottom: 50%;
 `;
 
-export const Error = styled.span`
-  ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.error?.font?.size || '14px'};
-  font-weight: ${(props) => props?.theme?.error?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.error};
-  max-width: 202px;
-`;
 
-export const Notification = styled.span`
-  ${(props) => baseConfig(props)}
-  font-size: ${(props) => props?.theme?.notification?.font?.size || '14px'};
-  font-weight: ${(props) => props?.theme?.notification?.font?.weight || 'bold'};
-  color: ${(props) => props.theme.primary};
-  max-width: 202px;
-`;
 
 export const Link = styled.a`
   ${(props) => baseConfig(props)}
   text-decoration: none;
-  color: ${(props) => props.theme.text};
+  color: ${(props) => props.theme.primary};
   padding: ${(props) => (props.icon ? '15px' : '0')};
   margin: ${(props) => (props.icon ? '10px' : '0')};
   cursor: pointer;
@@ -158,7 +80,7 @@ export const Link = styled.a`
   transition: all ${(props) => props?.theme?.transition?.link?.duration || 0.15}s;
 
   &:hover {
-    color: ${(props) => (props.icon ? props.theme.primary : props.theme.text)};
+    color: ${(props) => (props.icon ? props.theme.primary : props.theme.primary)};
   }
 
   &:first-child {
@@ -184,7 +106,7 @@ export const Link = styled.a`
   }
 
   &:visited {
-    color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.primary};
   }
 `;
 
@@ -215,7 +137,7 @@ export const AFixedLink = styled.a`
   }
 
   &:visited {
-    color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.primary};
   }
 `;
 
@@ -246,6 +168,6 @@ export const FixedLink = styled.div`
   }
 
   &:visited {
-    color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.primary};
   }
 `;

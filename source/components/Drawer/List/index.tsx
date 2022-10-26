@@ -8,15 +8,26 @@ import { exists } from '../../../utils/util';
 
 const List = (props: {
   children?:any[];
-  state: [boolean, React.Dispatch<React.SetStateAction<boolean>>, any];
-  open;
-  close;
-  toggle;
+  drawerState?: [boolean|undefined, React.Dispatch<React.SetStateAction<boolean|undefined>>];
+  onClick?:any;
+
   toggleIndexes;
   openIndexes;
   closeIndexes;
   noClickIndexes;
 }) => {
+  const state: [boolean|undefined, React.Dispatch<React.SetStateAction<boolean|undefined>>, any] = useState(props?.drawerState?.[0]);
+  const toggle = () => {
+    props?.drawerState?.[1]?.(!state?.[0]);
+  };
+
+  const open = () => {
+    props?.drawerState?.[1]?.(true);
+  };
+
+  const close = () => {
+    props?.drawerState?.[1](false);
+  };
 
   const passProps = (elements:any[], toggleIndexes, openIndexes, closeIndexes, noClickIndexes) => {
     // console.log('list passProps', elements, toggleIndexes, openIndexes, closeIndexes, noClickIndexes);
@@ -27,31 +38,31 @@ const List = (props: {
         let drawerAction: React.Dispatch<React.SetStateAction<boolean>> | undefined;
 
         if (has) {
-          drawerAction = props?.open;
+          drawerAction = open;
           has = exists(closeIndexes, index);
           if(has) {
-            drawerAction = props?.toggle;
+            drawerAction = toggle;
           }
         } else {
           has = exists(closeIndexes, index);
           if(has) {
-            drawerAction = props?.close;
+            drawerAction = close;
           }
         }
 
         has = exists(toggleIndexes, index);
 
         if(has) {
-          drawerAction = props?.toggle;
+          drawerAction = toggle;
         }
 
         const newProps: {onClick?, drawerAction, drawerState, drawerOpen, drawerClose, drawerToggle} = {
           onClick: drawerAction,
           drawerAction: drawerAction,
-          drawerState: props?.state,
-          drawerOpen: props?.open,
-          drawerClose: props?.close,
-          drawerToggle: props?.toggle,
+          drawerState: props?.drawerState,
+          drawerOpen: open,
+          drawerClose: close,
+          drawerToggle: toggle,
         };
 
         has = exists(noClickIndexes, index);
@@ -69,11 +80,11 @@ const List = (props: {
 
   useEffect(() => {
     setChildren(props.children ? (passProps(props?.children, props?.toggleIndexes, props?.openIndexes, props?.closeIndexes, props?.noClickIndexes)):(<></>))
-  }, [props?.children, props?.state, props?.state?.[0], props?.toggleIndexes, props?.openIndexes, props?.closeIndexes, props?.noClickIndexes]);
+  }, [props?.children, props?.drawerState, props?.drawerState?.[0], props?.toggleIndexes, props?.openIndexes, props?.closeIndexes, props?.noClickIndexes]);
 
   return (
     <DrawerList
-      className={props?.state?.[0] ? 'openned' : 'closed'}
+      className={props?.drawerState?.[0] ? 'openned' : 'closed'}
     >
       {children}
     </DrawerList>

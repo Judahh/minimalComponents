@@ -41,6 +41,11 @@ export const StyledFooter = styled.footer`
   `}
 `;
 
+export const BasicItemHolder = styled.div`
+  ${(props) => baseConfig(props)}
+  transition: all ${(props) => props?.theme?.transition?.logo?.duration || 0.2}s;
+`;
+
 export const ItemHolder = styled.div`
   ${(props) => baseConfig(props)}
   display: table;
@@ -52,7 +57,7 @@ export const ItemHolder = styled.div`
   border-top: 1px solid ${(props) => props.theme.holder};
   border-bottom: 1px solid ${(props) => props.theme.holder};
   background: ${(props) => props.theme.background};
-  color: ${(props) => props.theme.text};
+  color: ${(props) => props.theme.primary};
   transition: none;
   font-weight: ${(props) => props?.theme?.menu?.font?.weight || 'normal'};
   font-size: ${(props) => props?.theme?.menu?.font?.size || '18px'}
@@ -65,7 +70,7 @@ export const ItemHolder = styled.div`
   box-align: center;
 
   a:visited, & :visited, :visited, &:visited {
-    color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.primary};
   }
 
   a + a, div + div, div + a, a + div, & + a, & + div, & + & {
@@ -98,14 +103,56 @@ export const ItemHolder = styled.div`
   }
 `;
 
-export const Item = styled.div`
+const itemSizes = {
+  small: "35px",
+  medium: "30px",
+  large: "25px",
+};
+
+export const ItemList = styled.div`
+  ${(props) => baseConfig(props)}
+  display: flex;
+
+  @media screen and (max-width: 380px) {
+    flex-wrap: wrap;
+  }
+`;
+
+export const IconItem = styled.img`
+  ${(props) => baseConfig(props)}
+  cursor: pointer;
+  height: ${(props) => props.size ? itemSizes[props.size] : props.height || "30px"};
+  margin: 0 ${(props) => props.sides ? props.sides : "20px"};
+`;
+
+export const Holder = styled.a`
+  ${(props) => baseConfig(props)}
+  cursor: pointer;
+  background: ${(props) => props?.theme?.background || 'white'};
+  color: ${(props) => props?.theme?.primary};
+  transition: all ${(props) => props?.theme?.transition?.holder?.duration || 0.2}s;
+
+  &: hover {
+    background: ${(props) => props?.theme?.background || 'white'};
+    color: ${(props) => props?.theme?.bright};
+    ${(props) => props?.theme?.boldOnHover && 'font-weight: bold;'}
+  }
+
+  span {
+    margin-top: ${(props) => props?.marginTop || "25px"};
+    display: inline-block;
+  }
+`;
+
+
+export const DrawerItem = styled.div`
   ${(props) => baseConfig(props)}
   display: flex;
   flex-direction: column;
   text-align: center;
 `
 
-export const SubItem = styled.div`
+export const DrawerSubItem = styled.div`
   ${(props) => baseConfig(props)}
   display: block;
   width: 100%;
@@ -179,7 +226,7 @@ export const DrawerHolder = styled.div`
   width: 100%;
   padding: 15px 30px;
   z-index: 1000;
-  // border-bottom: ${(props) => props.theme.text} 1px solid;
+  // border-bottom: ${(props) => props.theme.primary} 1px solid;
   box-sizing: border-box;
 `;
 

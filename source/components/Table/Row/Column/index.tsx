@@ -6,7 +6,6 @@ import React, {
 import useState from 'react-usestateref';
 import { withTheme } from 'styled-components';
 import Input from '../../../Input';
-import { H2 } from '../../../Text';
 import { TableController } from '../../tableController';
 import { Text } from '../../../Text';
 import { Actions } from '../../actions';
@@ -57,9 +56,13 @@ const Column = (props: {
   return (
     <>
       {controller?.type === 'title' ? (
-        <H2 style={{ ...props?.style, ...controller?.titleStyle }}>
+        <Text
+          limitationType={controller?.titleLimitationType}
+          type={controller?.titleType}
+          style={{ ...props?.style, ...controller?.titleStyle }}
+        >
           {controller?.name || controller?.index || ''}
-        </H2>
+        </Text>
       ) : updateData && controller?.hasEdit ? (
         <Input
           style={{ ...props?.style, ...controller?.inputStyle }}
@@ -94,6 +97,8 @@ const Column = (props: {
         <></>
       ) : (
         <Text
+          limitationType={controller?.textLimitationType}
+          type={controller?.textType}
           style={{
             ...(props?.style || {}),
             marginTop: '5px',

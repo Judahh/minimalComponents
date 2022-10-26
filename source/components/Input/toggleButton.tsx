@@ -6,8 +6,11 @@ import {
 import { withTheme } from 'styled-components';
 
 const ToggleButton = (props: { children?:any[]; drawerState?: [boolean|undefined, React.Dispatch<React.SetStateAction<boolean|undefined>>]; onClick?;}) => {
+  console.log('ToggleButton', props?.drawerState?.[0], props?.drawerState);
   const state: [boolean|undefined, React.Dispatch<React.SetStateAction<boolean|undefined>>, any] = useState(props?.drawerState?.[0]);
   const passProps = (elements?:any[]) => {
+    console.log('passProps', elements, props);
+
     return (
       elements &&
       React.Children.map(elements, (child) => {
@@ -36,7 +39,7 @@ const ToggleButton = (props: { children?:any[]; drawerState?: [boolean|undefined
       onClick={()=>{
         props?.onClick?.();
       }}
-      className={props?.drawerState?.[0] ? 'openned': 'closed'}>
+      className={state?.[0] ? 'openned': 'closed'}>
       {children}
     </ToggleHolder>
   );

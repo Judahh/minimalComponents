@@ -21,7 +21,7 @@ export const LayoutWrapper = styled.div`
   padding-left: 15px;
   padding-right: 15px;
   ::-webkit-scrollbar-track {
-    background-color: #0E0E0E;
+    background-color: ${(props) => props.theme.track || '#0E0E0E'};
     position: absolute;
   }
 
@@ -30,7 +30,7 @@ export const LayoutWrapper = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #ECECEC;
+    background-color: ${(props) => props.theme.primary};
   }
 `;
 
@@ -56,13 +56,13 @@ export const Left = styled.div`
   padding-right: 50px;
   padding-left: 50px;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: ${(props) => props.mediumMaxWidth || '1000px'}) {
     border: 0;
     padding: 100px 25px 25px;
     align-self: center;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: ${(props) => props.smallMaxWidth || '500px'}) {
     border: 0;
     padding: 100px 15px 15px;
     min-width: 200px;
@@ -78,7 +78,7 @@ export const Right = styled.div`
   flex-direction: column;
   // width: 600px;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: ${(props) => props.maxWidth || '1000px'}) {
     // width: 464px;
     max-width: 100%;
     padding: 15px 25px 25px;
@@ -92,6 +92,13 @@ export const Container = styled.div`
   min-height: 100vh;
   max-width: 100%;
   background: ${(props) => props.theme.background};
+`;
+
+export const FlexContainer = styled(Container)`
+  height: auto;
+  min-height: auto;
+  background: transparent;
+  display: block;
 `;
 
 export const Content = styled.div`
@@ -171,10 +178,10 @@ export const PageHolder = styled.div`
     padding: 2px;
   }
 
-  color: ${(props) => props.theme.text};
+  color: ${(props) => props.theme.primary};
 `;
 
-export const Block = styled.div`
+export const HalfBlock = styled.div`
   width: 50%;
   box-sizing: border-box;
   float: left;
@@ -182,5 +189,25 @@ export const Block = styled.div`
   @media screen and (max-width: 500px) {
     width: 100%;
     float: none;
+  }
+`;
+
+export const FullBlock = styled.div`
+  padding: 4px;
+  margin: 3px;
+  border-radius: 6px;
+  background-color: #dedede;
+  width: 130px;
+  display: inline-block;
+  b {
+    font-size: 10px;
+    display: block;
+    text-align: center;
+  }
+  span {
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
   }
 `;
