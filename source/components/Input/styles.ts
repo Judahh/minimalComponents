@@ -314,13 +314,16 @@ export const Input = styled.input`
     padding: 5px;
     border-bottom: 0;
     min-width: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
-    :focus {
+    :focus, :hover, :active {
       width: 100%;
+      min-width: 100%;
+      padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
       border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     }
     &:not(:placeholder-shown) {
       padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
       width: 100%;
+      min-width: 100%;
       border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     }
   }
