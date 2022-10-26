@@ -299,7 +299,7 @@ export const Input = styled.input`
     background: transparent;
   }
 
-  &[type='search'] , &[type='search']:focus, &[type='search']:hover {
+  &[type='search'], &[type='search']:focus, &[type='search']:hover {
     ${(props) => Icon(props?.iconType === undefined ? IconType.magnifier : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
     background-repeat: no-repeat !important;
     background-position: 5px 5px !important;
@@ -307,6 +307,22 @@ export const Input = styled.input`
     appearance: searchfield;
     padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
     padding-right: 5px;
+  }
+
+  &[type='search'] {
+    width: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    padding: 5px;
+    border-bottom: 0;
+    min-width: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    :focus {
+      width: 100%;
+      border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
+    }
+    &:not(:placeholder-shown) {
+      padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+      width: 100%;
+      border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
+    }
   }
 
   ::-webkit-search-cancel-button {

@@ -38,6 +38,7 @@ export const Wrapper = styled.div`
   ${(props) => baseConfig(props)}
   height: 100%;
   width: 100%;
+  ${(props) => props.isBackground && `background: ${props.theme.background};`}
 `;
 
 export const Center = styled.div`

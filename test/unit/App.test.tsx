@@ -447,7 +447,7 @@ const BasicAll = (props: { theme }) => {
         <Input type="range" />
         <br />
         <br />
-        <Input value={searchValue} setValue={setSearchValue} type="search" />
+        <Input value={searchValue} setValue={setSearchValue} type="search" placeholder='maluko' />
         <br />
         <Input type="url" />
         <br />
