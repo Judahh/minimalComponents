@@ -18,6 +18,7 @@ const Modal = (props: {
 }) => {
   return (
     <RModal
+      appElement={document.getElementById('app')}
       isOpen={props.isOpen}
       // onAfterOpen={afterOpenModal}
       onRequestClose={props.setClose}
