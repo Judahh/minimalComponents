@@ -246,9 +246,9 @@ export const Input = styled.input`
   position: relative;
   display: block;
   min-width: 30px;
-  font-size: ${(props) => props?.theme?.input?.font?.size || '14px'};
-  font-weight: ${(props) => props?.theme?.input?.font?.weight || 'bolder'};
-  padding: ${(props) => (((props?.theme?.input?.font?.size || 14) + 2) - 4) / 2 + 'px 0px'};
+  font-size: ${(props) => props?.size || props?.theme?.input?.font?.size || '14px'};
+  font-weight: ${(props) => props?.weight || props?.theme?.input?.font?.weight || 'bolder'};
+  padding: ${(props) => (((props?.size || props?.theme?.input?.font?.size || 14) + 2) - 4) / 2 + 'px 0px'};
   margin: 0;
   color: ${(props) =>
     props.active ? props?.theme?.background || 'white' : props?.color || props?.theme?.primary || 'black'};
@@ -303,25 +303,25 @@ export const Input = styled.input`
     ${(props) => Icon(props?.iconType === undefined ? IconType.magnifier : props?.iconType, props.disabled, props?.color || props?.theme?.primary || 'black', undefined, true)}
     background-repeat: no-repeat !important;
     background-position: 5px 5px !important;
-    background-size: ${(props) => props?.theme?.input?.font?.size || '14px'} ${(props) => props?.theme?.input?.font?.size || '14px'} !important;
+    background-size: ${(props) => props?.size || props?.theme?.input?.font?.size || '14px'} ${(props) => props?.size || props?.theme?.input?.font?.size || '14px'} !important;
     appearance: searchfield;
-    padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    padding-left: ${(props) => +(''+(props?.size || props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
     padding-right: 5px;
   }
 
   &[type='search'] {
-    width: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    width: ${(props) => +(''+(props?.size || props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
     padding: 5px;
     border-bottom: 0;
-    min-width: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    min-width: ${(props) => +(''+(props?.size || props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
     :focus, :hover, :active {
       width: 100%;
       min-width: 100%;
-      padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+      padding-left: ${(props) => +(''+(props?.size || props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
       border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
     }
     &:not(:placeholder-shown) {
-      padding-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+      padding-left: ${(props) => +(''+(props?.size || props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
       width: 100%;
       min-width: 100%;
       border-bottom: 1px solid ${(props) => props?.color || props?.theme?.primary || 'black'};
@@ -331,17 +331,17 @@ export const Input = styled.input`
   ::-webkit-search-cancel-button {
     content: '';
     appearance: none;
-    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 'px', true)}
+    ${(props) => Icon(props.closeIconType, props.disabled, props?.color || (props.closeIconType === IconType.circle ? 'red' : (props?.theme?.primary || 'black')), +(''+(props?.size || props?.theme?.input?.font?.size || '14px')).replace('px', '') + 'px', true)}
     cursor: pointer;
     position: relative;
     right: 0px;
-    width: ${(props) => (props?.theme?.input?.font?.size || '14px')};
-    height: ${(props) => (props?.theme?.input?.font?.size || '14px')};
-    min-width: ${(props) => (props?.theme?.input?.font?.size || '14px')};
-    min-height: ${(props) => (props?.theme?.input?.font?.size || '14px')};
-    max-width: ${(props) => (props?.theme?.input?.font?.size || '14px')};
-    max-height: ${(props) => (props?.theme?.input?.font?.size || '14px')};
-    //margin-left: ${(props) => +(''+(props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
+    width: ${(props) => (props?.size || props?.theme?.input?.font?.size || '14px')};
+    height: ${(props) => (props?.size || props?.theme?.input?.font?.size || '14px')};
+    min-width: ${(props) => (props?.size || props?.theme?.input?.font?.size || '14px')};
+    min-height: ${(props) => (props?.size || props?.theme?.input?.font?.size || '14px')};
+    max-width: ${(props) => (props?.size || props?.theme?.input?.font?.size || '14px')};
+    max-height: ${(props) => (props?.size || props?.theme?.input?.font?.size || '14px')};
+    //margin-left: ${(props) => +(''+(props?.size || props?.theme?.input?.font?.size || '14px')).replace('px', '') + 10}px;
   }
 
   &[type='time'], &[type='week'], &[type='month'], &[type='date'], &[type='datetime-local'] {
