@@ -30,7 +30,12 @@ import {
 } from '../../source/components/Loading/Animation/styles';
 import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
-import { DrawerItem, IconItem, ItemHolder } from '../../source/components/Drawer/styles';
+import List from '../../source/components/Drawer/List';
+import {
+  DrawerItem,
+  IconItem,
+  ItemHolder,
+} from '../../source/components/Drawer/styles';
 import ToggleButton from '../../source/components/Input/toggleButton';
 import {
   CloseButton,
@@ -88,7 +93,7 @@ const BasicAll = (props: { theme }) => {
       inputStyle: {
         width: '100%',
         minWidth: '100%',
-      }
+      },
     },
     {
       index: 'age',
@@ -108,7 +113,7 @@ const BasicAll = (props: { theme }) => {
       inputProps: {
         min: 1,
         max: 150,
-      }
+      },
     },
     {
       index: 'enabled',
@@ -226,25 +231,31 @@ const BasicAll = (props: { theme }) => {
           navToggleIndexes={[0]}
           nav={
             <>
-              <ToggleButton>
-                <Toggle>
-                  <span></span>
-                </Toggle>
-              </ToggleButton>
-              <ItemHolder>
-                <Link to="/">
-                  <FixedLink>
-                    <IconItem size={'large'}  alt="catalog" />
-                  </FixedLink>
-                </Link>
-              </ItemHolder>
-              <ItemHolder>
-                <Link to="/cart">
-                  <FixedLink>
-                    <IconItem size={'large'} alt="cart" />
-                  </FixedLink>
-                </Link>
-              </ItemHolder>
+              <List style={{ background: 'red' }}>
+                <ToggleButton>
+                  <Toggle>
+                    <span></span>
+                  </Toggle>
+                </ToggleButton>
+              </List>
+              <List style={{ background: 'green' }}>
+                <ItemHolder>
+                  <Link to="/">
+                    <FixedLink>
+                      <IconItem size={'large'} alt="catalog" />
+                    </FixedLink>
+                  </Link>
+                </ItemHolder>
+              </List>
+              <List style={{ background: 'blue' }}>
+                <ItemHolder>
+                  <Link to="/cart">
+                    <FixedLink>
+                      <IconItem size={'large'} alt="cart" />
+                    </FixedLink>
+                  </Link>
+                </ItemHolder>
+              </List>
             </>
           }
         >
@@ -293,7 +304,9 @@ const BasicAll = (props: { theme }) => {
           iconType={IconType.x}
         >
           <Image
-            onClick={() => { console.log('image clicked'); }}
+            onClick={() => {
+              console.log('image clicked');
+            }}
             images={[
               'https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8',
               'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf',
@@ -315,7 +328,9 @@ const BasicAll = (props: { theme }) => {
           iconType={IconType.circle}
         >
           <Image
-            onClick={() => { console.log('image clicked'); }}
+            onClick={() => {
+              console.log('image clicked');
+            }}
             images={[
               'https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8',
               'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf',
@@ -335,7 +350,10 @@ const BasicAll = (props: { theme }) => {
           add={(value) => {
             console.log('add:', value);
             if (value != undefined) {
-              const newValue = { ...value, id: Math.round(Math.random() * 100) };
+              const newValue = {
+                ...value,
+                id: Math.round(Math.random() * 100),
+              };
               addPerson?.(undefined, newValue);
             }
           }}
@@ -415,11 +433,30 @@ const BasicAll = (props: { theme }) => {
           value={'Edit'}
         />
         <br />
-        <Input roudedEdges inverted color={'red'} type={'button'} value={'−'} iconValue />
+        <Input
+          roudedEdges
+          inverted
+          color={'red'}
+          type={'button'}
+          value={'−'}
+          iconValue
+        />
         <br />
-        <Input roudedEdges color={'green'} type={'button'} value={'+'} iconValue />
+        <Input
+          roudedEdges
+          color={'green'}
+          type={'button'}
+          value={'+'}
+          iconValue
+        />
         <br />
-        <Input roudedEdges type={'button'} value={'−'} color={'red'} iconValue />
+        <Input
+          roudedEdges
+          type={'button'}
+          value={'−'}
+          color={'red'}
+          iconValue
+        />
         <br />
         <Input
           roudedEdges
@@ -447,7 +484,12 @@ const BasicAll = (props: { theme }) => {
         <Input type="range" />
         <br />
         <br />
-        <Input value={searchValue} setValue={setSearchValue} type="search" placeholder='maluko' />
+        <Input
+          value={searchValue}
+          setValue={setSearchValue}
+          type="search"
+          placeholder="maluko"
+        />
         <br />
         <Input type="url" />
         <br />
@@ -530,7 +572,9 @@ const BasicAll = (props: { theme }) => {
         </FlagHolder>
         <br />
         <Image
-          onClick={() => { console.log('image clicked'); }}
+          onClick={() => {
+            console.log('image clicked');
+          }}
           images={[
             'https://cdn.shopify.com/s/files/1/0076/0994/2086/articles/pexels-rachel-claire-5490975_1500x1001_crop_bottom.jpg?v=1627672147',
           ]}
@@ -544,21 +588,51 @@ const BasicAll = (props: { theme }) => {
           alt={'2'}
         />
         <Image
-        onClick={() => { console.log('image clicked'); }}
+          onClick={() => {
+            console.log('image clicked');
+          }}
           images={[
             'https://cf.shopee.com.br/file/5ec10ed168c77d023d2f54231e5d24f8',
             'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf',
             'https://ph-cdn3.ecosweb.com.br/imagens01/foto/moda-feminina/conjunto/conjunto-folhagem-de-blusa-com-amarracao-e-short_341333_301_1.jpg',
           ]}
           alt={'3'}
-          leftElement={<>
-            <Input roudedEdges color={'green'} type={'button'} value={'+'} iconValue />
-            <Input roudedEdges type={'button'} value={'−'} color={'red'} iconValue />
-          </>}
-          rightElement={<>
-            <Input roudedEdges color={'yellow'} type={'button'} value={'+'} iconValue />
-            <Input roudedEdges type={'button'} value={'−'} color={'red'} iconValue />
-          </>}
+          leftElement={
+            <>
+              <Input
+                roudedEdges
+                color={'green'}
+                type={'button'}
+                value={'+'}
+                iconValue
+              />
+              <Input
+                roudedEdges
+                type={'button'}
+                value={'−'}
+                color={'red'}
+                iconValue
+              />
+            </>
+          }
+          rightElement={
+            <>
+              <Input
+                roudedEdges
+                color={'yellow'}
+                type={'button'}
+                value={'+'}
+                iconValue
+              />
+              <Input
+                roudedEdges
+                type={'button'}
+                value={'−'}
+                color={'red'}
+                iconValue
+              />
+            </>
+          }
         />
         <br />
         <Text type={'minimal'}>CopyrightText</Text>

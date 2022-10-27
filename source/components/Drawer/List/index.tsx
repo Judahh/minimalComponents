@@ -15,10 +15,13 @@ const List = (props: {
   openIndexes;
   closeIndexes;
   noClickIndexes;
+
+  style?:CSSStyleDeclaration;
 }) => {
-  const state: [boolean|undefined, React.Dispatch<React.SetStateAction<boolean|undefined>>, any] = useState(props?.drawerState?.[0]);
+  // console.log('list Props', props);
   const toggle = () => {
-    props?.drawerState?.[1]?.(!state?.[0]);
+    // console.log('toggle', props?.drawerState?.[0]);
+    props?.drawerState?.[1]?.(!props?.drawerState?.[0]);
   };
 
   const open = () => {
@@ -84,6 +87,7 @@ const List = (props: {
 
   return (
     <DrawerList
+      style={props?.style}
       className={props?.drawerState?.[0] ? 'openned' : 'closed'}
     >
       {children}

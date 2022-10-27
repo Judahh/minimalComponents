@@ -93,7 +93,7 @@ const Drawer = (props: { top?: boolean; children?:any[]; nav?:{props?:{children?
           drawerState: state,
         };
 
-        // console.log('newProps base', index, newProps);
+        // console.log('newProps base', child);
 
         const cloneChild = React.cloneElement(child, newProps);
 
