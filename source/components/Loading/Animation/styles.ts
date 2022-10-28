@@ -109,26 +109,28 @@ export const Rowling = styled.div`
 export const Falling = styled.div`
   ${(props) => baseConfig(props)}
   @keyframes falling {
-    transform: translateY(${(props) =>
-      props?.from ||
-      props?.theme?.animation?.falling?.from ||
-      '-1000px'}) scaleY(2.5) scaleX(0.2);
-    transform-origin: 50% 0%;
-    filter: blur(5vh);
-    opacity: 0;
+    0% {
+      transform: translateY(
+          ${(props) =>
+            props?.from || props?.theme?.animation?.falling?.from || '-1000px'}
+        )
+        scaleY(2.5) scaleX(0.2);
+      transform-origin: 50% 0%;
+      filter: blur(1vh);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(${(props) =>
+        props?.to || props?.theme?.animation?.falling?.to || '0'}) scaleY(1) scaleX(1);
+      transform-origin: 50% 50%;
+      filter: blur(0);
+      opacity: 1;
+    }
   }
-  100% {
-    transform: translateY(0) scaleY(1) scaleX(1);
-    transform-origin: 50% 50%;
-    filter: blur(0);
-    opacity: 1;
-  }
-}
   width: fit-content;
   transform-origin: top;
   animation: falling
     ${(props) =>
-      props?.duration ||
-      props?.theme?.animation?.falling?.duration ||
-      0.6}s ease-in infinite;
+      props?.duration || props?.theme?.animation?.falling?.duration || 0.6}s
+    ease-in infinite;
 `;

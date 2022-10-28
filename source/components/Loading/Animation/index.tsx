@@ -17,22 +17,27 @@ const Animation = (props: {
   duration?: number;
   delay?: number;
   from?: string;
-  move?:{ x?:string, y?:string };
+  move?: { x?: string; y?: string };
 }) => {
-  const [newProps, _setNewProps] = useState({...props, Animation: undefined, Element: undefined});
+  const [newProps, _setNewProps] = useState({
+    ...props,
+    Animation: undefined,
+    Element: undefined,
+    children: undefined,
+  });
   const passProps = (props) => {
     return (
       props.children &&
       React.Children.map(props.children, (child) => {
-        return React.cloneElement(child, {
-          alt: props.alt || "loading...",
-          anti: props.anti
+        const clone = React.cloneElement(child, {
+          alt: props.alt || 'loading...',
+          anti: props.anti,
         });
+        return clone;
       })
     );
   };
-  useEffect(() => {
-  }, [props, ...Object.values(props)]);
+  useEffect(() => {}, [props, ...Object.values(props)]);
   return (
     <Wrapper>
       <Center>
@@ -40,12 +45,16 @@ const Animation = (props: {
           {passProps(props)}
           <>
             {props.progress && props.progress > 0 ? (
-              <Text type={props.type} limitationType={props.limitationType}>{props.progress}%</Text>
+              <Text type={props.type} limitationType={props.limitationType}>
+                {props.progress}%
+              </Text>
             ) : (
               <></>
             )}
             {props.progress2 && props.progress2 > 0 ? (
-              <Text type={props.type} limitationType={props.limitationType}>{props.progress2}%</Text>
+              <Text type={props.type} limitationType={props.limitationType}>
+                {props.progress2}%
+              </Text>
             ) : (
               <></>
             )}

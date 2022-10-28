@@ -25,6 +25,7 @@ import {
 } from '../../source/components/Loading/Progress';
 import Animation from '../../source/components/Loading/Animation';
 import {
+  Falling,
   Hanging,
   Rowling,
 } from '../../source/components/Loading/Animation/styles';
@@ -685,14 +686,17 @@ const BasicAll = (props: { theme }) => {
         >
           <Bar />
         </Progress>
+        <Animation Animation={Falling} from={'-100px'} to={'250px'}>
+          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
+        </Animation>
         <Animation Animation={Rowling}>
-          <IconItem source={'img/bag.svg'} />
+          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
         </Animation>
         <Animation Animation={Hanging}>
-          <IconItem source={'img/bag.svg'} />
+          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
         </Animation>
         <Animation Animation={Rowling} anti={true}>
-          <IconItem source={'img/bag.svg'} />
+          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
         </Animation>
         <Input
           type={'button'}

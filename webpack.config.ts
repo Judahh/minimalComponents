@@ -28,6 +28,13 @@ const config: Configuration = {
           'css-loader'
         ]
       },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]'
+        }
+      }
     ],
   },
   plugins: [
@@ -37,12 +44,13 @@ const config: Configuration = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "./public"),
     filename: "bundle.js",
+    publicPath: '/public/',
   },
   //@ts-ignore
   devServer: {
-    static: path.join(__dirname, "build"),
+    static: path.join(__dirname, "./public"),
     compress: true,
     port: 4000,
   },
