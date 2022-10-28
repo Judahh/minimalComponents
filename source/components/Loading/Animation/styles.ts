@@ -54,7 +54,7 @@ export const Hitting = styled.div`
       props?.duration || props?.theme?.animation?.hitting?.duration || 0.3}s
     ease-in-out
     ${(props) =>
-      props?.delay || props?.theme?.animation?.hitting?.delay || 0.2}s
+      props?.delay || props?.theme?.animation?.hitting?.delay || 0}s
     infinite;
 `;
 
@@ -76,7 +76,9 @@ export const Hanging = styled.div`
   animation: hanging
     ${(props) =>
       props?.duration || props?.theme?.animation?.hanging?.duration || 2}s
-    ease infinite;
+    ease
+    ${(props) => props?.delay || props?.theme?.animation?.hitting?.delay || 0}s
+    infinite;
 `;
 
 export const Rowling = styled.div`
@@ -103,7 +105,8 @@ export const Rowling = styled.div`
   animation: ${(props) => (props.anti ? 'anti-' : '')}rowling ${(props) =>
   props?.duration ||
   props?.theme?.animation?.rowling?.duration ||
-  2}s linear infinite;
+  2}s linear ${(props) =>
+  props?.delay || props?.theme?.animation?.hitting?.delay || 0}s infinite;
 `;
 
 export const Falling = styled.div`
@@ -116,8 +119,8 @@ export const Falling = styled.div`
         )
         scaleY(
           ${(props) =>
-            props?.scale?.x ||
-            props?.theme?.animation?.falling?.scale?.x ||
+            props?.scale?.y ||
+            props?.theme?.animation?.falling?.scale?.y ||
             2.5}
         )
         scaleX(
@@ -148,5 +151,7 @@ export const Falling = styled.div`
   animation: falling
     ${(props) =>
       props?.duration || props?.theme?.animation?.falling?.duration || 0.6}s
-    ease-in infinite;
+    ease-in
+    ${(props) => props?.delay || props?.theme?.animation?.hitting?.delay || 0}s
+    infinite;
 `;
