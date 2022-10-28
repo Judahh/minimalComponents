@@ -19,7 +19,7 @@ const Animation = (props: {
   from?: string;
   move?:{ x?:string, y?:string };
 }) => {
-  const [newProps, _setNewProps] = useState(JSON.parse(JSON.stringify(props)));
+  const [newProps, _setNewProps] = useState({...props, Animation: undefined, Element: undefined});
   const passProps = (props) => {
     return (
       props.children &&
