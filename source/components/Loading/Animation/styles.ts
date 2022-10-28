@@ -5,35 +5,29 @@ export const Hitting = styled.div`
   ${(props) => baseConfig(props)}
   @keyframes hitting {
     0% {
-      -webkit-transform: translate(0);
       transform: translate(0);
     }
     20% {
-      -webkit-transform: translate(2px, -2px);
-      transform: translate(2px, -2px);
+      transform: translate(2vw, -2vh);
     }
     40% {
-      -webkit-transform: translate(2px, 2px);
-      transform: translate(2px, 2px);
+      transform: translate(2vw, 2vh);
     }
     60% {
-      -webkit-transform: translate(-2px, 2px);
-      transform: translate(-2px, 2px);
+      transform: translate(-2vw, 2vh);
     }
     80% {
-      -webkit-transform: translate(-2px, -2px);
-      transform: translate(-2px, -2px);
+      transform: translate(-2vw, -2vh);
     }
     100% {
-      -webkit-transform: translate(0);
       transform: translate(0);
     }
   }
   width: fit-content;
   transform-origin: top;
   animation: hitting
-    ${(props) => props?.theme?.animation?.hitting?.duration || 0.3}s ease-in-out
-    ${(props) => props?.theme?.animation?.hitting?.duration || 0.2}s infinite;
+    ${(props) => props?.duration || props?.theme?.animation?.hitting?.duration || 0.3}s ease-in-out
+    ${(props) => props?.delay || props?.theme?.animation?.hitting?.delay || 0.2}s infinite;
 `;
 
 export const Hanging = styled.div`
@@ -52,7 +46,7 @@ export const Hanging = styled.div`
   width: fit-content;
   transform-origin: top;
   animation: hanging
-    ${(props) => props?.theme?.animation?.hanging?.duration || 2}s ease infinite;
+    ${(props) => props?.duration || props?.theme?.animation?.hanging?.duration || 2}s ease infinite;
 `;
 
 export const Rowling = styled.div`
@@ -77,5 +71,31 @@ export const Rowling = styled.div`
   width: fit-content;
   transform-origin: center;
   animation: ${(props) => (props.anti ? 'anti-' : '')}rowling ${(props) =>
-  props?.theme?.animation?.rowling?.duration || 2}s linear infinite;
+    props?.duration || props?.theme?.animation?.rowling?.duration || 2}s linear infinite;
+`;
+
+export const Falling = styled.div`
+  ${(props) => baseConfig(props)}
+  @keyframes falling {
+    transform: translateY(${(props) =>
+      props?.from ||
+      props?.theme?.animation?.falling?.from ||
+      '-1000px'}) scaleY(2.5) scaleX(0.2);
+    transform-origin: 50% 0%;
+    filter: blur(5vh);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scaleY(1) scaleX(1);
+    transform-origin: 50% 50%;
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+  width: fit-content;
+  transform-origin: top;
+  animation: falling
+    ${(props) =>
+      props?.duration || props?.theme?.animation?.falling?.duration ||
+      0.6}s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
 `;
