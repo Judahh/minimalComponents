@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withTheme } from 'styled-components';
 import { Wrapper, Center } from '../../Content';
 import { Text } from '../../Text';
@@ -14,7 +14,12 @@ const Animation = (props: {
   anti?: boolean;
   type?: string;
   limitationType?: string;
+  duration?: number;
+  delay?: number;
+  from?: string;
+  move?:{ x?:string, y?:string };
 }) => {
+  const [newProps, _setNewProps] = useState(JSON.parse(JSON.stringify(props)));
   const passProps = (props) => {
     return (
       props.children &&
@@ -31,7 +36,7 @@ const Animation = (props: {
   return (
     <Wrapper>
       <Center>
-        <props.Animation anti={props.anti}>
+        <props.Animation {...newProps}>
           {passProps(props)}
           <>
             {props.progress && props.progress > 0 ? (

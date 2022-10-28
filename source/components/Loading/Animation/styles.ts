@@ -130,5 +130,5 @@ export const Falling = styled.div`
     ${(props) =>
       props?.duration ||
       props?.theme?.animation?.falling?.duration ||
-      0.6}s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+      0.6}s ease-in infinite;
 `;
