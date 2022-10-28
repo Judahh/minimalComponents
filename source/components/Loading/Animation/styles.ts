@@ -8,16 +8,40 @@ export const Hitting = styled.div`
       transform: translate(0);
     }
     20% {
-      transform: translate(2vw, -2vh);
+      transform: translate(
+        ${(props) =>
+          props?.move?.x ||
+          props?.theme?.animation?.hitting?.move?.x ||
+          '0.05vw'},
+        -${(props) => props?.move?.y || props?.theme?.animation?.hitting?.move?.y || '0.05vh'}
+      );
     }
     40% {
-      transform: translate(2vw, 2vh);
+      transform: translate(
+        ${(props) =>
+          props?.move?.x ||
+          props?.theme?.animation?.hitting?.move?.x ||
+          '0.05vw'},
+        ${(props) =>
+          props?.move?.y ||
+          props?.theme?.animation?.hitting?.move?.y ||
+          '0.05vh'}
+      );
     }
     60% {
-      transform: translate(-2vw, 2vh);
+      transform: translate(
+        -${(props) => props?.move?.x || props?.theme?.animation?.hitting?.move?.x || '0.05vw'},
+        ${(props) =>
+          props?.move?.y ||
+          props?.theme?.animation?.hitting?.move?.y ||
+          '0.05vh'}
+      );
     }
     80% {
-      transform: translate(-2vw, -2vh);
+      transform: translate(
+        -${(props) => props?.move?.x || props?.theme?.animation?.hitting?.move?.x || '0.05vw'},
+        -${(props) => props?.move?.y || props?.theme?.animation?.hitting?.move?.y || '0.05vh'}
+      );
     }
     100% {
       transform: translate(0);
@@ -26,8 +50,12 @@ export const Hitting = styled.div`
   width: fit-content;
   transform-origin: top;
   animation: hitting
-    ${(props) => props?.duration || props?.theme?.animation?.hitting?.duration || 0.3}s ease-in-out
-    ${(props) => props?.delay || props?.theme?.animation?.hitting?.delay || 0.2}s infinite;
+    ${(props) =>
+      props?.duration || props?.theme?.animation?.hitting?.duration || 0.3}s
+    ease-in-out
+    ${(props) =>
+      props?.delay || props?.theme?.animation?.hitting?.delay || 0.2}s
+    infinite;
 `;
 
 export const Hanging = styled.div`
@@ -46,7 +74,9 @@ export const Hanging = styled.div`
   width: fit-content;
   transform-origin: top;
   animation: hanging
-    ${(props) => props?.duration || props?.theme?.animation?.hanging?.duration || 2}s ease infinite;
+    ${(props) =>
+      props?.duration || props?.theme?.animation?.hanging?.duration || 2}s
+    ease infinite;
 `;
 
 export const Rowling = styled.div`
@@ -71,7 +101,9 @@ export const Rowling = styled.div`
   width: fit-content;
   transform-origin: center;
   animation: ${(props) => (props.anti ? 'anti-' : '')}rowling ${(props) =>
-    props?.duration || props?.theme?.animation?.rowling?.duration || 2}s linear infinite;
+  props?.duration ||
+  props?.theme?.animation?.rowling?.duration ||
+  2}s linear infinite;
 `;
 
 export const Falling = styled.div`
@@ -96,6 +128,7 @@ export const Falling = styled.div`
   transform-origin: top;
   animation: falling
     ${(props) =>
-      props?.duration || props?.theme?.animation?.falling?.duration ||
+      props?.duration ||
+      props?.theme?.animation?.falling?.duration ||
       0.6}s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
 `;
