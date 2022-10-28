@@ -54,8 +54,8 @@ const improveErrorMessage = (error: any, url?, method?) => {
 };
 
 const request = async (
-  address: string,
-  method: string,
+  address?: string,
+  method?: string,
   path?: string,
   token?: string,
   data?,
@@ -66,6 +66,12 @@ const request = async (
   replaceHeaders?
 ) => {
   let http = '';
+  if (!address) {
+    address = 'localhost';
+  }
+  if (!method) {
+    method = 'get';
+  }
   let url = address + (path ? path : '');
   try {
     if (
