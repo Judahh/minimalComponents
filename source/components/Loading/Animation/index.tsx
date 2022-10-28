@@ -17,7 +17,9 @@ const Animation = (props: {
   duration?: number;
   delay?: number;
   from?: string;
+  to?: string;
   move?: { x?: string; y?: string };
+  scale?: { x?: number; y?: number };
 }) => {
   const [newProps, _setNewProps] = useState({
     ...props,

@@ -114,14 +114,30 @@ export const Falling = styled.div`
           ${(props) =>
             props?.from || props?.theme?.animation?.falling?.from || '-1000px'}
         )
-        scaleY(2.5) scaleX(0.2);
+        scaleY(
+          ${(props) =>
+            props?.scale?.x ||
+            props?.theme?.animation?.falling?.scale?.x ||
+            2.5}
+        )
+        scaleX(
+          ${(props) =>
+            props?.scale?.x ||
+            props?.theme?.animation?.falling?.scale?.x ||
+            0.2}
+        );
       transform-origin: 50% 0%;
-      filter: blur(1vh);
+      filter: blur(
+        ${(props) =>
+          props?.blur || props?.theme?.animation?.falling?.blur || '1vh'}
+      );
       opacity: 0;
     }
     100% {
-      transform: translateY(${(props) =>
-        props?.to || props?.theme?.animation?.falling?.to || '0'}) scaleY(1) scaleX(1);
+      transform: translateY(
+          ${(props) => props?.to || props?.theme?.animation?.falling?.to || '0'}
+        )
+        scaleY(1) scaleX(1);
       transform-origin: 50% 50%;
       filter: blur(0);
       opacity: 1;
