@@ -1,17 +1,29 @@
 import { createContext } from 'react';
 
-const createLanguageContext = <Language>(language?: Language) => createContext<
-| Language
-| undefined
->(language);
+const createLanguageContext = <Language>(language?: Language) =>
+  createContext<Language | undefined>(language);
 
-const createLanguageSetterContext = <Language>(setLanguage?: (newLanguage?: Language) => void
-) => createContext<
-| ((newLanguage?: Language) => void)
-| undefined
->(setLanguage);
+const createLanguageSetterContext = <Language>(value: {
+  setLanguage?: (newLanguage?: Language) => void;
+  toggleLanguage?: () => void;
+}) =>
+  createContext<
+    | {
+        setLanguage?: (newLanguage?: Language) => void;
+        toggleLanguage?: () => void;
+      }
+    | undefined
+  >(value);
 
-const formatCurrency = (format?: {locale?: string | string[], currency?: string, minimumFractionDigits?: number, maximumFractionDigits?: number}, price?: number) => {
+const formatCurrency = (
+  format?: {
+    locale?: string | string[];
+    currency?: string;
+    minimumFractionDigits?: number;
+    maximumFractionDigits?: number;
+  },
+  price?: number
+) => {
   if (price == undefined) return undefined;
   if (format?.locale == undefined) return price;
   const formatter = new Intl.NumberFormat(format.locale, {
