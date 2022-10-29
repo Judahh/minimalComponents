@@ -315,7 +315,7 @@ const getUserFlow = (userType: UserType): UserFlow => {
   }
 };
 
-const createUserContext = <User>(value:{
+const createUserContext = <User>(value?:{
   token: {
     refresh: (
       address?: string,

@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-const createLanguageContext = <Language>(value: {
+const createLanguageContext = <Language>(value?: {
   setLanguage?: (newLanguage?: Language) => void;
   language?: Language;
 }) => createContext<

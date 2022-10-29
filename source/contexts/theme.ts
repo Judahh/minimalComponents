@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createContext } from 'react';
 
-const createThemeContext = <Theme>(value:{
+const createThemeContext = <Theme>(value?:{
   setTheme?: (newTheme?: Theme) => void;
 }) => createContext<
   | {

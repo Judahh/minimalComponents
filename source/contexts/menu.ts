@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createContext } from 'react';
 
-const createMenuContext = <Menu>(value:{
+const createMenuContext = <Menu>(value?:{
   setMenu: (newMenu?: number) => void;
   menu: number | undefined;
   menus: Array<Menu> | undefined;
