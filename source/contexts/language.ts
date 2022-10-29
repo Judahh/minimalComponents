@@ -11,6 +11,12 @@ const createLanguageContext = <Language>(value?: {
 | undefined
 >(value);
 
+const createLanguageSetterContext = <Language>(setLanguage?: (newLanguage?: Language) => void
+) => createContext<
+| ((newLanguage?: Language) => void)
+| undefined
+>(setLanguage);
+
 const formatCurrency = (format?: {locale?: string | string[], currency?: string, minimumFractionDigits?: number, maximumFractionDigits?: number}, price?: number) => {
   if (price == undefined) return undefined;
   if (format?.locale == undefined) return price;
@@ -24,4 +30,4 @@ const formatCurrency = (format?: {locale?: string | string[], currency?: string,
   return formatter.format(price);
 };
 
-export { createLanguageContext, formatCurrency };
+export { createLanguageContext, createLanguageSetterContext, formatCurrency };
