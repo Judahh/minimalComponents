@@ -315,7 +315,32 @@ const getUserFlow = (userType: UserType): UserFlow => {
   }
 };
 
-const createUserContext = <User>() =>
+const createUserContext = <User>(value:{
+  token: {
+    refresh: (
+      address?: string,
+      path?: string,
+      data?,
+      offset?: number,
+      refreshMethod?: string
+    ) => Promise<string | undefined>;
+    current: string | undefined;
+  };
+
+  current: User | undefined;
+
+  signOut: (offset?: number, clear?: boolean) => Promise<string | undefined | void>;
+
+  doSignOut: (content?: string, clear?: boolean) => boolean | undefined;
+
+  isHidden: (
+    item?: {
+      content?: string;
+      href?: string;
+    },
+    userTypes?: UserType[]
+  ) => boolean | undefined;
+}) =>
   createContext<
     | {
         token: {
@@ -344,50 +369,7 @@ const createUserContext = <User>() =>
         ) => boolean | undefined;
       }
     | undefined
-  >({
-    token: {
-      refresh: async (
-        address?: string,
-        path?: string,
-        data?,
-        offset?: number,
-        refreshMethod?: string
-      ) =>
-        refreshToken(
-          () => undefined,
-          () => {},
-          () => {},
-          undefined,
-          () => {},
-          () => {},
-          () => {},
-          address,
-          path,
-          data,
-          offset,
-          refreshMethod
-        ),
-      current: undefined,
-    },
-
-    current: undefined,
-
-    signOut: async (offset?: number, clear?: boolean) =>
-      signOut(
-        () => undefined,
-        () => {},
-        () => {},
-        undefined,
-        () => {},
-        () => {},
-        () => {},
-        offset,
-        'put',
-        clear
-      ),
-    doSignOut: (_content, _clear) => undefined,
-    isHidden: () => undefined,
-  });
+  >(value);
 
 const isSignedIn = (element?, userTypes?: UserType[]): boolean => {
   // console.log('isSignedIn element:', element, userTypes);
