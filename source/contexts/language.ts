@@ -1,6 +1,15 @@
 import { createContext } from 'react';
 
-const createLanguageContext = (lang) => createContext(lang);
+const createLanguageContext = <Language>(language) => createContext<
+| {
+    setLanguage: (newLanguage?: Language) => void;
+    language: Language | undefined;
+  }
+| undefined
+>({
+  setLanguage: () => {},
+  language: language,
+});
 
 const formatCurrency = (format?: {locale?: string | string[], currency?: string, minimumFractionDigits?: number, maximumFractionDigits?: number}, price?: number) => {
   if (price == undefined) return undefined;
