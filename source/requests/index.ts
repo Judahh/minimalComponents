@@ -72,7 +72,8 @@ const request = async (
   if (!method) {
     method = 'get';
   }
-  let url = address + (path ? path : '');
+  const cleanedPath = path?.includes('://') ? path?.split('://')[1].split('/')[0] : path?.split('/')[0];
+  let url = cleanedPath?.includes(address) ? path || '' : address + (path ? path : '');
   try {
     if (
       url !== '/api/token' &&
