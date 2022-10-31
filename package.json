@@ -1,6 +1,6 @@
 {
   "name": "minimal-components-react",
-  "version": "1.0.122",
+  "version": "1.0.123",
   "main": "server.js",
   "license": "MIT",
   "config": {
@@ -49,10 +49,10 @@
     "@babel/preset-react": "latest",
     "@cypress/react18": "latest",
     "@types/cypress": "latest",
+    "@types/lodash.debounce": "latest",
+    "@types/lodash.throttle": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
-    "@types/lodash.throttle": "latest",
-    "@types/lodash.debounce": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "babel-plugin-root-import": "latest",
