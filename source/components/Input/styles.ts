@@ -205,42 +205,6 @@ export const Toggle = styled.div`
 
 `;
 
-export const DebounceInputWrapper = styled.div`
-  ${(props) => baseConfig(props)}
-  input {
-    padding: 15px;
-    padding-left: 0;
-    display: block;
-    min-width: 25px;
-    border-radius: 0;
-    background-color: transparent;
-    border-bottom: 1px solid ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
-    color: ${(props) => props?.color || props?.theme?.primary || 'black'};
-    letter-spacing: 1.2px;
-    margin-bottom: 16px;
-
-    &:focus {
-      border-color: ${(props) => props?.color || props?.theme?.primary || 'black'};
-      color: ${(props) => props?.color || props?.theme?.primary || 'black'};
-      &::-webkit-input-placeholder {
-        color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
-      }
-    }
-
-    &::-webkit-input-placeholder {
-      color: ${(props) => transparentize(0.5, props?.color || props?.theme?.primary || 'black')};
-    }
-
-    @media screen and (max-width: 1000px) {
-      width: 100%;
-    }
-
-    @media screen and (max-width: 350px) {
-      min-width: 100%;
-    }
-  }
-`;
-
 export const Input = styled.input`
   ${(props) => baseConfig(props)}
   position: relative;

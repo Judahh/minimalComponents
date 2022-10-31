@@ -502,7 +502,11 @@ const BasicAll = (props: { theme }) => {
         <br />
         <Input type="tel" />
         <br />
-        <Input type="text" />
+        <Input type="text" setValue={(a)=>console.log('t0', a)} />
+        <Input type="text" options={{type:'debounce', wait:1000}} setValue={(a)=>console.log('t1', a)} />
+        <Input type="text" options={{type:'throttle', wait:1000}} setValue={(a)=>console.log('t2', a)} />
+        <Input type="text" options={{type:'debounce'}} setValue={(a)=>console.log('t3', a)} />
+        <Input type="text" options={{type:'throttle'}} setValue={(a)=>console.log('t4', a)} />
         <br />
         <br />
         <Input type="datetime-local" />

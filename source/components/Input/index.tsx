@@ -1,19 +1,22 @@
-import React, { CSSProperties, useEffect, useRef } from 'react';
+import React, { CSSProperties, useEffect, useRef, KeyboardEvent } from 'react';
 import useState from 'react-usestateref';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
 import { Error } from '../Text';
+import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
+import { InputOptions } from './inputOptions';
 
 const stopPropagation = (event) => {
   event?.stopImmediatePropagation?.();
   event?.stopPropagation?.();
   event?.nativeEvent?.stopPropagation?.();
   event?.nativeEvent?.stopImmediatePropagation?.();
-}
+};
 
 const checkAndstopPropagation = (stop?, event?) => {
-  if(stop) stopPropagation(event);
-}
+  if (stop) stopPropagation(event);
+};
 
 const Input = (props: {
   defaultError?;
@@ -25,6 +28,7 @@ const Input = (props: {
   iconValue?: boolean;
   value?;
   setValue?;
+  options?: InputOptions;
   onChange?: (
     event?,
     value?,
@@ -67,6 +71,13 @@ const Input = (props: {
     error?,
     setError?: (error?) => void
   ) => void;
+  onBlur?: (
+    event?,
+    value?,
+    valueState?: [any, (error?) => void, any],
+    error?,
+    setError?: (error?) => void
+  ) => void;
   label?: string;
   labelStyle?: CSSProperties;
   labelParentStyle?: CSSProperties;
@@ -80,8 +91,8 @@ const Input = (props: {
     eventF?
   ) => void;
 }) => {
-  // const [changed, setChanged] = useState(props?.onChange);
   const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
+  const [running, setRunning] = useState<boolean | undefined>(false);
   const inputRef = useRef<HTMLButtonElement>(null);
   const valueState: [any, (error?) => void, any] = props?.setValue
     ? [props?.value, props?.setValue, undefined]
@@ -90,16 +101,160 @@ const Input = (props: {
     ? undefined
     : useState<any | undefined>(props.defaultError || props.error);
 
-  // useEffect(() => {
-  //   setChanged(props?.onChange);
-  // } , [props?.onChange]);
-
   useEffect(() => {
     setType(props?.type?.toLowerCase?.() || 'text');
-  } , [props?.type]);
+  }, [props?.type]);
 
-  useEffect(() => {
-  } , [type]);
+  useEffect(() => {}, [type]);
+
+  useEffect(() => {}, [props?.error]);
+
+  useEffect(() => {}, [props, Object.values(props)]);
+
+  const remakeOnChange = (event, valueState, props?, func?) => {
+    const currentFunc = (a, b, c, d, e) => {
+      return basicValidate?.(a, b, c, d, e, func);
+    };
+    return validateLength(event, valueState, props, currentFunc);
+  };
+
+  const remakeEvent = (event, valueState, props?, func?) => {
+    checkAndstopPropagation(props?.stopPropagation, event);
+    return validateLength(event, valueState, props, func);
+  };
+
+  const onEnterEvent = (
+    event?: KeyboardEvent<HTMLInputElement>,
+    valueState?,
+    props?
+  ) => {
+    if (event?.key === 'Enter') {
+      onEnter(event, valueState, props);
+    }
+  };
+
+  const onBlur = (
+    event?: React.FormEvent<HTMLInputElement>,
+    valueState?,
+    props?
+  ) => {
+    return basicValidate(
+      event,
+      event?.currentTarget?.value,
+      valueState,
+      props?.error || errorState?.[0],
+      props?.setError || errorState?.[1],
+      props?.onChange
+    );
+  };
+
+  const onEnter = (
+    event?: React.FormEvent<HTMLInputElement>,
+    valueState?,
+    props?
+  ) => {
+    return basicValidate(
+      event,
+      event?.currentTarget?.value,
+      valueState,
+      props?.error || errorState?.[0],
+      props?.setError || errorState?.[1],
+      props?.onChange
+    );
+  };
+
+  const validateExecution = (
+    event?: React.FormEvent<HTMLInputElement>,
+    valueState?: [any, (error?) => void, any],
+    props?,
+    func?
+  ) => {
+    // console.log('validateExecution', props);
+    const value = event?.currentTarget?.value;
+    const options: InputOptions | undefined = props?.options;
+    const currentFunction = func ? func : valueState?.[1];
+    const finalFunction = (...args) => {
+      const result = currentFunction?.(...args);
+      setRunning(false);
+      return result;
+    };
+    const currentParameter = func
+      ? [
+          event,
+          event?.currentTarget?.value,
+          valueState,
+          props?.error || errorState?.[0],
+          props?.setError || errorState?.[1],
+          func,
+        ]
+      : [value];
+    if (!running)
+      switch (options?.type) {
+        case 'debounce':
+          // console.log('debounce', props);
+          setRunning(true);
+          return debounce(
+            finalFunction,
+            options?.wait || 250,
+            options
+          )(...currentParameter);
+
+        case 'throttle':
+          // console.log('throttle', props);
+          setRunning(true);
+          return throttle(
+            finalFunction,
+            options?.wait || 250,
+            options
+          )(...currentParameter);
+
+        default:
+          // console.log('default', props);
+          return currentFunction?.(...currentParameter);
+      }
+  };
+
+  const validateLength = (
+    event?: React.FormEvent<HTMLInputElement>,
+    valueState?: [any, (error?) => void, any],
+    props?,
+    func?
+  ) => {
+    // console.log('validateLength', props);
+    const value = event?.currentTarget?.value;
+    const options: InputOptions | undefined = props?.options;
+    const currentFunction = func ? func : valueState?.[1];
+    const currentParameter = func
+      ? [
+          event,
+          event?.currentTarget?.value,
+          valueState,
+          props?.error || errorState?.[0],
+          props?.setError || errorState?.[1],
+          func,
+        ]
+      : [value];
+    if (options != undefined) {
+      const oldLength = valueState?.[0]?.length;
+      const length = event?.currentTarget?.value?.length || 0;
+      const minLength = options?.minLength || 0;
+      if (length >= minLength)
+        return validateExecution(event, valueState, props, func);
+      else if (oldLength > length) {
+        return validateExecution(
+          {
+            ...event,
+            target: { ...event?.target, value: '' },
+          } as React.FormEvent<HTMLInputElement>,
+          valueState,
+          props,
+          func
+        );
+      }
+    } else {
+      return currentFunction(...currentParameter);
+    }
+  };
 
   const basicValidate = (
     event?,
@@ -109,7 +264,7 @@ const Input = (props: {
     setError?: (error?: string) => void,
     eventF?
   ) => {
-    // console.log('basicValidate', value, valueState);
+    // console.log('basicValidate', event, value, valueState);
     checkAndstopPropagation(props?.stopPropagation, event);
     if (props?.validate)
       props.validate(value, valueState, error, setError, event, eventF);
@@ -121,13 +276,6 @@ const Input = (props: {
     }
     return eventF?.(event, value, valueState, error, setError);
   };
-
-  useEffect(() => {}, [props?.error]);
-
-  // useEffect(() => {
-  // }, [props?.value]);
-
-  useEffect(() => {}, [props, Object.values(props)]);
 
   const getProps = () => {
     const newProps = JSON.parse(JSON.stringify(props));
@@ -147,70 +295,43 @@ const Input = (props: {
       newProps.checked = valueState?.[0];
     newProps.value = valueState?.[0];
 
+    // console.log('getProps', props);
+
     newProps.onChange = (event) => {
-      // console.log('onChange', event.target.value);
-      return basicValidate(
-        event,
-        event.target.value,
-        valueState,
-        props?.error || errorState?.[0],
-        props?.setError || errorState?.[1],
-        props?.onChange // changed
-      );
-    };
-    newProps.onClick = (event) => {
-      checkAndstopPropagation(props?.stopPropagation, event);
-      return props?.onClick?.(
-        event,
-        event.target.value,
-        valueState,
-        props?.error || errorState?.[0],
-        props?.setError || errorState?.[1]
-      );
-    };
-    newProps.onInput = (event) => {
-      checkAndstopPropagation(props?.stopPropagation, event);
-      return props?.onInput?.(
-        event,
-        event.target.value,
-        valueState,
-        props?.error || errorState?.[0],
-        props?.setError || errorState?.[1]
-      );
-    };
-    newProps.onSubmit = (event) => {
-      checkAndstopPropagation(props?.stopPropagation, event);
-      return props?.onSubmit?.(
-        event,
-        event.target.value,
-        valueState,
-        props?.error || errorState?.[0],
-        props?.setError || errorState?.[1]
-      );
-    };
-    newProps.onKeyUp = (event) => {
-      // console.log('onKeyUp', event.target.value);
-      checkAndstopPropagation(props?.stopPropagation, event);
-      return props?.onKeyUp?.(
-        event,
-        event.target.value,
-        valueState,
-        props?.error || errorState?.[0],
-        props?.setError || errorState?.[1]
-      );
-    };
-    newProps.onKeyDown = (event) => {
-      checkAndstopPropagation(props?.stopPropagation, event);
-      return props?.onKeyDown?.(
-        event,
-        event.target.value,
-        valueState,
-        props?.error || errorState?.[0],
-        props?.setError || errorState?.[1]
-      );
+      return remakeOnChange(event, valueState, props, props?.onChange);
     };
 
-    if (newProps.value != undefined && newProps.checked != undefined) delete newProps.defaultValue;
+    newProps.onClick = (event) => {
+      return remakeEvent(event, valueState, props, props?.onClick);
+    };
+    newProps.onInput = (event) => {
+      return remakeEvent(event, valueState, props, props?.onInput);
+    };
+    newProps.onSubmit = (event) => {
+      return remakeEvent(event, valueState, props, props?.onSubmit);
+    };
+    newProps.onKeyUp = (event) => {
+      return remakeEvent(event, valueState, props, props?.onKeyUp);
+    };
+    newProps.onKeyDown = (event) => {
+      if (
+        props?.options?.type != undefined &&
+        props?.options?.forceNotifyByEnter
+      )
+        onEnterEvent(event, valueState, props);
+      return remakeEvent(event, valueState, props, props?.onKeyDown);
+    };
+    newProps.onBlur = (event) => {
+      if (
+        props?.options?.type != undefined &&
+        props?.options?.forceNotifyOnBlur
+      )
+        onBlur(event, valueState, props);
+      return remakeEvent(event, valueState, props, props?.onBlur);
+    };
+
+    if (newProps.value != undefined && newProps.checked != undefined)
+      delete newProps.defaultValue;
     return newProps;
   };
 
