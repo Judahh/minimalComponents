@@ -18,6 +18,15 @@ const checkAndstopPropagation = (stop?, event?) => {
   if (stop) stopPropagation(event);
 };
 
+const isChecked = (value) => {
+  const checked =
+    typeof value === 'string'
+      ? value.toLowerCase() !== 'false' && value.toLowerCase() !== '0'
+      : !!value;
+  // console.log('checked', value, checked);
+  return checked;
+};
+
 const Input = (props: {
   defaultError?;
   type?;
@@ -28,7 +37,6 @@ const Input = (props: {
   iconValue?: boolean;
   value?;
   setValue?;
-  setUnverifiedValue?;
   options?: InputOptions;
   onChange?: (
     event?,
@@ -95,9 +103,13 @@ const Input = (props: {
   const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
   const [running, setRunning] = useState<boolean | undefined>(false);
   const inputRef = useRef<HTMLButtonElement>(null);
-  const valueState: [any, (error?) => void, any] = props?.setValue
+  const [value, setValue] = useState<string | number | boolean | undefined>(
+    props.defaultValue || props.value
+  ); // internal value
+  // const [checked, setChecked] = useState<boolean | undefined>(type === 'checkbox' || type === 'radio' ? isChecked(value) : undefined); // internal value
+  const valueState: [any, (error?) => void, any] = props?.setValue // external value
     ? [props?.value, props?.setValue, undefined]
-    : useState<any | undefined>(props.defaultValue || props.value);
+    : useState<any | undefined>(value);
   const errorState = props?.setError
     ? undefined
     : useState<any | undefined>(props.defaultError || props.error);
@@ -106,39 +118,38 @@ const Input = (props: {
     setType(props?.type?.toLowerCase?.() || 'text');
   }, [props?.type]);
 
+  // useEffect(() => {
+  //   if (type === 'checkbox' || type === 'radio') {
+  //     const newChecked = isChecked(value);
+  //     if(newChecked !== checked) setChecked(newChecked);
+  //   }
+  // }, [value]);
+
   useEffect(() => {}, [type]);
 
   useEffect(() => {}, [props?.error]);
 
   useEffect(() => {}, [props, Object.values(props)]);
 
-  const remakeOnChange = (event, valueState, props?, func?) => {
+  const remakeOnChange = (event, func?) => {
     const currentFunc = (a, b, c, d, e) => {
       return basicValidate?.(a, b, c, d, e, func);
     };
-    return validateLength(event, valueState, props, currentFunc);
+    return validateLength(event, currentFunc);
   };
 
-  const remakeEvent = (event, valueState, props?, func?) => {
+  const remakeEvent = (event, func?) => {
     checkAndstopPropagation(props?.stopPropagation, event);
-    return validateLength(event, valueState, props, func);
+    return validateLength(event, func);
   };
 
-  const onEnterEvent = (
-    event?: KeyboardEvent<HTMLInputElement>,
-    valueState?,
-    props?
-  ) => {
+  const onEnterEvent = (event?: KeyboardEvent<HTMLInputElement>) => {
     if (event?.key === 'Enter') {
-      onEnter(event, valueState, props);
+      return onEnter(event);
     }
   };
 
-  const onBlur = (
-    event?: React.FormEvent<HTMLInputElement>,
-    valueState?,
-    props?
-  ) => {
+  const onBlur = (event?: React.FormEvent<HTMLInputElement>) => {
     return basicValidate(
       event,
       event?.currentTarget?.value,
@@ -149,11 +160,7 @@ const Input = (props: {
     );
   };
 
-  const onEnter = (
-    event?: React.FormEvent<HTMLInputElement>,
-    valueState?,
-    props?
-  ) => {
+  const onEnter = (event?: React.FormEvent<HTMLInputElement>) => {
     return basicValidate(
       event,
       event?.currentTarget?.value,
@@ -164,31 +171,14 @@ const Input = (props: {
     );
   };
 
-  const validateExecution = (
-    event?: React.FormEvent<HTMLInputElement>,
-    valueState?: [any, (error?) => void, any],
-    props?,
-    func?
-  ) => {
+  const validateExecution = (func?, currentParameter?) => {
     // console.log('validateExecution', props);
-    const value = event?.currentTarget?.value;
     const options: InputOptions | undefined = props?.options;
-    const currentFunction = func ? func : valueState?.[1];
     const finalFunction = (...args) => {
-      const result = currentFunction?.(...args);
+      const result = func?.(...args);
       setRunning(false);
       return result;
     };
-    const currentParameter = func
-      ? [
-          event,
-          event?.currentTarget?.value,
-          valueState,
-          props?.error || errorState?.[0],
-          props?.setError || errorState?.[1],
-          func,
-        ]
-      : [value];
     if (!running)
       switch (options?.type) {
         case 'debounce':
@@ -211,60 +201,61 @@ const Input = (props: {
 
         default:
           // console.log('default', props);
-          return currentFunction?.(...currentParameter);
+          return func?.(...currentParameter);
       }
   };
 
-  const setBasicValue = (oldValue, value, setUnverifiedValue, setValue) => {
-      if (value != oldValue) {
-        if (setUnverifiedValue) {
-          setUnverifiedValue(value);
-        } else {
-          setValue(value);
-        }
-      }
+  const updateValue = (newValue) => {
+    if (type === 'checkbox' || type === 'radio') {
+      newValue = !isChecked(value);
+      // setChecked(newValue);
+    }
+    // console.log('updateValue', value, newValue);
+    setValue(newValue);
+    return newValue;
   };
 
-  const validateLength = (
-    event?: React.FormEvent<HTMLInputElement>,
-    valueState?: [any, (error?) => void, any],
-    props?,
-    func?
-  ) => {
-    // console.log('validateLength', props);
-    const value = event?.currentTarget?.value;
+  const validateLength = (event?: React.FormEvent<HTMLInputElement>, func?) => {
+    const oldValue = valueState?.[0];
+    let value = (event?.target as any)?.value || event?.currentTarget?.value;
+    value = updateValue(value);
     const options: InputOptions | undefined = props?.options;
+
     const currentFunction = func ? func : valueState?.[1];
     const currentParameter = func
       ? [
           event,
-          event?.currentTarget?.value,
+          value,
           valueState,
           props?.error || errorState?.[0],
           props?.setError || errorState?.[1],
           func,
         ]
       : [value];
+    // console.log(
+    //   'validateLength',
+    //   oldValue,
+    //   value,
+    //   currentParameter,
+    //   options,
+    //   event
+    // );
+
     if (options != undefined) {
-      setBasicValue(valueState?.[0], value, props?.setUnverifiedValue, valueState?.[1]);
-      const oldLength = valueState?.[0]?.length || 0;
-      const length = event?.currentTarget?.value?.length || 0;
+      if (oldValue === value) return;
+      const oldLength = oldValue?.length || 0;
+      const length = value?.length || 0;
       const minLength = options?.minLength || 0;
       if (length >= minLength)
-        return validateExecution(event, valueState, props, func);
+        return validateExecution(currentFunction, currentParameter);
       else if (oldLength > length) {
-        return validateExecution(
-          {
-            ...event,
-            target: { ...event?.target, value: '' },
-          } as React.FormEvent<HTMLInputElement>,
-          valueState,
-          props,
-          func
-        );
+        // event = {
+        //   ...event,
+        //   target: { ...event?.target, value: '' },
+        // } as React.FormEvent<HTMLInputElement>;
+        return validateExecution(currentFunction, currentParameter);
       }
     } else {
-      setBasicValue(valueState?.[0], value, props?.setUnverifiedValue, valueState?.[1]);
       return currentFunction(...currentParameter);
     }
   };
@@ -282,9 +273,7 @@ const Input = (props: {
     if (props?.validate)
       props.validate(value, valueState, error, setError, event, eventF);
     else {
-      if (type === 'checkbox' || type === 'radio')
-        valueState?.[1]?.(!!!valueState?.[0]);
-      else valueState?.[1]?.(value);
+      valueState?.[1]?.(value);
       setError?.(error);
     }
     return eventF?.(event, value, valueState, error, setError);
@@ -311,37 +300,39 @@ const Input = (props: {
     // console.log('getProps', props);
 
     newProps.onChange = (event) => {
-      return remakeOnChange(event, valueState, props, props?.onChange);
+      return remakeOnChange(event, props?.onChange);
     };
 
-    newProps.onClick = (event) => {
-      return remakeEvent(event, valueState, props, props?.onClick);
-    };
-    newProps.onInput = (event) => {
-      return remakeEvent(event, valueState, props, props?.onInput);
-    };
-    newProps.onSubmit = (event) => {
-      return remakeEvent(event, valueState, props, props?.onSubmit);
-    };
-    newProps.onKeyUp = (event) => {
-      return remakeEvent(event, valueState, props, props?.onKeyUp);
-    };
-    newProps.onKeyDown = (event) => {
-      if (
-        props?.options?.type != undefined &&
-        props?.options?.forceNotifyByEnter
-      )
-        onEnterEvent(event, valueState, props);
-      return remakeEvent(event, valueState, props, props?.onKeyDown);
-    };
-    newProps.onBlur = (event) => {
-      if (
-        props?.options?.type != undefined &&
-        props?.options?.forceNotifyOnBlur
-      )
-        onBlur(event, valueState, props);
-      return remakeEvent(event, valueState, props, props?.onBlur);
-    };
+    if (type !== 'checkbox' && type !== 'radio') {
+      newProps.onClick = (event) => {
+        return remakeEvent(event, props?.onClick);
+      };
+      newProps.onInput = (event) => {
+        return remakeEvent(event, props?.onInput);
+      };
+      newProps.onSubmit = (event) => {
+        return remakeEvent(event, props?.onSubmit);
+      };
+      newProps.onKeyUp = (event) => {
+        return remakeEvent(event, props?.onKeyUp);
+      };
+      newProps.onKeyDown = (event) => {
+        if (
+          props?.options?.type != undefined &&
+          props?.options?.forceNotifyByEnter
+        )
+          return onEnterEvent(event);
+        return remakeEvent(event, props?.onKeyDown);
+      };
+      newProps.onBlur = (event) => {
+        if (
+          props?.options?.type != undefined &&
+          props?.options?.forceNotifyOnBlur
+        )
+          return onBlur(event);
+        return remakeEvent(event, props?.onBlur);
+      };
+    } else newProps.checked = value;
 
     if (newProps.value != undefined && newProps.checked != undefined)
       delete newProps.defaultValue;
@@ -367,7 +358,7 @@ const Input = (props: {
         />
       </>
     ) : (
-      <InputStyle checked={valueState?.[0]} {...getProps()} ref={inputRef} />
+      <InputStyle {...getProps()} ref={inputRef} />
     );
 
   const fullInput = props.label ? (
