@@ -28,6 +28,7 @@ const Input = (props: {
   iconValue?: boolean;
   value?;
   setValue?;
+  setUnverifiedValue?;
   options?: InputOptions;
   onChange?: (
     event?,
@@ -214,6 +215,16 @@ const Input = (props: {
       }
   };
 
+  const setBasicValue = (oldValue, value, setUnverifiedValue, setValue) => {
+      if (value != oldValue) {
+        if (setUnverifiedValue) {
+          setUnverifiedValue(value);
+        } else {
+          setValue(value);
+        }
+      }
+  };
+
   const validateLength = (
     event?: React.FormEvent<HTMLInputElement>,
     valueState?: [any, (error?) => void, any],
@@ -235,7 +246,8 @@ const Input = (props: {
         ]
       : [value];
     if (options != undefined) {
-      const oldLength = valueState?.[0]?.length;
+      setBasicValue(valueState?.[0], value, props?.setUnverifiedValue, valueState?.[1]);
+      const oldLength = valueState?.[0]?.length || 0;
       const length = event?.currentTarget?.value?.length || 0;
       const minLength = options?.minLength || 0;
       if (length >= minLength)
@@ -252,6 +264,7 @@ const Input = (props: {
         );
       }
     } else {
+      setBasicValue(valueState?.[0], value, props?.setUnverifiedValue, valueState?.[1]);
       return currentFunction(...currentParameter);
     }
   };
