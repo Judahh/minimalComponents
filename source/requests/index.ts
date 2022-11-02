@@ -140,8 +140,7 @@ const request = async (
     url = http + url;
     const received = await axios[method](url, param2, param3);
     if (noCache) {
-      console.error('noCache END');
-      console.error('received header', received, received.headers);
+      console.log('noCache received header', received, received.headers);
       // console.error('received header', received.get('pages'));
       // console.error('received header get', received.headers.get('pages'));
     }
