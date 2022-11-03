@@ -245,7 +245,7 @@ const BasicAll = (props: { theme }) => {
                 <ItemHolder>
                   <Link to="/">
                     <FixedLink>
-                      <IconItem size={'large'} alt="catalog" />
+                      <IconItem size={'large'} alt="app" />
                     </FixedLink>
                   </Link>
                 </ItemHolder>
@@ -782,7 +782,7 @@ const BasicAll = (props: { theme }) => {
               <ItemHolder>
                 <Link to="/">
                   <FixedLink>
-                    <IconItem alt="catalog" />
+                    <IconItem alt="app" />
                   </FixedLink>
                 </Link>
               </ItemHolder>

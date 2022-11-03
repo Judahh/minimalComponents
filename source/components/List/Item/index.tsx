@@ -163,9 +163,8 @@ const ListItem = (props: {
               result = props?.onClick(state, index, event);
           }
           changeState(State.CLICK);
-          console.log('State', State[state]);
+          // console.log('State', State[state]);
           return result;
-          // if (actionClick != undefined) return actionClick();
         }}
         onMouseDown={() => {
           // console.log('Mouse down');

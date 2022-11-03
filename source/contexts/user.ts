@@ -3,10 +3,10 @@ import jwt from 'jsonwebtoken';
 import { createContext } from 'react';
 import { request } from '../requests';
 
-const catalog = {
+const app = {
   id: '000000000000000000000000',
-  name: 'catalog',
-  identification: 'catalog',
+  name: 'app',
+  identification: 'app',
   type: 'API',
 };
 
@@ -295,9 +295,9 @@ const getUserType = (user): UserType => {
     : typeof user != 'string' && user?.active
     ? UserType.seller
     : user?.id != undefined
-    ? user.id !== catalog.id ||
-      user.identification !== catalog.identification ||
-      user.name !== catalog.name
+    ? user.id !== app.id ||
+      user.identification !== app.identification ||
+      user.name !== app.name
       ? UserType.client
       : UserType.base
     : UserType.none;
@@ -386,9 +386,9 @@ const isSignedIn = (element?, userTypes?: UserType[]): boolean => {
           signed =
             !element?.active &&
             element?.id != undefined &&
-            (element?.id !== catalog.id ||
-              element?.identification !== catalog.identification ||
-              element?.name !== catalog.name);
+            (element?.id !== app.id ||
+              element?.identification !== app.identification ||
+              element?.name !== app.name);
           break;
         case UserType.regular:
           signed = element?.levelId != undefined || element?.level != undefined;
@@ -401,9 +401,9 @@ const isSignedIn = (element?, userTypes?: UserType[]): boolean => {
           break;
         default:
           signed =
-            element?.id == catalog.id &&
-            element?.identification == catalog.identification &&
-            element?.name == catalog.name;
+            element?.id == app.id &&
+            element?.identification == app.identification &&
+            element?.name == app.name;
           break;
       }
     }
@@ -417,6 +417,6 @@ export {
   createUserContext,
   isSignedIn,
   signOut,
-  catalog,
+  app,
   getStorageToken,
 };
