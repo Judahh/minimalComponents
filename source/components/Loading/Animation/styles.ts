@@ -56,6 +56,25 @@ export const Hitting = styled.div`
     ${(props) =>
       props?.delay || props?.theme?.animation?.hitting?.delay || 0}s
     infinite;
+
+  &>.swipeable-list-item {
+    // background-color: #F0F;
+    border-style: solid;
+    border-color: ${(props) => props.theme.primary};
+    border-width: 0;
+    // border-top-width: 1px !important;
+    border-bottom-width: 1px !important;
+  }
+
+  &:first-child>.swipeable-list-item {
+    // background-color: #0F0;
+    border-top-width: 0px !important;
+  }
+
+  &:last-child>.swipeable-list-item {
+    // background-color: #00F;
+    border-bottom-width: 0px !important;
+  }
 `;
 
 export const Hanging = styled.div`

@@ -48,6 +48,8 @@ import {
 import Table from '../../source/components/Table';
 import { IconType } from '../../source/components/Input/icon';
 import useObjectState from '../../source/components/Table/useObjectState';
+import SList from '../../source/components/List';
+import SListItem from '../../source/components/List/Item';
 
 const NotificationContext = createContext<NotificationContextModel>({
   setError: (_error?: boolean) => {},
@@ -502,11 +504,27 @@ const BasicAll = (props: { theme }) => {
         <br />
         <Input type="tel" />
         <br />
-        <Input type="text" setValue={(a)=>console.log('t0', a)} />
-        <Input type="text" options={{type:'debounce', wait:1000}} setValue={(a)=>console.log('t1', a)} />
-        <Input type="text" options={{type:'throttle', wait:1000}} setValue={(a)=>console.log('t2', a)} />
-        <Input type="text" options={{type:'debounce'}} setValue={(a)=>console.log('t3', a)} />
-        <Input type="text" options={{type:'throttle'}} setValue={(a)=>console.log('t4', a)} />
+        <Input type="text" setValue={(a) => console.log('t0', a)} />
+        <Input
+          type="text"
+          options={{ type: 'debounce', wait: 1000 }}
+          setValue={(a) => console.log('t1', a)}
+        />
+        <Input
+          type="text"
+          options={{ type: 'throttle', wait: 1000 }}
+          setValue={(a) => console.log('t2', a)}
+        />
+        <Input
+          type="text"
+          options={{ type: 'debounce' }}
+          setValue={(a) => console.log('t3', a)}
+        />
+        <Input
+          type="text"
+          options={{ type: 'throttle' }}
+          setValue={(a) => console.log('t4', a)}
+        />
         <br />
         <br />
         <Input type="datetime-local" />
@@ -566,6 +584,26 @@ const BasicAll = (props: { theme }) => {
             width: '20px',
           }}
         />
+        <SList>
+          <SListItem
+            onClick={(s, i, e) => console.log('click', s, i, e)}
+            onHold={(s, i, e) => console.log('hold', s, i, e)}
+          >
+            <Text>ASJKDHLASKDJ</Text>
+          </SListItem>
+          <SListItem
+            onClick={(s, i, e) => console.log('click', s, i, e)}
+            onHold={(s, i, e) => console.log('hold', s, i, e)}
+          >
+            <Text>vjzlkxcjvçzlkjxcç</Text>
+          </SListItem>
+          <SListItem
+            onClick={(s, i, e) => console.log('click', s, i, e)}
+            onHold={(s, i, e) => console.log('hold', s, i, e)}
+          >
+            <Text>IOPIDÒPSI</Text>
+          </SListItem>
+        </SList>
         <br />
         <br />
         <FlagHolder>
@@ -691,16 +729,32 @@ const BasicAll = (props: { theme }) => {
           <Bar />
         </Progress>
         <Animation Animation={Falling} from={'-100px'} to={'250px'}>
-          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
+          <IconItem
+            src={
+              props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'
+            }
+          />
         </Animation>
         <Animation Animation={Rowling}>
-          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
+          <IconItem
+            src={
+              props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'
+            }
+          />
         </Animation>
         <Animation Animation={Hanging}>
-          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
+          <IconItem
+            src={
+              props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'
+            }
+          />
         </Animation>
         <Animation Animation={Rowling} anti={true}>
-          <IconItem src={props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'} />
+          <IconItem
+            src={
+              props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'
+            }
+          />
         </Animation>
         <Input
           type={'button'}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { withTheme } from 'styled-components';
 import { Wrapper, Center } from '../../Content';
 import { Text } from '../../Text';
@@ -20,6 +20,9 @@ const Animation = (props: {
   to?: string;
   move?: { x?: string; y?: string };
   scale?: { x?: number; y?: number };
+  wrapperStyle?: CSSProperties;
+  centerStyle?: CSSProperties;
+  crude?: boolean;
 }) => {
   const [newProps, _setNewProps] = useState({
     ...props,
@@ -40,29 +43,32 @@ const Animation = (props: {
     );
   };
   useEffect(() => {}, [props, ...Object.values(props)]);
-  return (
-    <Wrapper>
-      <Center>
-        <props.Animation {...newProps}>
-          {passProps(props)}
-          <>
-            {props.progress && props.progress > 0 ? (
-              <Text type={props.type} limitationType={props.limitationType}>
-                {props.progress}%
-              </Text>
-            ) : (
-              <></>
-            )}
-            {props.progress2 && props.progress2 > 0 ? (
-              <Text type={props.type} limitationType={props.limitationType}>
-                {props.progress2}%
-              </Text>
-            ) : (
-              <></>
-            )}
-          </>
-        </props.Animation>
-      </Center>
+  const animation = (
+    <props.Animation {...newProps}>
+      {passProps(props)}
+      <>
+        {props.progress && props.progress > 0 ? (
+          <Text type={props.type} limitationType={props.limitationType}>
+            {props.progress}%
+          </Text>
+        ) : (
+          <></>
+        )}
+        {props.progress2 && props.progress2 > 0 ? (
+          <Text type={props.type} limitationType={props.limitationType}>
+            {props.progress2}%
+          </Text>
+        ) : (
+          <></>
+        )}
+      </>
+    </props.Animation>
+  );
+  return props.crude ? (
+    <>{ animation }</>
+  ) : (
+    <Wrapper style={props?.wrapperStyle}>
+      <Center style={props?.centerStyle}>{animation}</Center>
     </Wrapper>
   );
 };
