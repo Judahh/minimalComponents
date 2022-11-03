@@ -5,8 +5,8 @@ import useState from 'react-usestateref';
 import { withTheme } from 'styled-components';
 
 const List = (props: { theme; children; threshold?: number; fullSwipe?: boolean }) => {
-  const [fullSwipe, setFullSwipe] = useState(props?.fullSwipe);
-  const [threshold, setThreshold] = useState(props?.threshold || 0.3);
+  const [fullSwipe, _setFullSwipe] = useState(props?.fullSwipe);
+  const [threshold, _setThreshold] = useState(props?.threshold || 0.3);
 
   return (
     <>

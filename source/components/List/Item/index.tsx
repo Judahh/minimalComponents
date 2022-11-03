@@ -39,9 +39,9 @@ const ListItem = (props: {
 }) => {
   // console.log('Product props', props);
   const [state, setState] = useState(State.NONE);
-  const [lastState, setLastState] = useState(State.NONE);
+  const [_lastState, setLastState] = useState(State.NONE);
   const [index, setIndex] = useState<number | undefined>(undefined);
-  const [lastIndex, setLastIndex] = useState<number | undefined>(undefined);
+  const [_lastIndex, setLastIndex] = useState<number | undefined>(undefined);
   const [type, _setType] = useState(props.type);
   const [fullSwipe, _setFullSwipe] = useState(props.fullSwipe);
   const [threshold, _setThreshold] = useState(props?.threshold || 0.3);
