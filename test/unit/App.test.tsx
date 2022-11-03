@@ -29,6 +29,7 @@ import {
   Hanging,
   Rowling,
 } from '../../source/components/Loading/Animation/styles';
+import Collapsible from '../../source/components/Collapsible';
 import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
 import List from '../../source/components/Drawer/List';
@@ -50,6 +51,7 @@ import { IconType } from '../../source/components/Input/icon';
 import useObjectState from '../../source/components/Table/useObjectState';
 import SList from '../../source/components/List';
 import SListItem from '../../source/components/List/Item';
+import OpenButton from '../../source/components/Collapsible/openButton';
 
 const NotificationContext = createContext<NotificationContextModel>({
   setError: (_error?: boolean) => {},
@@ -604,6 +606,26 @@ const BasicAll = (props: { theme }) => {
             <Text>IOPIDÒPSI</Text>
           </SListItem>
         </SList>
+        <Collapsible
+          before={
+            <OpenButton openned={<Text>{'V'}</Text>}>
+              <Text>{'>'}</Text>
+            </OpenButton>
+          }
+          trigger={<Text>PARENT</Text>}
+        >
+          <Text>CHILD</Text>
+        </Collapsible>
+        <Collapsible
+          before={
+            <OpenButton rotate rotation={90} time={0.5}>
+              <Text>{'>'}</Text>
+            </OpenButton>
+          }
+          trigger={<Text>PARENT</Text>}
+        >
+          <Text>CHILD</Text>
+        </Collapsible>
         <br />
         <br />
         <FlagHolder>
