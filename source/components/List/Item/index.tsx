@@ -9,14 +9,13 @@ import {
   Type as ListType,
 } from 'react-swipeable-list';
 import { State } from './state';
-import { baseAction } from '../Action/util';
 import Animation from '../../Loading/Animation';
 import { Hitting } from '../../Loading/Animation/styles';
 
 const ListItem = (props: {
   theme;
-  leadings?: ReactElement[];
-  trailings?: ReactElement[];
+  leadings?: ReactElement;
+  trailings?: ReactElement;
   key;
   id;
   type?: ListType;
@@ -32,8 +31,8 @@ const ListItem = (props: {
   // console.log('Product props', props);
   const [state, setState] = useState(State.NONE);
   const [_lastState, setLastState] = useState(State.NONE);
-  const [index, setIndex] = useState<number | undefined>(undefined);
-  const [_lastIndex, setLastIndex] = useState<number | undefined>(undefined);
+  const [index, _setIndex] = useState<number | undefined>(undefined);
+  const [_lastIndex, _setLastIndex] = useState<number | undefined>(undefined);
   const [type, _setType] = useState(props.type);
   const [fullSwipe, _setFullSwipe] = useState(props.fullSwipe);
   const [threshold, _setThreshold] = useState(props?.threshold || 0.3);
@@ -45,52 +44,37 @@ const ListItem = (props: {
   useEffect(() => {}, [props.search, props?.setSearch]);
 
   const actionSwipeStart = () => {
-    setState(State.NONE);
+    setState(State.SWIPING);
   };
 
-  const remapActionsProps = (actions?: ReactElement[], state?: State) => {
-    return React.Children.map?.(actions, (action, index) => {
+  const actionsWithState = (actions?: ReactElement[], state?: State) => {
+    return actions?.map?.((action, index) => {
+      // console.log('action', action);
       if (action && state) {
+        console.log('action', action);
         const newProps = {
           ...action.props,
-          onClick: (...args) => {
-            const currentIndex = index;
-            const currentState = state;
-            const lastIndex = currentIndex;
-            const lastState = currentState;
-            baseAction(
-              state,
-              setState,
-              setLastState,
-              index,
-              setIndex,
-              setLastIndex,
-              action.props?.onClick,
-              ...args,
-              currentState,
-              currentIndex,
-              lastState,
-              lastIndex
-            );
-          },
+          state,
+          index,
         };
 
-        const cloneChild = React.cloneElement(action, newProps);
-        return cloneChild;
+        const clone= React.cloneElement(action, newProps);
+        console.log('action clone', clone);
+        return clone;
       }
       return undefined;
     });
   };
 
   const leadingActions = () => {
-    const actions = remapActionsProps(props.leadings, State.LEADING);
+    const actions = actionsWithState(props.leadings?.props?.children, State.LEADING);
     return actions && actions?.length > 0 ? (
       <LeadingActions>{actions}</LeadingActions>
     ) : undefined;
   };
 
   const trailingActions = () => {
-    const actions = remapActionsProps(props.trailings, State.TRAILING);
+    const actions = actionsWithState(props.trailings?.props?.children, State.TRAILING);
     return actions && actions?.length > 0 ? (
       <TrailingActions>{actions}</TrailingActions>
     ) : undefined;
@@ -135,11 +119,13 @@ const ListItem = (props: {
         }}
         onMouseDown={() => {
           // console.log('Mouse down');
-          setHoldTimeout(
-            setTimeout(() => {
-              changeState(State.HOLD);
-            }, 1000 * holdThreshold)
-          );
+          if (state == State.NONE) {
+            setHoldTimeout(
+              setTimeout(() => {
+                changeState(State.HOLD);
+              }, 1000 * holdThreshold)
+            );
+          }
         }}
       >
         {props.children}

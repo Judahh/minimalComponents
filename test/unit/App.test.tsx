@@ -51,6 +51,7 @@ import { IconType } from '../../source/components/Input/icon';
 import useObjectState from '../../source/components/Table/useObjectState';
 import SList from '../../source/components/List';
 import SListItem from '../../source/components/List/Item';
+import SListAction from '../../source/components/List/Action';
 import OpenButton from '../../source/components/Collapsible/openButton';
 
 const NotificationContext = createContext<NotificationContextModel>({
@@ -588,12 +589,33 @@ const BasicAll = (props: { theme }) => {
         />
         <SList>
           <SListItem
+            leadings={<><SListAction
+              onClick={() => {
+                console.log('add');
+              }}
+            >
+              add
+            </SListAction><SListAction
+              onClick={() => {
+                console.log('edit');
+              }}
+            >
+              edit
+            </SListAction></>}
             onClick={(s, i, e) => console.log('click', s, i, e)}
             onHold={(s, i, e) => console.log('hold', s, i, e)}
           >
             <Text>ASJKDHLASKDJ</Text>
           </SListItem>
           <SListItem
+            trailings={<><SListAction
+              destructive={true}
+              onClick={() => {
+                console.log('delete');
+              }}
+            >
+              delete
+            </SListAction></>}
             onClick={(s, i, e) => console.log('click', s, i, e)}
             onHold={(s, i, e) => console.log('hold', s, i, e)}
           >

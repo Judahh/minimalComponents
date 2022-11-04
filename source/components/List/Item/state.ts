@@ -2,6 +2,7 @@ export enum State {
   NONE = 0,
   LEADING = 1,
   TRAILING = 2,
-  CLICK = 3,
-  HOLD = 4,
+  SWIPING = 3,
+  CLICK = 4,
+  HOLD = 5,
 }
