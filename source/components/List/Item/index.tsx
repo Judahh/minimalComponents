@@ -1,17 +1,15 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { useEffect, ReactElement } from 'react';
+import useState from 'react-usestateref';
 
-import { ActionContent } from './styles';
 import { withTheme } from 'styled-components';
 import SwipeableStyledListItem from './swipeableStyledListItem';
 import {
   LeadingActions,
-  SwipeAction,
   TrailingActions,
   Type as ListType,
 } from 'react-swipeable-list';
-import 'react-swipeable-list/dist/styles.css';
 import { State } from './state';
-import { baseAction } from './action';
+import { baseAction } from '../Action/util';
 import Animation from '../../Loading/Animation';
 import { Hitting } from '../../Loading/Animation/styles';
 
@@ -19,9 +17,6 @@ const ListItem = (props: {
   theme;
   leadings?: ReactElement[];
   trailings?: ReactElement[];
-  setElements?;
-  quantities?: { id }[];
-  setQuantities?;
   key;
   id;
   type?: ListType;
@@ -30,9 +25,6 @@ const ListItem = (props: {
   holdThreshold?: number;
   search?: string;
   setSearch?;
-  refresh?;
-  navigate;
-  location;
   children?;
   onClick?;
   onHold?;
@@ -51,17 +43,6 @@ const ListItem = (props: {
   const [holdTimeout, setHoldTimeout] = useState<any>(undefined);
 
   useEffect(() => {}, [props.search, props?.setSearch]);
-
-  // const actionClick = () => {
-  //   console.log('Click');
-  //   setState(State.CONSUME);
-  //   if (state !== State.NONE) {
-  //     console.log('Consume');
-  //     console.log('product', product);
-  //     serving(product?.id, true);
-  //     props?.refresh?.();
-  //   }
-  // };
 
   const actionSwipeStart = () => {
     setState(State.NONE);
@@ -101,31 +82,17 @@ const ListItem = (props: {
     });
   };
 
-  const remapActionProps = (action: ReactElement, index: number) => {
-    const onClick = action?.props?.onClick;
-    const style = action?.props?.style;
-    const newAction = React.cloneElement(action, {
-      onClick: undefined,
-      style: undefined,
-    });
-    return (
-      <SwipeAction key={index} onClick={onClick}>
-        <ActionContent style={style}>{newAction}</ActionContent>
-      </SwipeAction>
-    );
-  };
-
   const leadingActions = () => {
     const actions = remapActionsProps(props.leadings, State.LEADING);
     return actions && actions?.length > 0 ? (
-      <LeadingActions>{actions?.map(remapActionProps)}</LeadingActions>
+      <LeadingActions>{actions}</LeadingActions>
     ) : undefined;
   };
 
   const trailingActions = () => {
     const actions = remapActionsProps(props.trailings, State.TRAILING);
     return actions && actions?.length > 0 ? (
-      <TrailingActions>{actions?.map(remapActionProps)}</TrailingActions>
+      <TrailingActions>{actions}</TrailingActions>
     ) : undefined;
   };
 
