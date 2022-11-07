@@ -43,13 +43,29 @@ function Image(props: {
   showStatus?: boolean;
   onClickItem?: (index: number) => void;
   onClickThumb?: (index: number) => void;
+  maxHeight?: string;
+  maxWidth?: string;
+  width?: string;
+  height?: string;
 }) {
   const imgRef = useRef();
   const [loaded, setLoaded] = useState(false);
   const [titleHeightOffset, setTitleHeightOffset] =
     useState('- 1.3rem - 0.6vw');
   const [maxHeight, setMaxHeight] = useState(
-    getMaxHeight(props, titleHeightOffset)
+    props.maxHeight || getMaxHeight(props, titleHeightOffset)
+  );
+
+  const [maxWidth, _setMaxWidth] = useState(
+    props.maxWidth || '100%'
+  );
+
+  const [width, _setWidth] = useState(
+    props.width || '100%'
+  );
+
+  const [height, _setHeight] = useState(
+    props.height || '100%'
   );
 
   useEffect(() => {
@@ -122,7 +138,9 @@ function Image(props: {
           }
           swipeable={true}
           emulateTouch={true}
-          dynamicHeight={props?.dynamicHeight != undefined ? props?.dynamicHeight : true}
+          dynamicHeight={
+            props?.dynamicHeight != undefined ? props?.dynamicHeight : true
+          }
           useKeyboardArrows={true}
           onChange={onChange}
           onSwipeStart={preventDefault}
@@ -199,9 +217,24 @@ function Image(props: {
                 key={index}
                 style={{
                   filter: 'grayscale(' + (props.disabled ? '1' : '0') + ')',
+                  height: height,
+                  width: width,
                 }}
               >
                 <BackgroundImage alt={props.alt} src={props.lqip} />
+                <BackgroundImage
+                  alt={props.alt}
+                  src={image}
+                  style={{
+                    maxHeight: maxHeight,
+                    maxWidth: maxWidth,
+                    filter: 'blur(10px)',
+                    width: '100%',
+                    height: '100%',
+                    // left: '0px',
+                    objectFit: 'cover',
+                  }}
+                />
                 <ImageStyle
                   loading="lazy"
                   src={image}
@@ -211,8 +244,13 @@ function Image(props: {
                   className={clsx('source', loaded && 'loaded') + 'img-fluid'}
                   style={{
                     maxHeight: maxHeight,
-                    height: maxHeight,
-                    color: 'red',
+                    maxWidth: maxWidth,
+                    // height: maxHeight,
+                    // color: 'red',
+                    background: 'transparent',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
