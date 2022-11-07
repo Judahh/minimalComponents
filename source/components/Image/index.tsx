@@ -47,6 +47,7 @@ function Image(props: {
   maxWidth?: string;
   width?: string;
   height?: string;
+  useBlur?: boolean;
 }) {
   const imgRef = useRef();
   const [loaded, setLoaded] = useState(false);
@@ -66,6 +67,10 @@ function Image(props: {
 
   const [height, _setHeight] = useState(
     props.height || '100%'
+  );
+
+  const [useBlur, _setUseBlur] = useState(
+    props.useBlur != undefined ? props.useBlur : true
   );
 
   useEffect(() => {
@@ -222,7 +227,7 @@ function Image(props: {
                 }}
               >
                 <BackgroundImage alt={props.alt} src={props.lqip} />
-                <BackgroundImage
+                {useBlur ? <BackgroundImage
                   alt={props.alt}
                   src={image}
                   style={{
@@ -234,7 +239,7 @@ function Image(props: {
                     // left: '0px',
                     objectFit: 'cover',
                   }}
-                />
+                /> : null}
                 <ImageStyle
                   loading="lazy"
                   src={image}
