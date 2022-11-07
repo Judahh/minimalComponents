@@ -14,8 +14,8 @@ import { Carousel } from 'react-responsive-carousel';
 import { withTheme } from 'styled-components';
 import Input from '../Input';
 
-const getMaxHeight = (props, titleHeightOffset) =>
-  'calc(100%' +
+const getMaxHeight = (props, titleHeightOffset, maxHeight = '100%') =>
+  'calc(' + maxHeight +
   (props.hasTitle ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
   (props.hasDescription ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
   ')';
@@ -54,7 +54,7 @@ function Image(props: {
   const [titleHeightOffset, setTitleHeightOffset] =
     useState('- 1.3rem - 0.6vw');
   const [maxHeight, setMaxHeight] = useState(
-    props.maxHeight || getMaxHeight(props, titleHeightOffset)
+     getMaxHeight(props, titleHeightOffset, props.maxHeight)
   );
 
   const [maxWidth, _setMaxWidth] = useState(
