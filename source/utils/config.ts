@@ -56,8 +56,8 @@ export const getTextLimitationType = (type: string) => {
     : 'regular';
 };
 
-const getFontSize = (props) => textSizes(props?.theme)[getTextLimitationType(props?.type)];
-const getFontWeight = (props) => textWeights(props?.theme)[getTextLimitationType(props?.type)];
+const getFontSize = (props) => textSizes(props?.theme)[getTextLimitationType(props?.sizeType)];
+const getFontWeight = (props) => textWeights(props?.theme)[getTextLimitationType(props?.sizeType)];
 
 export const baseConfig = (props) => `
 margin: 0;

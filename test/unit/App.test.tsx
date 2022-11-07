@@ -757,15 +757,15 @@ const BasicAll = (props: { theme }) => {
           }
         />
         <br />
-        <Text type={'minimal'}>CopyrightText</Text>
-        <Text type={'h1'}>Title</Text>
-        <Text type={'h2'}>Subtitle</Text>
-        <Text type={'h3'}>Subtitle 2</Text>
-        <Text type={'h4'}>Subtitle 3</Text>
-        <Text type={'h5'}>Subtitle 4</Text>
-        <Text type={'h6'}>Subtitle 5</Text>
+        <Text sizeType={'minimal'}>CopyrightText</Text>
+        <Text sizeType={'h1'}>Title</Text>
+        <Text sizeType={'h2'}>Subtitle</Text>
+        <Text sizeType={'h3'}>Subtitle 2</Text>
+        <Text sizeType={'h4'}>Subtitle 3</Text>
+        <Text sizeType={'h5'}>Subtitle 4</Text>
+        <Text sizeType={'h6'}>Subtitle 5</Text>
         <Text>Text</Text>
-        <Text type={'small'}>SubText</Text>
+        <Text sizeType={'small'}>SubText</Text>
         <P>Paragraph</P>
         <br />
         <br />

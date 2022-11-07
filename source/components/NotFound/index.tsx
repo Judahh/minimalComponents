@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import useState from 'react-usestateref';
+import { Text } from '../Text';
 import { StyledNotFound } from './styles';
 
 const NotFound = (props: {languageContext?: {notFound?: {title?: string, description?: string}}}) => {
@@ -11,8 +12,8 @@ const NotFound = (props: {languageContext?: {notFound?: {title?: string, descrip
 
   return (
     <StyledNotFound>
-      <h1>{notFound?.title || 404}</h1>
-      <span>{notFound?.description || 'Not Found'}</span>
+      <Text sizeType={'h1'}>{notFound?.title || 404}</Text>
+      <Text sizeType={'h2'}>{notFound?.description || 'Not Found'}</Text>
     </StyledNotFound>
   );
 };

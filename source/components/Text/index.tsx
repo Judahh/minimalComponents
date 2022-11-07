@@ -8,7 +8,7 @@ export const Text = styled.div`
   width: 100%;
   max-width: ${(props) => textLimitation(props?.theme)[getTextLimitationType(props?.limitationType)]};
   color: ${(props) => props?.color || props.theme.primary};
-  margin: ${(props) => props.margin || isHeading(props.type)? '10px' : '0px'};
+  margin: ${(props) => props.margin || isHeading(props.sizeType)? '10px' : '0px'};
   text-align: ${(props) => props.textAlign || 'justify'};
 `;
 
