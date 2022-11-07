@@ -5,7 +5,7 @@ export const textLimitation = (theme) => ({
 });
 
 export const textSizes = (theme) => {
-  console.log('txt size:', theme);
+  // console.log('txt size:', theme);
   return {
     minimal: theme?.minimal?.font?.size || '10px',
     small: theme?.small?.font?.size || '12px',
@@ -36,7 +36,7 @@ export const isHeading = (type: string) => {
 };
 
 export const getTextType = (type: string) => {
-  console.log('getTextType', type);
+  // console.log('getTextType', type);
   return type === 'limited' || type === 'base' || type === 'full'
     ? type
     : 'full';
