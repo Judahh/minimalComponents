@@ -42,6 +42,7 @@ const Input = (props: {
   defaultValue?;
   iconValue?: boolean;
   value?;
+  baseValue?;
   setValue?;
   options?: InputOptions;
   onChange?: (
@@ -109,6 +110,9 @@ const Input = (props: {
   const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
   const [running, setRunning] = useState<boolean | undefined>(false);
   const inputRef = useRef<HTMLButtonElement>(null);
+  const [baseValue, setBaseValue] = useState<string | number | boolean | undefined>(
+    props.baseValue
+  ); // internal value
   const [value, setValue] = useState<string | number | boolean | undefined>(
     props.defaultValue || props.value
   ); // internal value
@@ -123,6 +127,10 @@ const Input = (props: {
   useEffect(() => {
     setType(props?.type?.toLowerCase?.() || 'text');
   }, [props?.type]);
+
+  useEffect(() => {
+    setBaseValue(props.baseValue);
+  }, [props?.baseValue]);
 
   // useEffect(() => {
   //   if (type === 'checkbox' || type === 'radio') {
@@ -299,8 +307,10 @@ const Input = (props: {
 
     newProps.defaultValue = props?.value ? undefined : props?.defaultValue;
 
-    if (type === 'checkbox' || type === 'radio')
+    if (type === 'checkbox')
       newProps.checked = valueState?.[0];
+    if (type === 'radio')
+      newProps.checked = baseValue != undefined ? valueState?.[0] === baseValue : valueState?.[0];
     newProps.value = valueState?.[0];
 
     // console.log('getProps', props);
