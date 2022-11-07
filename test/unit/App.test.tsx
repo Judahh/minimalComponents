@@ -49,9 +49,9 @@ import {
 import Table from '../../source/components/Table';
 import { IconType } from '../../source/components/Input/icon';
 import useObjectState from '../../source/components/Table/useObjectState';
-import SList from '../../source/components/List';
+// import SList from '../../source/components/List';
 import SListItem from '../../source/components/List/Item';
-import SListAction from '../../source/components/List/Action';
+// import SListAction from '../../source/components/List/Action';
 import OpenButton from '../../source/components/Collapsible/openButton';
 
 const NotificationContext = createContext<NotificationContextModel>({
@@ -587,35 +587,70 @@ const BasicAll = (props: { theme }) => {
             width: '20px',
           }}
         />
-        <SList>
+        <div style={{ flex: 1, width: '100%', height: '100%' }}>
           <SListItem
-            leadings={<><SListAction
-              onClick={() => {
-                console.log('add');
-              }}
-            >
-              add
-            </SListAction><SListAction
-              onClick={() => {
-                console.log('edit');
-              }}
-            >
-              edit
-            </SListAction></>}
+            leading={
+              <>
+                <div
+                  onClick={() => {
+                    console.log('>add');
+                  }}
+                >
+                  add
+                </div>
+                <div
+                  onClick={() => {
+                    console.log('>edit');
+                  }}
+                >
+                  edit
+                </div>
+              </>
+            }
+            onClick={(s, i, e) => console.log('click', s, i, e)}
+            onHold={(s, i, e) => console.log('hold', s, i, e)}
+          >
+            <Text>TEST</Text>
+          </SListItem>
+        </div>
+        {/* <SList>
+          <SListItem
+            leading={
+              <>
+                <SListAction
+                  onClick={() => {
+                    console.log('>add');
+                  }}
+                >
+                  add
+                </SListAction>
+                <SListAction
+                  onClick={() => {
+                    console.log('>edit');
+                  }}
+                >
+                  edit
+                </SListAction>
+              </>
+            }
             onClick={(s, i, e) => console.log('click', s, i, e)}
             onHold={(s, i, e) => console.log('hold', s, i, e)}
           >
             <Text>ASJKDHLASKDJ</Text>
           </SListItem>
           <SListItem
-            trailings={<><SListAction
-              destructive={true}
-              onClick={() => {
-                console.log('delete');
-              }}
-            >
-              delete
-            </SListAction></>}
+            trailing={
+              <>
+                <SListAction
+                  destructive={true}
+                  onClick={() => {
+                    console.log('delete');
+                  }}
+                >
+                  delete
+                </SListAction>
+              </>
+            }
             onClick={(s, i, e) => console.log('click', s, i, e)}
             onHold={(s, i, e) => console.log('hold', s, i, e)}
           >
@@ -627,7 +662,7 @@ const BasicAll = (props: { theme }) => {
           >
             <Text>IOPIDÒPSI</Text>
           </SListItem>
-        </SList>
+        </SList> */}
         <Collapsible
           before={
             <OpenButton openned={<Text>{'V'}</Text>}>

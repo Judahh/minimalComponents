@@ -4,17 +4,20 @@ export const textLimitation = (theme) => ({
   full: theme?.maxWidth || '100%',
 });
 
-export const textSizes = (theme) => ({
-  minimal: theme?.minimal?.font?.size || '10px',
-  small: theme?.small?.font?.size || '12px',
-  regular: theme?.font?.size || '14px',
-  h6: theme?.h6?.font?.size || '16px',
-  h5: theme?.h5?.font?.size || '18px',
-  h4: theme?.h4?.font?.size || '20px',
-  h3: theme?.h3?.font?.size || '24px',
-  h2: theme?.h2?.font?.size || '32px',
-  h1: theme?.h1?.font?.size || '40px',
-});
+export const textSizes = (theme) => {
+  console.log('txt size:', theme);
+  return {
+    minimal: theme?.minimal?.font?.size || '10px',
+    small: theme?.small?.font?.size || '12px',
+    regular: theme?.font?.size || '14px',
+    h6: theme?.h6?.font?.size || '16px',
+    h5: theme?.h5?.font?.size || '18px',
+    h4: theme?.h4?.font?.size || '20px',
+    h3: theme?.h3?.font?.size || '24px',
+    h2: theme?.h2?.font?.size || '32px',
+    h1: theme?.h1?.font?.size || '40px',
+  };
+};
 
 export const textWeights = (theme) => ({
   minimal: theme?.minimal?.font?.weight || 'normal',
@@ -34,26 +37,27 @@ export const isHeading = (type: string) => {
 
 export const getTextType = (type: string) => {
   console.log('getTextType', type);
-  return type === 'limited' ||
-    type === 'base' ||
-    type === 'full'
+  return type === 'limited' || type === 'base' || type === 'full'
     ? type
     : 'full';
 };
 
 export const getTextLimitationType = (type: string) => {
-    return type === 'minimal' ||
-      type === 'small' ||
-      type === 'regular' ||
-      type === 'h6' ||
-      type === 'h5' ||
-      type === 'h4' ||
-      type === 'h3' ||
-      type === 'h2' ||
-      type === 'h1'
-      ? type
-      : 'regular';
-  };
+  return type === 'minimal' ||
+    type === 'small' ||
+    type === 'regular' ||
+    type === 'h6' ||
+    type === 'h5' ||
+    type === 'h4' ||
+    type === 'h3' ||
+    type === 'h2' ||
+    type === 'h1'
+    ? type
+    : 'regular';
+};
+
+const getFontSize = (props) => textSizes(props?.theme)[getTextLimitationType(props?.type)];
+const getFontWeight = (props) => textWeights(props?.theme)[getTextLimitationType(props?.type)];
 
 export const baseConfig = (props) => `
 margin: 0;
@@ -68,7 +72,7 @@ transition: all ${props?.theme?.transition?.duration || 1}s ease;
 animation: ${props?.theme?.animation?.duration || 1}s ease appear;
 font-family: ${props?.theme?.font?.type || 'Spartan-Light'};
 
-font-size: ${(props) => textSizes(props?.theme)[getTextType(props?.type)]};
-font-weight: ${(props) => textWeights(props?.theme)[getTextType(props?.type)]};
+font-size: ${getFontSize(props)};
+font-weight: ${getFontWeight(props)};
 background-repeat: no-repeat;
 `;

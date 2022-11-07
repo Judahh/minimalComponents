@@ -120,7 +120,51 @@ const Center = styled.div`
   justify-content: center;
 `;
 
+const Wrapper = styled.div`
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+`;
+
+const Item = styled.div`
+  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+`;
+
+const Leading = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-right: 16px;
+  box-sizing: border-box;
+`;
+
+const Trailing = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 16px;
+  box-sizing: border-box;
+`;
+
 export {
+  Wrapper,
+  Item,
+  Leading,
+  Trailing,
   StyledListItem,
   AvatarHolder,
   AvatarHolderRight,
