@@ -74,6 +74,12 @@ const BasicAll = (props: { theme }) => {
   const [notificationError2, setNotificationError2] = useState<
     boolean | undefined
   >(true);
+  const [radio2, setRadio2] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    console.log('radio2', radio2);
+  }, [radio2]);
+
   const personController = [
     {
       index: 'id',
@@ -613,6 +619,9 @@ const BasicAll = (props: { theme }) => {
           }}
           roudedEdges
           id={'buy'}
+          setValue={() => setRadio2('buy')}
+          baseValue={'buy'}
+          value={radio2}
         />
         <label htmlFor="buy">
           buy
@@ -628,6 +637,9 @@ const BasicAll = (props: { theme }) => {
           }}
           roudedEdges
           id={'rent'}
+          setValue={() => setRadio2('rent')}
+          baseValue={'rent'}
+          value={radio2}
         />
         <label htmlFor="rent">
           rent
@@ -641,8 +653,14 @@ const BasicAll = (props: { theme }) => {
             width: '20px',
           }}
           roudedEdges
-          id={'rent2'}
-        >rent2</Input>
+          id={'bla'}
+          setValue={() => setRadio2('bla')}
+          baseValue={'bla'}
+          value={radio2}
+        />
+        <label htmlFor="bla">
+          bla
+        </label>
         <div style={{ flex: 1, width: '100%', height: '100%' }}>
           <SListItem
             leading={

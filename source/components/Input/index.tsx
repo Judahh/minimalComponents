@@ -1,9 +1,4 @@
-import React, {
-  CSSProperties,
-  useEffect,
-  useRef,
-  KeyboardEvent,
-} from 'react';
+import React, { CSSProperties, useEffect, useRef, KeyboardEvent } from 'react';
 import useState from 'react-usestateref';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
@@ -23,12 +18,13 @@ const checkAndstopPropagation = (stop?, event?) => {
   if (stop) stopPropagation(event);
 };
 
-const isChecked = (value) => {
+const isChecked = (value, baseValue) => {
   const checked =
     typeof value === 'string'
       ? value.toLowerCase() !== 'false' && value.toLowerCase() !== '0'
+      : baseValue != undefined
+      ? value === baseValue
       : !!value;
-  // console.log('checked', value, checked);
   return checked;
 };
 
@@ -110,13 +106,12 @@ const Input = (props: {
   const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
   const [running, setRunning] = useState<boolean | undefined>(false);
   const inputRef = useRef<HTMLButtonElement>(null);
-  const [baseValue, setBaseValue] = useState<string | number | boolean | undefined>(
-    props.baseValue
-  ); // internal value
+  const [baseValue, setBaseValue] = useState<
+    string | number | boolean | undefined
+  >(props.baseValue); // internal value
   const [value, setValue] = useState<string | number | boolean | undefined>(
     props.defaultValue || props.value
   ); // internal value
-  // const [checked, setChecked] = useState<boolean | undefined>(type === 'checkbox' || type === 'radio' ? isChecked(value) : undefined); // internal value
   const valueState: [any, (error?) => void, any] = props?.setValue // external value
     ? [props?.value, props?.setValue, undefined]
     : useState<any | undefined>(value);
@@ -131,13 +126,6 @@ const Input = (props: {
   useEffect(() => {
     setBaseValue(props.baseValue);
   }, [props?.baseValue]);
-
-  // useEffect(() => {
-  //   if (type === 'checkbox' || type === 'radio') {
-  //     const newChecked = isChecked(value);
-  //     if(newChecked !== checked) setChecked(newChecked);
-  //   }
-  // }, [value]);
 
   useEffect(() => {}, [type]);
 
@@ -221,11 +209,12 @@ const Input = (props: {
 
   const updateValue = (newValue) => {
     if (type === 'checkbox' || type === 'radio') {
-      newValue = !isChecked(value);
+      newValue =
+        baseValue != undefined ? baseValue : !isChecked(value, baseValue);
       // setChecked(newValue);
     }
     // console.log('updateValue', value, newValue);
-    setValue(newValue);
+    if (baseValue == undefined || baseValue === newValue) setValue(newValue);
     return newValue;
   };
 
@@ -307,10 +296,11 @@ const Input = (props: {
 
     newProps.defaultValue = props?.value ? undefined : props?.defaultValue;
 
-    if (type === 'checkbox')
-      newProps.checked = valueState?.[0];
-    if (type === 'radio')
-      newProps.checked = baseValue != undefined ? valueState?.[0] === baseValue : valueState?.[0];
+    if (type === 'checkbox' || type === 'radio')
+      newProps.checked =
+        baseValue != undefined
+          ? valueState?.[0] === baseValue
+          : valueState?.[0];
     newProps.value = valueState?.[0];
 
     // console.log('getProps', props);
@@ -348,7 +338,7 @@ const Input = (props: {
           return onBlur(event);
         return remakeEvent(event, props?.onBlur);
       };
-    } else newProps.checked = value;
+    }
 
     if (newProps.value != undefined && newProps.checked != undefined)
       delete newProps.defaultValue;
@@ -364,7 +354,11 @@ const Input = (props: {
           ref={inputRef}
         />
         <InputStyle
-          {...{ ...getProps(), type: 'button', value: props?.label || props?.value || props?.children }}
+          {...{
+            ...getProps(),
+            type: 'button',
+            value: props?.label || props?.value || props?.children,
+          }}
           onClick={(event) => {
             // console.log('CLICK');
             // console.log('click', inputRef?.current);
@@ -383,9 +377,7 @@ const Input = (props: {
       {input}
     </label>
   ) : (
-    <>
-      {input}
-    </>
+    <>{input}</>
   );
 
   return (
