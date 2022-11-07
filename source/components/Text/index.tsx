@@ -4,7 +4,7 @@ import { baseConfig, getTextLimitationType, isHeading, textLimitation } from '..
 
 
 export const Text = styled.div`
-  ${(props) => {console.log('text', props, baseConfig(props)); return baseConfig(props)}}
+  ${(props) => baseConfig(props)}
   width: 100%;
   max-width: ${(props) => textLimitation(props?.theme)[getTextLimitationType(props?.limitationType)]};
   color: ${(props) => props?.color || props.theme.primary};
