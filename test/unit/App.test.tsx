@@ -481,6 +481,22 @@ const BasicAll = (props: { theme }) => {
             console.log('FILE', a);
           }}
         />
+        <Input
+          roudedEdges
+          type={'file'}
+          label={'File2'}
+          onChange={(a) => {
+            console.log('FILE', a);
+          }}
+        />
+
+        <Input
+          roudedEdges
+          type={'file'}
+          onChange={(a) => {
+            console.log('FILE', a);
+          }}
+        >File3</Input>
         <br />
         <br />
         <Input type="color" />
@@ -587,6 +603,46 @@ const BasicAll = (props: { theme }) => {
             width: '20px',
           }}
         />
+        <Input
+          tag
+          name="radio2"
+          type={'radio'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+          roudedEdges
+          id={'buy'}
+        />
+        <label htmlFor="buy">
+          buy
+        </label>
+        <br />
+        <Input
+          tag
+          name="radio2"
+          type={'radio'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+          roudedEdges
+          id={'rent'}
+        />
+        <label htmlFor="rent">
+          rent
+        </label>
+        <Input
+          tag
+          name="radio2"
+          type={'radio'}
+          style={{
+            height: '20px',
+            width: '20px',
+          }}
+          roudedEdges
+          id={'rent2'}
+        >rent2</Input>
         <div style={{ flex: 1, width: '100%', height: '100%' }}>
           <SListItem
             leading={

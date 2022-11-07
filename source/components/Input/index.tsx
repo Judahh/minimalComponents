@@ -1,4 +1,9 @@
-import React, { CSSProperties, useEffect, useRef, KeyboardEvent } from 'react';
+import React, {
+  CSSProperties,
+  useEffect,
+  useRef,
+  KeyboardEvent,
+} from 'react';
 import useState from 'react-usestateref';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
@@ -28,6 +33,7 @@ const isChecked = (value) => {
 };
 
 const Input = (props: {
+  children;
   defaultError?;
   type?;
   error?;
@@ -348,7 +354,7 @@ const Input = (props: {
           ref={inputRef}
         />
         <InputStyle
-          {...{ ...getProps(), type: 'button' }}
+          {...{ ...getProps(), type: 'button', value: props?.label || props?.value || props?.children }}
           onClick={(event) => {
             // console.log('CLICK');
             // console.log('click', inputRef?.current);
@@ -367,7 +373,9 @@ const Input = (props: {
       {input}
     </label>
   ) : (
-    input
+    <>
+      {input}
+    </>
   );
 
   return (
