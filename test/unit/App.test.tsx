@@ -708,6 +708,7 @@ const BasicAll = (props: { theme }) => {
             'https://cf.shopee.com.br/file/439843b0125bb0793cde7ec406739ebf',
           ]}
           alt={'2'}
+          maxHeight={'70%'}
         />
         <Image
           onClick={() => {

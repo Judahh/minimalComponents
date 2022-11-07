@@ -14,8 +14,9 @@ import { Carousel } from 'react-responsive-carousel';
 import { withTheme } from 'styled-components';
 import Input from '../Input';
 
-const getMaxHeight = (props, titleHeightOffset, maxHeight = '100%') =>
-  'calc(' + maxHeight +
+const getMaxHeight = (props, titleHeightOffset, maxHeight) =>
+  'calc(' +
+  maxHeight +
   (props.hasTitle ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
   (props.hasDescription ? ' ' + titleHeightOffset + ' - 20px - 0.5rem' : '') +
   ')';
@@ -45,8 +46,6 @@ function Image(props: {
   onClickThumb?: (index: number) => void;
   maxHeight?: string;
   maxWidth?: string;
-  width?: string;
-  height?: string;
   useBlur?: boolean;
 }) {
   const imgRef = useRef();
@@ -54,20 +53,14 @@ function Image(props: {
   const [titleHeightOffset, setTitleHeightOffset] =
     useState('- 1.3rem - 0.6vw');
   const [maxHeight, setMaxHeight] = useState(
-     getMaxHeight(props, titleHeightOffset, props.maxHeight)
+    getMaxHeight(props, titleHeightOffset, props.maxHeight || '100%')
   );
 
-  const [maxWidth, _setMaxWidth] = useState(
-    props.maxWidth || '100%'
-  );
+  const [maxWidth, _setMaxWidth] = useState(props.maxWidth || '100%');
 
-  const [width, _setWidth] = useState(
-    props.width || '100%'
-  );
+  const [width, _setWidth] = useState(props.maxWidth || '100%');
 
-  const [height, _setHeight] = useState(
-    props.height || '100%'
-  );
+  const [height, _setHeight] = useState(props.maxHeight || '100%');
 
   const [useBlur, _setUseBlur] = useState(
     props.useBlur != undefined ? props.useBlur : true
@@ -94,7 +87,11 @@ function Image(props: {
   }, [props.titleElement]);
 
   useEffect(() => {
-    const maxHeight = getMaxHeight(props, titleHeightOffset);
+    const maxHeight = getMaxHeight(
+      props,
+      titleHeightOffset,
+      props.maxHeight || '100%'
+    );
     setMaxHeight(maxHeight);
   }, [props.hasDescription, props.hasTitle, titleHeightOffset]);
 
@@ -127,7 +124,11 @@ function Image(props: {
     <>
       <CarouselHolder
         onClick={props?.onClick}
-        style={{ cursor: props?.onClick ? 'pointer' : 'auto' }}
+        style={{
+          cursor: props?.onClick ? 'pointer' : 'auto',
+          maxHeight: props?.maxHeight || '100%',
+        }}
+        maxHeight={props?.maxHeight}
       >
         <Carousel
           selectedItem={props.index || 0}
@@ -222,24 +223,40 @@ function Image(props: {
                 key={index}
                 style={{
                   filter: 'grayscale(' + (props.disabled ? '1' : '0') + ')',
+                  maxHeight: maxHeight,
+                  maxWidth: maxWidth,
                   height: height,
                   width: width,
                 }}
               >
-                <BackgroundImage alt={props.alt} src={props.lqip} />
-                {useBlur ? <BackgroundImage
-                  alt={props.alt}
-                  src={image}
+                {props.lqip ? (
+                  <BackgroundImage alt={props.alt} src={props.lqip}
                   style={{
                     maxHeight: maxHeight,
                     maxWidth: maxWidth,
-                    filter: 'blur(10px)',
+                    // height: maxHeight,
+                    // color: 'red',
+                    background: 'transparent',
                     width: '100%',
                     height: '100%',
-                    // left: '0px',
-                    objectFit: 'cover',
-                  }}
-                /> : null}
+                    objectFit: 'contain',
+                  }}/>
+                ) : null}
+                {useBlur ? (
+                  <BackgroundImage
+                    alt={props.alt}
+                    src={image}
+                    style={{
+                      maxHeight: maxHeight,
+                      maxWidth: maxWidth,
+                      filter: 'blur(10px)',
+                      width: '100%',
+                      height: '100%',
+                      // left: '0px',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : null}
                 <ImageStyle
                   loading="lazy"
                   src={image}
