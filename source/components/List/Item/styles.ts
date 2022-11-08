@@ -121,6 +121,8 @@ const Center = styled.div`
 `;
 
 const Wrapper = styled.ul`
+  transition: all ${(props) => props?.time || 0.25}s linear
+    ${(props) => props?.delay || 0}s;
   display: flex;
   position: relative;
   list-style: none;

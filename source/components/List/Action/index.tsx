@@ -2,86 +2,40 @@ import React, { CSSProperties, useEffect } from 'react';
 import useState from 'react-usestateref';
 import { withTheme } from 'styled-components';
 
-import { SwipeAction } from 'react-swipeable-list';
+// import { SwipeAction } from 'react-swipeable-list';
 import { ActionContent } from './styles';
-import { baseAction } from './util';
 
 const Action = (props: {
   destructive?: boolean;
   onClick?;
   style?: CSSProperties;
   children?;
-  key?;
-  index?;
-  state?;
-  lastIndex?;
-  lastState?;
+  close?;
+  destroy?;
+  closeDelay?: number;
+  destroyDelay?: number;
 }) => {
-  const [destructive, setDestructive] = useState(props.destructive);
-  const [onClick, setOnClick] = useState(props.onClick);
-  const [style, setStyle] = useState(props.style);
-  const [index, setIndex] = useState(props.index);
-  const [state, setState] = useState(props.state);
-  const [_lastIndex, setLastIndex] = useState(props.lastIndex);
-  const [_lastState, setLastState] = useState(props.lastState);
-
-  useEffect(() => {
-    setDestructive(props.destructive);
-  }, [props.destructive]);
-
-  useEffect(() => {
-    setOnClick(props.onClick);
-  }, [props.onClick]);
-
-  useEffect(() => {
-    setStyle(props.style);
-  }, [props.style]);
-
-  useEffect(() => {
-    setIndex(props.index);
-  }, [props.index]);
-
-  useEffect(() => {
-    setState(props.state);
-  }, [props.state]);
-
-  useEffect(() => {
-    setLastIndex(props.lastIndex);
-  }, [props.lastIndex]);
-
-  useEffect(() => {
-    setLastState(props.lastState);
-  }, [props.lastState]);
-
   return (
-    <SwipeAction
-      key={props.key}
+    <ActionContent
+      style={props.style}
       onClick={(...args) => {
-        if (onClick) {
-          const currentIndex = index;
-          const currentState = state;
-          const lastIndex = currentIndex;
-          const lastState = currentState;
-          return baseAction(
-            state,
-            setState,
-            setLastState,
-            index,
-            setIndex,
-            setLastIndex,
-            onClick,
-            ...args,
-            currentState,
-            currentIndex,
-            lastState,
-            lastIndex
-          );
+        if (props.onClick != undefined) {
+          const r = props.onClick(...args);
+          console.log('d', props.destructive, props?.destroy, props?.close);
+          if (props.destructive)
+            setTimeout(() => {
+              props?.destroy(true);
+            }, props.destroyDelay);
+          else
+            setTimeout(() => {
+              props?.close(true);
+            }, props.closeDelay);
+          return r;
         }
       }}
-      destructive={destructive}
     >
-      <ActionContent style={style}>{props.children}</ActionContent>
-    </SwipeAction>
+      {props.children}
+    </ActionContent>
   );
 };
 

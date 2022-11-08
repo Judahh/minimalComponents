@@ -53,6 +53,7 @@ import useObjectState from '../../source/components/Table/useObjectState';
 import SListItem from '../../source/components/List/Item';
 // import SListAction from '../../source/components/List/Action';
 import OpenButton from '../../source/components/Collapsible/openButton';
+import Action from '../../source/components/List/Action';
 
 const NotificationContext = createContext<NotificationContextModel>({
   setError: (_error?: boolean) => {},
@@ -661,22 +662,22 @@ const BasicAll = (props: { theme }) => {
           <SListItem
             leading={
               <>
-                <div
+                <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>add');
                   }}
                 >
                   add
-                </div>
-                <div
+                </Action>
+                <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>edit');
                   }}
                 >
                   edit
-                </div>
+                </Action>
               </>
             }
             onClick={(s, i, e) => console.log('click', s, i, e)}
@@ -689,14 +690,15 @@ const BasicAll = (props: { theme }) => {
           <SListItem
             trailing={
               <>
-                <div
+                <Action
+                  destructive
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>remove');
                   }}
                 >
                   remove
-                </div>
+                </Action>
               </>
             }
             onClick={(s, i, e) => console.log('click', s, i, e)}
@@ -709,34 +711,35 @@ const BasicAll = (props: { theme }) => {
           <SListItem
             leading={
               <>
-                <div
+                <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>add');
                   }}
                 >
                   add
-                </div>
-                <div
+                </Action>
+                <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>edit');
                   }}
                 >
                   edit
-                </div>
+                </Action>
               </>
             }
             trailing={
               <>
-                <div
+                <Action
+                  destructive
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>remove');
                   }}
                 >
                   remove
-                </div>
+                </Action>
               </>
             }
             onClick={(s, i, e) => console.log('click', s, i, e)}

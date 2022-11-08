@@ -7,7 +7,7 @@ export const CollapsibleElement = styled.div`
   overflow: hidden;
 
   display: block;
-  transition: all max-height ${(props) => props?.time || 0.25}s linear
+  transition: all ${(props) => props?.time || 0.25}s linear
     ${(props) => props?.delay || 0}s;
 
   max-height: 0px;

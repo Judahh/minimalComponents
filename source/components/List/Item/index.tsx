@@ -12,6 +12,7 @@ import { State } from './state';
 import Animation from '../../Loading/Animation';
 import { Hitting } from '../../Loading/Animation/styles';
 import { Item, Wrapper } from './styles';
+import Action from '../Action';
 
 const scrollTo = (
   ref?: RefObject<HTMLDivElement>,
@@ -42,6 +43,7 @@ type ListItemProps = {
   children?;
   onClick?;
   onHold?;
+  animationTime?: number;
 };
 
 type ListItemState = {
@@ -65,6 +67,8 @@ type ListItemState = {
   leadingPosition: number;
   leadingSize: number;
   trailingSize: number;
+  opositeSize: number;
+  animationTime: number;
 };
 
 class ListItem extends React.Component<ListItemProps, ListItemState> {
@@ -79,9 +83,9 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     this.leadingRef = React.createRef();
     this.trailingRef = React.createRef();
     this.state = {
-      leading: props.leading,
-      trailing: props.trailing,
-      children: props.children,
+      leading: this.passCallbacks(props.leading),
+      trailing: this.passCallbacks(props.trailing),
+      children: this.passCallbacksToChildren(props.children),
       start: undefined,
       current: undefined,
       vertical: props.vertical || false,
@@ -99,6 +103,8 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
       trailingPosition: 0,
       leadingSize: 0,
       trailingSize: 0,
+      opositeSize: 0,
+      animationTime: props.animationTime || 0.25,
     };
   }
 
@@ -139,7 +145,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
 
   public onMove(event: any, _touch?: boolean) {
     const current = this.state.vertical ? event.clientY : event.clientX;
-    console.log('onMove', current, this.state.start);
+    // console.log('onMove', current, this.state.start);
     if (this.state.start != undefined) {
       const diff = current - this.state.start;
       let currentState = this.state.state;
@@ -149,6 +155,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
         currentState = State.TRAILING;
       }
       if (
+        this.state.leadingSize > 0 &&
         this.leadingRef?.current?.style &&
         currentState == State.LEADING &&
         Math.abs(diff) > this.state.leadingSize
@@ -160,6 +167,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
           )}px)`;
       }
       if (
+        this.state.trailingSize > 0 &&
         this.trailingRef?.current?.style &&
         currentState == State.TRAILING &&
         Math.abs(diff) > this.state.leadingSize
@@ -203,7 +211,11 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
         ? this.state.leadingSize
         : this.state.trailingSize) || lengthWalked;
     const walked = lengthWalked / lengthTotal;
-    if (walked > this.state.threshold) {
+    const currentSize =
+      currentState === State.LEADING
+        ? this.state.leadingSize
+        : this.state.trailingSize;
+    if (currentSize > 0 && walked > this.state.threshold) {
       this.setState({ state: currentState });
 
       if (this.state.fullSwipe && walked > this.state.fullSwipeThreshold) {
@@ -215,7 +227,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
       // this.listElement.className = "BouncingListItem";
       // this.listElement.style.transform = `translateX(${swipe}px)`;
     } else {
-      scrollTo(this.wrapperRef, this.state.defaultPosition);
+      this.close();
     }
 
     if (this.leadingRef?.current?.style) {
@@ -248,6 +260,58 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
 
   public onFullSwiped(event: any, state: State) {
     console.log('onFullSwiped', event, state);
+    switch (state) {
+      case State.LEADING:
+        const first = this.leadingRef?.current?.firstElementChild as HTMLInputElement;
+        first?.click();
+        break;
+      case State.TRAILING:
+        const last = this.trailingRef?.current?.lastElementChild as HTMLInputElement;
+        last?.click();
+        break;
+    }
+    // this.close();
+  }
+
+  public close(_isButton?: boolean) {
+    // console.log('close', isButton);
+    scrollTo(this.wrapperRef, this.state.defaultPosition);
+  }
+
+  public destroy(_isButton?: boolean) {
+    // console.log('destroy', isButton);
+    scrollTo(this.wrapperRef, this.state.trailingPosition);
+    if(this.wrapperRef?.current)
+      this.wrapperRef.current.style.maxHeight = '0px';
+    setTimeout(() => {
+      // console.log('destroy timeout');
+      if(this.wrapperRef?.current)
+        this.wrapperRef?.current?.remove();
+    }, this.state.animationTime * 1000);
+  }
+
+  public passCallbacksToChildren(children?: ReactElement) {
+    const childrenWithProps = React.Children.map(children, (child) => {
+      return child != undefined ? React.cloneElement<typeof Action>(child, {
+        destroy: this.destroy.bind(this),
+        close: this.close.bind(this),
+      }) : child;
+    });
+    return childrenWithProps;
+  }
+
+  public passCallbacks(block?: ReactElement) {
+    const childrenWithProps = React.Children.map(block?.props?.children, (child) => {
+      const newChild = child != undefined ? React.cloneElement<typeof Action>(child, {
+        destroy: this.destroy.bind(this),
+        close: this.close.bind(this),
+      }) : child
+
+      console.log('child', child?.props, newChild?.props);
+      return newChild;
+    });
+    console.log('passCallbacks', childrenWithProps);
+    return childrenWithProps;
   }
 
   public onMouseLeave(event: any) {
@@ -300,6 +364,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   public item() {
     return (
       <Wrapper
+        time={this.state.animationTime}
         ref={this.wrapperRef}
         onMouseDown={(event) => this.onStart.bind(this)(event, false)}
         onMouseUp={(event) => this.onEnd.bind(this)(event, false)}
@@ -332,13 +397,17 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     const defaultPosition = leadingSize;
     const trailingPosition =
       defaultPosition + (this.itemRef?.current?.offsetWidth || 0);
+    const opositeSize = this.itemRef?.current?.clientHeight || 0;
     this.setState({
       defaultPosition,
       trailingPosition,
       leadingSize,
       trailingSize,
+      opositeSize,
     });
-    console.log('componentDidMount', defaultPosition, trailingPosition);
+    if(this.wrapperRef?.current)
+      this.wrapperRef.current.style.maxHeight = `${opositeSize}px`;
+    // console.log('componentDidMount', defaultPosition, trailingPosition);
 
     scrollTo(this.wrapperRef, defaultPosition);
   }
