@@ -54,13 +54,12 @@ type ListItemState = {
   current?: number;
   vertical: boolean;
   state: State;
-  lastState: State;
   index?: number;
-  lastIndex?: number;
   fullSwipe: boolean;
   threshold: number;
   holdThreshold: number;
-  holdTimeout: number;
+  holdSwipeThreshold: number;
+  holdTimeout?: NodeJS.Timeout;
   fullSwipeThreshold: number;
   defaultPosition: number;
   trailingPosition: number;
@@ -90,14 +89,13 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
       current: undefined,
       vertical: props.vertical || false,
       state: State.NONE,
-      lastState: State.NONE,
       index: undefined,
-      lastIndex: undefined,
       fullSwipe: props.fullSwipe == undefined ? true : props.fullSwipe,
-      threshold: props.threshold || 0.1,
-      holdThreshold: props.holdThreshold || 1,
-      holdTimeout: props.holdTimeout || 0.5,
+      threshold: props.threshold || 0.15,
+      holdSwipeThreshold: props.holdSwipeThreshold || 0.10,
       fullSwipeThreshold: props.fullSwipeThreshold || 0.5,
+      holdThreshold: props.holdThreshold || 0.5,
+      holdTimeout: undefined,
       leadingPosition: 0,
       defaultPosition: 0,
       trailingPosition: 0,
@@ -108,75 +106,12 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     };
   }
 
-  public actionSwipeStart(direction?: string) {
-    console.log('actionSwipeStart', direction);
-    if (direction === 'right') {
-      this.setState({ state: State.LEADING });
-    } else if (direction === 'left') {
-      this.setState({ state: State.TRAILING });
+  public onEvent(event: any, currentState: State) {
+    if (currentState === State.HOLD) {
+      this.props.onHold(event);
+    } else {
+      this.props.onClick(event);
     }
-  }
-
-  public actionsWithState(actions?: ReactElement[], state?: State) {
-    // console.log('actions', actions);
-    return actions?.map?.((action, index) => {
-      // console.log('action', action);
-      if (action != undefined && state != undefined) {
-        // console.log('action', action);
-        const newProps = {
-          key: index,
-          ...action.props,
-          state,
-          index,
-        };
-
-        const clone = React.cloneElement(action, newProps);
-        // console.log('action clone', clone);
-        return clone;
-      }
-      return undefined;
-    });
-  }
-
-  public changeState(newState: State) {
-    this.setState({ lastState: this.state.state });
-    this.setState({ state: newState });
-  }
-
-  public onMove(event: any, _touch?: boolean) {
-    const current = this.state.vertical ? event.clientY : event.clientX;
-    // console.log('onMove', current, this.state.start);
-    if (this.state.start != undefined) {
-      const diff = current - this.state.start;
-      let currentState = this.state.state;
-      if (diff > 0) {
-        currentState = State.LEADING;
-      } else {
-        currentState = State.TRAILING;
-      }
-      if (
-        this.state.leadingSize > 0 &&
-        this.leadingRef?.current?.style &&
-        currentState == State.LEADING &&
-        Math.abs(diff) > this.state.leadingSize
-      ) {
-        this.leadingRef.current.style.width = `${Math.abs(diff)}px`;
-        if (this.itemRef?.current?.style)
-          this.itemRef.current.style.transform = `translateX(${Math.abs(
-            diff - this.state.leadingSize
-          )}px)`;
-      }
-      if (
-        this.state.trailingSize > 0 &&
-        this.trailingRef?.current?.style &&
-        currentState == State.TRAILING &&
-        Math.abs(diff) > this.state.leadingSize
-      ) {
-        this.trailingRef.current.style.width = `${Math.abs(diff)}px`;
-      }
-      scrollTo(this.wrapperRef, this.state.defaultPosition - diff, true);
-    }
-    this.setState({ current });
   }
 
   public onMouseMove(event: any) {
@@ -187,49 +122,83 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     return this.onMove(event, true);
   }
 
-  public onStart(event: any, touch?: boolean) {
-    const start = this.state.vertical ? event.clientY : event.clientX;
-    console.log('onStart', start, event, touch);
-    this.setState({ start });
-    this.addMove(touch);
-    // this.addLeave(touch);
+  public getCurrentSize(currentState?: State) {
+    return currentState === State.LEADING
+      ? this.state.leadingSize
+      : currentState === State.TRAILING
+      ? this.state.trailingSize
+      : 0;
   }
 
-  public onEnd(event: any, touch?: boolean) {
-    const start = this.state.start || 0;
-    const current = this.state.current || 0;
-    const swipe = current - start;
-    let currentState = this.state.state;
-    if (swipe > 0) {
-      currentState = State.LEADING;
-    } else {
-      currentState = State.TRAILING;
-    }
+  public hasSwiped(swipe?: number, threshold?: number) {
+    threshold = threshold || this.state.threshold;
+    const currentState = this.getState(swipe);
+
+    const walked = this.calcWalked(swipe);
+
+    const currentSize = this.getCurrentSize(currentState);
+
+    return (
+      (currentState === State.LEADING || currentState === State.TRAILING) &&
+      currentSize > 0 &&
+      walked > threshold
+    );
+  }
+
+  public calcWalked(swipe?: number) {
+    swipe = swipe || 0;
+    let currentState = this.getState(swipe);
+
     const lengthWalked = Math.abs(swipe);
     const lengthTotal =
       (currentState === State.LEADING
         ? this.state.leadingSize
         : this.state.trailingSize) || lengthWalked;
     const walked = lengthWalked / lengthTotal;
-    const currentSize =
-      currentState === State.LEADING
-        ? this.state.leadingSize
-        : this.state.trailingSize;
-    if (currentSize > 0 && walked > this.state.threshold) {
-      this.setState({ state: currentState });
+    return walked;
+  }
 
-      if (this.state.fullSwipe && walked > this.state.fullSwipeThreshold) {
-        this.onFullSwiped(event, currentState);
-      } else {
-        this.onSwiped(event, currentState);
-      }
+  public calcSwipe(start?: number, current?: number) {
+    start = start || 0;
+    current = current == undefined ? start : current;
+    const swipe = current - start;
+    console.log('calcSwipe', start, current);
+    return swipe;
+  }
 
-      // this.listElement.className = "BouncingListItem";
-      // this.listElement.style.transform = `translateX(${swipe}px)`;
-    } else {
-      this.close();
+  public getState(swipe?: number) {
+    let currentState;
+    if (swipe == undefined || swipe === 0) {
+      currentState = State.NONE;
+    } else if (swipe > 0) {
+      currentState = State.LEADING;
+    } else if (swipe < 0) {
+      currentState = State.TRAILING;
     }
+    return currentState;
+  }
 
+  public isOverLeading(swipe?: number) {
+    swipe = swipe || 0;
+    let currentState = this.getState(swipe);
+    return (
+      this.state.leadingSize > 0 &&
+      currentState === State.LEADING &&
+      Math.abs(swipe) > this.state.leadingSize
+    );
+  }
+
+  public isOverTrailing(swipe?: number) {
+    swipe = swipe || 0;
+    let currentState = this.getState(swipe);
+    return (
+      this.state.trailingSize > 0 &&
+      currentState === State.TRAILING &&
+      Math.abs(swipe) > this.state.leadingSize
+    );
+  }
+
+  public resetStyles(){
     if (this.leadingRef?.current?.style) {
       this.leadingRef.current.style.width = `${this.state.leadingSize}px`;
     }
@@ -241,6 +210,83 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     if (this.itemRef?.current?.style) {
       this.itemRef.current.style.transform = `translateX(${0}px)`;
     }
+  }
+
+  public clearHold() {
+    clearTimeout(this.state.holdTimeout);
+    this.setState({ holdTimeout: undefined });
+  }
+
+  public checkHold(swipe?: number) {
+    if(this.hasSwiped(swipe, this.state.holdSwipeThreshold)){
+      this.clearHold();
+    }
+  }
+
+  public onMove(event: any, _touch?: boolean) {
+    const current = this.state.vertical ? event.clientY : event.clientX;
+    // console.log('onMove', current, this.state.start);
+    const swipe = this.calcSwipe(this.state.start, current);
+    if (this.state.start != undefined) {
+      if (this.leadingRef?.current?.style && this.isOverLeading(swipe)) {
+        this.leadingRef.current.style.width = `${Math.abs(swipe)}px`;
+        if (this.itemRef?.current?.style)
+          this.itemRef.current.style.transform = `translateX(${Math.abs(
+            swipe - this.state.leadingSize
+          )}px)`;
+      }
+      if (this.trailingRef?.current?.style && this.isOverTrailing(swipe)) {
+        this.trailingRef.current.style.width = `${Math.abs(swipe)}px`;
+      }
+      scrollTo(this.wrapperRef, this.state.defaultPosition - swipe, true);
+    }
+    this.checkHold(swipe);
+    this.setState({ current });
+  }
+
+  public onStart(event: any, touch?: boolean) {
+    const start = this.state.vertical ? event.clientY : event.clientX;
+    this.addMove(touch);
+    const holdTimeout = setTimeout(() => {
+      this.setState({ state: State.HOLD });
+    }, this.state.holdThreshold * 1000);
+    this.setState({ start, holdTimeout });
+    // this.addLeave(touch);
+  }
+
+  public onEnd(event: any, touch?: boolean) {
+    this.clearHold();
+
+    const swipe = this.calcSwipe(this.state.start, this.state.current);
+
+    let currentState = this.getState(swipe);
+
+    const walked = this.calcWalked(swipe);
+
+    const currentSize = this.getCurrentSize(currentState);
+
+    const swiped = this.hasSwiped(swipe);
+
+    console.log('onEnd', swipe, walked, currentSize);
+    if (swiped) {
+      if (this.state.fullSwipe && walked > this.state.fullSwipeThreshold) {
+        this.onFullSwiped(event, currentState);
+      } else {
+        this.onSwiped(event, currentState);
+      }
+    } else {
+      this.close();
+      if (this.state.state === State.HOLD) {
+        currentState = State.NONE;
+      } else {
+        currentState = State.CLICK;
+      }
+      this.onEvent(event, currentState);
+    }
+
+    this.setState({ state: currentState, start: undefined, current: undefined });
+
+    this.resetStyles();
 
     this.removeMove(touch);
     // this.removeLeave(touch);
@@ -262,11 +308,13 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     console.log('onFullSwiped', event, state);
     switch (state) {
       case State.LEADING:
-        const first = this.leadingRef?.current?.firstElementChild as HTMLInputElement;
+        const first = this.leadingRef?.current
+          ?.firstElementChild as HTMLInputElement;
         first?.click();
         break;
       case State.TRAILING:
-        const last = this.trailingRef?.current?.lastElementChild as HTMLInputElement;
+        const last = this.trailingRef?.current
+          ?.lastElementChild as HTMLInputElement;
         last?.click();
         break;
     }
@@ -281,35 +329,42 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   public destroy(_isButton?: boolean) {
     // console.log('destroy', isButton);
     scrollTo(this.wrapperRef, this.state.trailingPosition);
-    if(this.wrapperRef?.current)
+    if (this.wrapperRef?.current)
       this.wrapperRef.current.style.maxHeight = '0px';
     setTimeout(() => {
       // console.log('destroy timeout');
-      if(this.wrapperRef?.current)
-        this.wrapperRef?.current?.remove();
+      if (this.wrapperRef?.current) this.wrapperRef?.current?.remove();
     }, this.state.animationTime * 1000);
   }
 
   public passCallbacksToChildren(children?: ReactElement) {
     const childrenWithProps = React.Children.map(children, (child) => {
-      return child != undefined ? React.cloneElement<typeof Action>(child, {
-        destroy: this.destroy.bind(this),
-        close: this.close.bind(this),
-      }) : child;
+      return child != undefined
+        ? React.cloneElement<typeof Action>(child, {
+            destroy: this.destroy.bind(this),
+            close: this.close.bind(this),
+          })
+        : child;
     });
     return childrenWithProps;
   }
 
   public passCallbacks(block?: ReactElement) {
-    const childrenWithProps = React.Children.map(block?.props?.children, (child) => {
-      const newChild = child != undefined ? React.cloneElement<typeof Action>(child, {
-        destroy: this.destroy.bind(this),
-        close: this.close.bind(this),
-      }) : child
+    const childrenWithProps = React.Children.map(
+      block?.props?.children,
+      (child) => {
+        const newChild =
+          child != undefined
+            ? React.cloneElement<typeof Action>(child, {
+                destroy: this.destroy.bind(this),
+                close: this.close.bind(this),
+              })
+            : child;
 
-      console.log('child', child?.props, newChild?.props);
-      return newChild;
-    });
+        console.log('child', child?.props, newChild?.props);
+        return newChild;
+      }
+    );
     console.log('passCallbacks', childrenWithProps);
     return childrenWithProps;
   }
@@ -405,7 +460,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
       trailingSize,
       opositeSize,
     });
-    if(this.wrapperRef?.current)
+    if (this.wrapperRef?.current)
       this.wrapperRef.current.style.maxHeight = `${opositeSize}px`;
     // console.log('componentDidMount', defaultPosition, trailingPosition);
 
@@ -413,7 +468,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   }
 
   public render() {
-    return this.state.state == State.HOLD ? (
+    return this.state.state === State.HOLD ? (
       <Animation crude Animation={withTheme(Hitting)} style={{ width: '100%' }}>
         {this.item()}
       </Animation>
@@ -422,103 +477,5 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     );
   }
 }
-
-// const leadingActions = () => {
-//   console.log(
-//     'leadingActions',
-//     props.leading,
-//     props.leading?.props?.children
-//   );
-//   const actions = actionsWithState(
-//     props.leading?.props?.children != undefined &&
-//       Array.isArray(props.leading?.props?.children)
-//       ? props.leading?.props?.children
-//       : props.leading != undefined
-//       ? [props.leading]
-//       : undefined,
-//     State.LEADING
-//   );
-//   console.log('leadingActions', actions);
-//   return actions && actions?.length > 0 ? (
-//     <LeadingActions>{actions}</LeadingActions>
-//   ) : undefined;
-// };
-
-// const trailingActions = () => {
-//   const actions = actionsWithState(
-//     props.trailing?.props?.children != undefined &&
-//       Array.isArray(props.trailing?.props?.children)
-//       ? props.trailing?.props?.children
-//       : props.trailing != undefined
-//       ? [props.trailing]
-//       : undefined,
-//     State.TRAILING
-//   );
-//   console.log('trailingActions', actions);
-//   return actions && actions?.length > 0 ? (
-//     <TrailingActions>{actions}</TrailingActions>
-//   ) : undefined;
-// };
-
-// const item = (
-//   // @ts-ignore
-//   <SwipeableStyledListItem
-//     key={props.key}
-//     blockSwipe={false}
-//     type={type}
-//     listType={type}
-//     fullSwipe={fullSwipe}
-//     threshold={threshold}
-//     scrollStartThreshold={50}
-//     leadingActions={leadingActions()}
-//     trailingActions={trailingActions()}
-//     onSwipeStart={actionSwipeStart}
-//     onSwipeEnd={() => setState(State.NONE)}
-//   >
-//     <div
-//       style={{ width: '100%', boxSizing: 'border-box' }}
-//       onMouseUp={(event) => {
-//         console.log('Mouse up', state);
-//         clearTimeout(holdTimeout);
-//         setHoldTimeout(undefined);
-//         let result;
-//         if (state == State.HOLD) {
-//           if (props?.onHold != undefined)
-//             result = props?.onHold(state, index, event);
-//         } else {
-//           if (props?.onClick != undefined)
-//             result = props?.onClick(state, index, event);
-//         }
-//         changeState(State.CLICK);
-//         changeState(State.NONE);
-//         // console.log('State', State[state]);
-//         return result;
-//       }}
-//       onMouseDown={() => {
-//         console.log('Mouse down', state);
-//         if (state == State.NONE) {
-//           setHoldTimeout(
-//             setTimeout(() => {
-//               changeState(State.HOLD);
-//             }, 1000 * holdThreshold)
-//           );
-//         }
-//       }}
-//       onMouseLeave={() => {
-//         console.log('Mouse leave', state);
-//         clearTimeout(holdTimeout);
-//         setHoldTimeout(undefined);
-//         if (state == State.HOLD) {
-//           changeState(State.NONE);
-//         }
-//       }}
-//       // onClick={() => {
-//       //   console.log('CLICK', state);
-//       // }}
-//     >
-//       {props.children}
-//     </div>
-//   </SwipeableStyledListItem>
-// );
 
 export default withTheme(ListItem);
