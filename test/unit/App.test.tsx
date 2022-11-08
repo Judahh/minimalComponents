@@ -502,7 +502,9 @@ const BasicAll = (props: { theme }) => {
           onChange={(a) => {
             console.log('FILE', a);
           }}
-        >File3</Input>
+        >
+          File3
+        </Input>
         <br />
         <br />
         <Input type="color" />
@@ -623,9 +625,7 @@ const BasicAll = (props: { theme }) => {
           baseValue={'buy'}
           value={radio2}
         />
-        <label htmlFor="buy">
-          buy
-        </label>
+        <label htmlFor="buy">buy</label>
         <br />
         <Input
           tag
@@ -641,9 +641,7 @@ const BasicAll = (props: { theme }) => {
           baseValue={'rent'}
           value={radio2}
         />
-        <label htmlFor="rent">
-          rent
-        </label>
+        <label htmlFor="rent">rent</label>
         <Input
           tag
           name="radio2"
@@ -658,14 +656,13 @@ const BasicAll = (props: { theme }) => {
           baseValue={'bla'}
           value={radio2}
         />
-        <label htmlFor="bla">
-          bla
-        </label>
-        <div style={{ flex: 1, width: '100%', height: '100%' }}>
+        <label htmlFor="bla">bla</label>
+        <div style={{ flex: 1, width: '100%', height: '100%', color: 'red' }}>
           <SListItem
             leading={
               <>
                 <div
+                  style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>add');
                   }}
@@ -673,11 +670,72 @@ const BasicAll = (props: { theme }) => {
                   add
                 </div>
                 <div
+                  style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
                     console.log('>edit');
                   }}
                 >
                   edit
+                </div>
+              </>
+            }
+            onClick={(s, i, e) => console.log('click', s, i, e)}
+            onHold={(s, i, e) => console.log('hold', s, i, e)}
+          >
+            <Text>TEST</Text>
+          </SListItem>
+        </div>
+        <div style={{ flex: 1, width: '100%', height: '100%', color: 'red' }}>
+          <SListItem
+            trailing={
+              <>
+                <div
+                  style={{ display: 'inline', margin: '0 5px' }}
+                  onClick={() => {
+                    console.log('>remove');
+                  }}
+                >
+                  remove
+                </div>
+              </>
+            }
+            onClick={(s, i, e) => console.log('click', s, i, e)}
+            onHold={(s, i, e) => console.log('hold', s, i, e)}
+          >
+            <Text>TEST</Text>
+          </SListItem>
+        </div>
+        <div style={{ flex: 1, width: '100%', height: '100%', color: 'red' }}>
+          <SListItem
+            leading={
+              <>
+                <div
+                  style={{ display: 'inline', margin: '0 5px' }}
+                  onClick={() => {
+                    console.log('>add');
+                  }}
+                >
+                  add
+                </div>
+                <div
+                  style={{ display: 'inline', margin: '0 5px' }}
+                  onClick={() => {
+                    console.log('>edit');
+                  }}
+                >
+                  edit
+                </div>
+              </>
+            }
+            trailing={
+              <>
+                <div
+                  style={{ display: 'inline', margin: '0 5px' }}
+                  onClick={() => {
+                    console.log('>remove');
+                  }}
+                >
+                  remove
                 </div>
               </>
             }
