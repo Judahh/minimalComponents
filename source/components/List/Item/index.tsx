@@ -11,7 +11,7 @@ import { State } from './state';
 // } from 'react-swipeable-list';
 import Animation from '../../Loading/Animation';
 import { Hitting } from '../../Loading/Animation/styles';
-import { Item, Wrapper } from './styles';
+import { Item as IW, Wrapper } from './styles';
 import Action from '../Action';
 
 const scrollTo = (
@@ -27,7 +27,7 @@ const scrollTo = (
   });
 };
 
-type ListItemProps = {
+type ItemProps = {
   theme;
   leading?: ReactElement;
   trailing?: ReactElement;
@@ -48,7 +48,7 @@ type ListItemProps = {
   destroyAnimationTime?: number;
 };
 
-type ListItemState = {
+type ItemState = {
   leading?: ReactElement;
   trailing?: ReactElement;
   children?;
@@ -73,7 +73,7 @@ type ListItemState = {
   destroyAnimationTime: number;
 };
 
-class ListItem extends React.Component<ListItemProps, ListItemState> {
+class Item extends React.Component<ItemProps, ItemState> {
   protected itemRef: RefObject<HTMLInputElement>;
   protected leadingRef: RefObject<HTMLInputElement>;
   protected trailingRef: RefObject<HTMLInputElement>;
@@ -86,6 +86,8 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     this.animationRef = React.createRef();
     this.leadingRef = React.createRef();
     this.trailingRef = React.createRef();
+    // console.log('vertical', props.vertical);
+
     this.state = {
       leading: this.passCallbacks(props.leading),
       trailing: this.passCallbacks(props.trailing),
@@ -470,16 +472,16 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
         // onTouchMove={(event) => this.onMove(event, true)}
       >
         {/*ref={(div) => (this.background = div)}*/}
-        <Item className={'leading'} ref={this.leadingRef}>
+        <IW className={'leading'} ref={this.leadingRef}>
           {this.state.leading}
-        </Item>
+        </IW>
         {/*ref={(div) => (this.background = div)}*/}
-        <Item className={'main'} ref={this.itemRef}>
+        <IW className={'main'} ref={this.itemRef}>
           {this.state.children}
-        </Item>
-        <Item className={'trailing'} ref={this.trailingRef}>
+        </IW>
+        <IW className={'trailing'} ref={this.trailingRef}>
           {this.state.trailing}
-        </Item>
+        </IW>
         {/*ref={(div) => (this.listElement = div)}*/}
       </Wrapper>
     );
@@ -565,4 +567,4 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   }
 }
 
-export default withTheme(ListItem);
+export default withTheme(Item);

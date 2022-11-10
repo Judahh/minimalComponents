@@ -658,7 +658,7 @@ const BasicAll = (props: { theme }) => {
           value={radio2}
         />
         <label htmlFor="bla">bla</label>
-        <div style={{ flex: 1, width: '100%', height: '100%', color: 'red' }}>
+        <List vertical>
           <SListItem
             leading={
               <>
@@ -686,8 +686,6 @@ const BasicAll = (props: { theme }) => {
           >
             <Text>TEST</Text>
           </SListItem>
-        </div>
-        <div style={{ flex: 1, width: '100%', height: '100%', color: 'red' }}>
           <SListItem
             trailing={
               <>
@@ -708,8 +706,6 @@ const BasicAll = (props: { theme }) => {
           >
             <Text>TEST</Text>
           </SListItem>
-        </div>
-        <div style={{ flex: 1, width: '100%', height: '100%', color: 'red' }}>
           <SListItem
             leading={
               <>
@@ -750,7 +746,7 @@ const BasicAll = (props: { theme }) => {
           >
             <Text>TEST</Text>
           </SListItem>
-        </div>
+        </List>
         <Collapsible
           before={
             <OpenButton openned={<Text>{'V'}</Text>}>
