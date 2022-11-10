@@ -10,6 +10,7 @@ const StyledListItem = (SwipeableListItem) => styled(SwipeableListItem)`
   border-width: 0;
   // border-top-width: 1px;
   border-bottom-width: 1px;
+  cursor: pointer;
 
   &:first-child {
     border-top-width: 0px;
