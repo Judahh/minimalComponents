@@ -68,7 +68,7 @@ const Animation = forwardRef((props: {
   return props.crude ? (
     <>{ animation }</>
   ) : (
-    <Wrapper style={props?.wrapperStyle} ref={props.ref}>
+    <Wrapper style={props?.wrapperStyle} ref={ref}>
       <Center style={props?.centerStyle}>{animation}</Center>
     </Wrapper>
   );

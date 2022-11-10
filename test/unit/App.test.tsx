@@ -32,7 +32,7 @@ import {
 import Collapsible from '../../source/components/Collapsible';
 import Modal from '../../source/components/Modal';
 import Drawer from '../../source/components/Drawer';
-import List from '../../source/components/Drawer/List';
+import List from '../../source/components/List';
 import {
   DrawerItem,
   IconItem,
