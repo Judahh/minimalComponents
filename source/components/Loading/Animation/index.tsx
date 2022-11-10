@@ -1,9 +1,9 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, forwardRef, useEffect, useState } from 'react';
 import { withTheme } from 'styled-components';
 import { Wrapper, Center } from '../../Content';
 import { Text } from '../../Text';
 
-const Animation = (props: {
+const Animation = forwardRef((props: {
   Animation;
   setLoading;
   alt?: string;
@@ -23,7 +23,8 @@ const Animation = (props: {
   wrapperStyle?: CSSProperties;
   centerStyle?: CSSProperties;
   crude?: boolean;
-}) => {
+  // ref: any;
+}, ref) => {
   const [newProps, _setNewProps] = useState({
     ...props,
     Animation: undefined,
@@ -67,10 +68,10 @@ const Animation = (props: {
   return props.crude ? (
     <>{ animation }</>
   ) : (
-    <Wrapper style={props?.wrapperStyle}>
+    <Wrapper style={props?.wrapperStyle} ref={props.ref}>
       <Center style={props?.centerStyle}>{animation}</Center>
     </Wrapper>
   );
-};
+});
 
 export default withTheme(Animation);

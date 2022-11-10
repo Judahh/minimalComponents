@@ -1,5 +1,4 @@
-import React, { CSSProperties, useEffect } from 'react';
-import useState from 'react-usestateref';
+import React, { CSSProperties } from 'react';
 import { withTheme } from 'styled-components';
 
 // import { SwipeAction } from 'react-swipeable-list';

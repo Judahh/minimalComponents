@@ -4,4 +4,5 @@ export enum State {
   TRAILING = 2,
   CLICK = 3,
   HOLD = 4,
+  HOLD_END = 5,
 }

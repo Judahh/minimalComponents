@@ -78,7 +78,7 @@ const BasicAll = (props: { theme }) => {
   const [radio2, setRadio2] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    console.log('radio2', radio2);
+    console.log('radio2 changed', radio2);
   }, [radio2]);
 
   const personController = [
@@ -665,7 +665,7 @@ const BasicAll = (props: { theme }) => {
                 <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
-                    console.log('>add');
+                    console.log('>>add');
                   }}
                 >
                   add
@@ -673,15 +673,16 @@ const BasicAll = (props: { theme }) => {
                 <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
-                    console.log('>edit');
+                    console.log('>>edit');
                   }}
                 >
                   edit
                 </Action>
               </>
             }
-            onClick={(s, i, e) => console.log('click', s, i, e)}
-            onHold={(s, i, e) => console.log('hold', s, i, e)}
+            onClick={(s, i, e) => console.log('>>click', s, i, e)}
+            onHold={(s, i, e) => console.log('>>hold', s, i, e)}
+            onHoldEnd={(s, i, e) => console.log('>>hold end', s, i, e)}
           >
             <Text>TEST</Text>
           </SListItem>
@@ -694,15 +695,16 @@ const BasicAll = (props: { theme }) => {
                   destructive
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
-                    console.log('>remove');
+                    console.log('>>remove');
                   }}
                 >
                   remove
                 </Action>
               </>
             }
-            onClick={(s, i, e) => console.log('click', s, i, e)}
-            onHold={(s, i, e) => console.log('hold', s, i, e)}
+            onClick={(s, i, e) => console.log('>>click', s, i, e)}
+            onHold={(s, i, e) => console.log('>>hold', s, i, e)}
+            onHoldEnd={(s, i, e) => console.log('>>hold end', s, i, e)}
           >
             <Text>TEST</Text>
           </SListItem>
@@ -714,7 +716,7 @@ const BasicAll = (props: { theme }) => {
                 <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
-                    console.log('>add');
+                    console.log('>>add');
                   }}
                 >
                   add
@@ -722,7 +724,7 @@ const BasicAll = (props: { theme }) => {
                 <Action
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
-                    console.log('>edit');
+                    console.log('>>edit');
                   }}
                 >
                   edit
@@ -735,69 +737,20 @@ const BasicAll = (props: { theme }) => {
                   destructive
                   style={{ display: 'inline', margin: '0 5px' }}
                   onClick={() => {
-                    console.log('>remove');
+                    console.log('>>remove');
                   }}
                 >
                   remove
                 </Action>
               </>
             }
-            onClick={(s, i, e) => console.log('click', s, i, e)}
-            onHold={(s, i, e) => console.log('hold', s, i, e)}
+            onClick={(s, i, e) => console.log('>>click', s, i, e)}
+            onHold={(s, i, e) => console.log('>>hold', s, i, e)}
+            onHoldEnd={(s, i, e) => console.log('>>hold end', s, i, e)}
           >
             <Text>TEST</Text>
           </SListItem>
         </div>
-        {/* <SList>
-          <SListItem
-            leading={
-              <>
-                <SListAction
-                  onClick={() => {
-                    console.log('>add');
-                  }}
-                >
-                  add
-                </SListAction>
-                <SListAction
-                  onClick={() => {
-                    console.log('>edit');
-                  }}
-                >
-                  edit
-                </SListAction>
-              </>
-            }
-            onClick={(s, i, e) => console.log('click', s, i, e)}
-            onHold={(s, i, e) => console.log('hold', s, i, e)}
-          >
-            <Text>ASJKDHLASKDJ</Text>
-          </SListItem>
-          <SListItem
-            trailing={
-              <>
-                <SListAction
-                  destructive={true}
-                  onClick={() => {
-                    console.log('delete');
-                  }}
-                >
-                  delete
-                </SListAction>
-              </>
-            }
-            onClick={(s, i, e) => console.log('click', s, i, e)}
-            onHold={(s, i, e) => console.log('hold', s, i, e)}
-          >
-            <Text>vjzlkxcjvçzlkjxcç</Text>
-          </SListItem>
-          <SListItem
-            onClick={(s, i, e) => console.log('click', s, i, e)}
-            onHold={(s, i, e) => console.log('hold', s, i, e)}
-          >
-            <Text>IOPIDÒPSI</Text>
-          </SListItem>
-        </SList> */}
         <Collapsible
           before={
             <OpenButton openned={<Text>{'V'}</Text>}>

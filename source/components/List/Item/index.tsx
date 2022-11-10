@@ -43,7 +43,9 @@ type ListItemProps = {
   children?;
   onClick?;
   onHold?;
-  animationTime?: number;
+  onHoldEnd?;
+  holdAnimation?: boolean;
+  destroyAnimationTime?: number;
 };
 
 type ListItemState = {
@@ -60,6 +62,7 @@ type ListItemState = {
   holdThreshold: number;
   holdSwipeThreshold: number;
   holdTimeout?: NodeJS.Timeout;
+  holdAnimation: boolean;
   fullSwipeThreshold: number;
   defaultPosition: number;
   trailingPosition: number;
@@ -67,7 +70,7 @@ type ListItemState = {
   leadingSize: number;
   trailingSize: number;
   opositeSize: number;
-  animationTime: number;
+  destroyAnimationTime: number;
 };
 
 class ListItem extends React.Component<ListItemProps, ListItemState> {
@@ -75,10 +78,12 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   protected leadingRef: RefObject<HTMLInputElement>;
   protected trailingRef: RefObject<HTMLInputElement>;
   protected wrapperRef: RefObject<HTMLInputElement>;
+  protected animationRef: RefObject<HTMLInputElement>;
   constructor(props) {
     super(props);
     this.itemRef = React.createRef();
     this.wrapperRef = React.createRef();
+    this.animationRef = React.createRef();
     this.leadingRef = React.createRef();
     this.trailingRef = React.createRef();
     this.state = {
@@ -92,9 +97,11 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
       index: undefined,
       fullSwipe: props.fullSwipe == undefined ? true : props.fullSwipe,
       threshold: props.threshold || 0.15,
-      holdSwipeThreshold: props.holdSwipeThreshold || 0.10,
+      holdSwipeThreshold: props.holdSwipeThreshold || 0.1,
       fullSwipeThreshold: props.fullSwipeThreshold || 0.5,
       holdThreshold: props.holdThreshold || 0.5,
+      holdAnimation:
+        props.holdAnimation == undefined ? true : props.holdAnimation,
       holdTimeout: undefined,
       leadingPosition: 0,
       defaultPosition: 0,
@@ -102,15 +109,30 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
       leadingSize: 0,
       trailingSize: 0,
       opositeSize: 0,
-      animationTime: props.animationTime || 0.25,
+      destroyAnimationTime: props.destroyAnimationTime || 0.25,
     };
   }
 
   public onEvent(event: any, currentState: State) {
-    if (currentState === State.HOLD) {
-      this.props.onHold(event);
+    // console.log('onEvent', this.state.state, currentState);
+    if (currentState === State.CLICK) {
+      if (
+        this.state.state === State.LEADING ||
+        this.state.state === State.TRAILING
+      ) {
+        this.setState({ state: State.NONE });
+      } else {
+        // console.log('e click');
+        this.props.onClick?.(event);
+      }
+    } else if (currentState === State.HOLD_END) {
+      // console.log('e hold end');
+      this.props.onHoldEnd?.(event);
     } else {
-      this.props.onClick(event);
+      // scrollTo(this.animationRef, this.state.defaultPosition);
+      // scrollTo(this.wrapperRef, this.state.defaultPosition);
+      // console.log('e hold');
+      this.props.onHold?.(event);
     }
   }
 
@@ -162,7 +184,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     start = start || 0;
     current = current == undefined ? start : current;
     const swipe = current - start;
-    console.log('calcSwipe', start, current);
+    // console.log('calcSwipe', start, current);
     return swipe;
   }
 
@@ -198,7 +220,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     );
   }
 
-  public resetStyles(){
+  public resetStyles() {
     if (this.leadingRef?.current?.style) {
       this.leadingRef.current.style.width = `${this.state.leadingSize}px`;
     }
@@ -218,7 +240,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   }
 
   public checkHold(swipe?: number) {
-    if(this.hasSwiped(swipe, this.state.holdSwipeThreshold)){
+    if (this.hasSwiped(swipe, this.state.holdSwipeThreshold)) {
       this.clearHold();
     }
   }
@@ -245,46 +267,63 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   }
 
   public onStart(event: any, touch?: boolean) {
-    const start = this.state.vertical ? event.clientY : event.clientX;
-    this.addMove(touch);
-    const holdTimeout = setTimeout(() => {
-      this.setState({ state: State.HOLD });
-    }, this.state.holdThreshold * 1000);
-    this.setState({ start, holdTimeout });
+    // console.log('onStart', this.state.state);
+    if (this.state.state === State.HOLD) {
+      this.setState({ state: State.HOLD_END });
+    } else {
+      const start = this.state.vertical ? event.clientY : event.clientX;
+      this.addMove(touch);
+      const holdTimeout = setTimeout(() => {
+        this.setState({ state: State.HOLD });
+      }, this.state.holdThreshold * 1000);
+      this.setState({ start, holdTimeout });
+    }
     // this.addLeave(touch);
   }
 
   public onEnd(event: any, touch?: boolean) {
     this.clearHold();
 
-    const swipe = this.calcSwipe(this.state.start, this.state.current);
-
-    let currentState = this.getState(swipe);
-
-    const walked = this.calcWalked(swipe);
-
-    const currentSize = this.getCurrentSize(currentState);
-
-    const swiped = this.hasSwiped(swipe);
-
-    console.log('onEnd', swipe, walked, currentSize);
-    if (swiped) {
-      if (this.state.fullSwipe && walked > this.state.fullSwipeThreshold) {
-        this.onFullSwiped(event, currentState);
-      } else {
-        this.onSwiped(event, currentState);
-      }
+    if (this.state.state === State.HOLD_END) {
+      this.setState({
+        state: State.NONE,
+        start: undefined,
+        current: undefined,
+      });
+      this.onEvent(event, State.HOLD_END);
     } else {
-      this.close();
-      if (this.state.state === State.HOLD) {
-        currentState = State.NONE;
-      } else {
-        currentState = State.CLICK;
-      }
-      this.onEvent(event, currentState);
-    }
+      const swipe = this.calcSwipe(this.state.start, this.state.current);
 
-    this.setState({ state: currentState, start: undefined, current: undefined });
+      let currentState = this.getState(swipe);
+
+      const walked = this.calcWalked(swipe);
+
+      const swiped = this.hasSwiped(swipe);
+
+      // console.log('onEnd', swipe, walked);
+      if (swiped) {
+        // console.log('onEnd', swiped);
+        if (this.state.fullSwipe && walked > this.state.fullSwipeThreshold) {
+          this.onFullSwiped(event, currentState);
+        } else {
+          this.onSwiped(event, currentState);
+        }
+      } else {
+        // console.log('onEnd close', swiped);
+        this.close();
+        if (this.state.state === State.HOLD) {
+          currentState = State.HOLD;
+        } else {
+          currentState = State.CLICK;
+        }
+        this.onEvent(event, currentState);
+      }
+      this.setState({
+        state: currentState,
+        start: undefined,
+        current: undefined,
+      });
+    }
 
     this.resetStyles();
 
@@ -292,8 +331,8 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     // this.removeLeave(touch);
   }
 
-  public onSwiped(event: any, state: State) {
-    console.log('onSwiped', event, state);
+  public onSwiped(_event: any, state: State) {
+    // console.log('onSwiped', event, state);
     switch (state) {
       case State.LEADING:
         scrollTo(this.wrapperRef, this.state.leadingPosition);
@@ -304,8 +343,8 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     }
   }
 
-  public onFullSwiped(event: any, state: State) {
-    console.log('onFullSwiped', event, state);
+  public onFullSwiped(_event: any, state: State) {
+    // console.log('onFullSwiped', event, state);
     switch (state) {
       case State.LEADING:
         const first = this.leadingRef?.current
@@ -334,7 +373,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     setTimeout(() => {
       // console.log('destroy timeout');
       if (this.wrapperRef?.current) this.wrapperRef?.current?.remove();
-    }, this.state.animationTime * 1000);
+    }, this.state.destroyAnimationTime * 1000);
   }
 
   public passCallbacksToChildren(children?: ReactElement) {
@@ -361,11 +400,11 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
               })
             : child;
 
-        console.log('child', child?.props, newChild?.props);
+        // console.log('child', child?.props, newChild?.props);
         return newChild;
       }
     );
-    console.log('passCallbacks', childrenWithProps);
+    // console.log('passCallbacks', childrenWithProps);
     return childrenWithProps;
   }
 
@@ -419,7 +458,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
   public item() {
     return (
       <Wrapper
-        time={this.state.animationTime}
+        time={this.state.destroyAnimationTime}
         ref={this.wrapperRef}
         onMouseDown={(event) => this.onStart.bind(this)(event, false)}
         onMouseUp={(event) => this.onEnd.bind(this)(event, false)}
@@ -462,14 +501,62 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     });
     if (this.wrapperRef?.current)
       this.wrapperRef.current.style.maxHeight = `${opositeSize}px`;
-    // console.log('componentDidMount', defaultPosition, trailingPosition);
 
     scrollTo(this.wrapperRef, defaultPosition);
+
+    // if (this.animationRef?.current) {
+    //   this.animationRef.current.style.maxHeight = `${opositeSize}px`;
+    //   this.animationRef.current.style.overflow = `hidden`;
+    // }
+
+    // scrollTo(this.animationRef, defaultPosition);
+  }
+
+  public componentDidUpdate(_prevProps, prevState) {
+    if (
+      this.state.state != prevState.state ||
+      (this.state.state == State.HOLD &&
+        ((this.state.start != prevState.start &&
+          this.state.start == undefined) ||
+          (this.state.current != prevState.current &&
+            this.state.current == undefined)))
+    ) {
+      // console.log('componentDidUpdate', this.state.state);
+      if (
+        this.state.state !== State.TRAILING &&
+        this.state.state !== State.LEADING
+      ) {
+        if (this.wrapperRef?.current)
+          this.wrapperRef.current.style.maxHeight = `${this.state.opositeSize}px`;
+
+        scrollTo(
+          this.wrapperRef,
+          this.state.defaultPosition,
+          this.state.state >= State.HOLD
+        );
+      }
+    }
+    // else {
+    //   console.log(
+    //     'componentDidUpdate',
+    //     this.state.state,
+    //     prevState.state,
+    //     this.state.start,
+    //     prevState.start,
+    //     this.state.current,
+    //     prevState.current
+    //   );
+    // }
   }
 
   public render() {
-    return this.state.state === State.HOLD ? (
-      <Animation crude Animation={withTheme(Hitting)} style={{ width: '100%' }}>
+    return this.state.holdAnimation && this.state.state === State.HOLD ? (
+      <Animation
+        ref={this.animationRef}
+        crude
+        Animation={withTheme(Hitting)}
+        style={{ width: '100%' }}
+      >
         {this.item()}
       </Animation>
     ) : (
