@@ -1,14 +1,7 @@
 import React, { ReactElement, RefObject } from 'react';
 
 import { withTheme } from 'styled-components';
-// import { Hitting } from '../../Loading/Animation/styles';
 import { State } from './state';
-// import SwipeableStyledListItem from './swipeableStyledListItem';
-// import {
-//   LeadingActions,
-//   TrailingActions,
-//   Type as ListType,
-// } from 'react-swipeable-list';
 import Animation from '../../Loading/Animation';
 import { Hitting } from '../../Loading/Animation/styles';
 import { Item as IW, Wrapper } from './styles';

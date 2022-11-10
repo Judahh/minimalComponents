@@ -83,7 +83,7 @@ const Row = (props: {
     <>
       <TR
         style={{
-          cursor: 'pointer',
+          // cursor: 'pointer',
           alignItems: 'center',
           alignContent: 'center',
           alignSelf: 'center',
@@ -102,7 +102,7 @@ const Row = (props: {
           <TH
             key={'th' + index}
             style={{
-              cursor: 'pointer',
+              // cursor: 'pointer',
               alignItems: 'center',
               alignContent: 'center',
               alignSelf: 'center',
@@ -113,7 +113,7 @@ const Row = (props: {
           >
             <div
               style={{
-                cursor: 'pointer',
+                // cursor: 'pointer',
                 alignItems: 'center',
                 alignContent: 'center',
                 alignSelf: 'center',
@@ -180,7 +180,7 @@ const Row = (props: {
                 <Column
                   style={{
                     float: 'left',
-                    cursor: 'pointer',
+                    // cursor: 'pointer',
                     alignItems: 'center',
                     alignContent: 'center',
                     alignSelf: 'center',

@@ -1,26 +1,5 @@
 import styled from 'styled-components';
 
-const StyledListItem = (SwipeableListItem) => styled(SwipeableListItem)`
-  // background-color: #f00;
-  width: 100%;
-  box-sizing: border-box;
-  // overflow: hidden;
-  border-style: solid;
-  border-color: ${(props) => props.theme.primary};
-  border-width: 0;
-  // border-top-width: 1px;
-  border-bottom-width: 1px;
-  cursor: pointer;
-
-  &:first-child {
-    border-top-width: 0px;
-  }
-
-  &:last-child {
-    border-bottom-width: 0px;
-  }
-`;
-
 const ItemContent = styled.div`
   height: 75px;
   display: flex;
@@ -144,6 +123,7 @@ const Item = styled.li`
   flex-flow: column;
   position: relative;
   list-style: none;
+  cursor: pointer;
   // right: 100%;
   &.leading {
   }
@@ -158,7 +138,6 @@ const Item = styled.li`
 export {
   Wrapper,
   Item,
-  StyledListItem,
   AvatarHolder,
   AvatarHolderRight,
   Left,
