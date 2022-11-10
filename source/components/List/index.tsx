@@ -105,7 +105,7 @@ const List = (props: {
           holdThreshold: props.holdThreshold,
           fullSwipeThreshold: props.fullSwipeThreshold,
           search: props.search,
-          vertical: props.vertical,
+          vertical: !!!props.vertical,
           setSearch: props.setSearch,
         };
 
@@ -164,7 +164,7 @@ const List = (props: {
   return (
     <ListHolder
       style={props?.style}
-      className={props?.drawerState?.[0] ? 'openned' : 'closed'}
+      className={props?.drawerState?.[0] ? 'openned' : 'closed' + ' ' +  props.vertical ? 'vertical' : 'horizontal'}
     >
       {children}
     </ListHolder>
