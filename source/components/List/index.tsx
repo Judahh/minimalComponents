@@ -29,7 +29,8 @@ const List = (props: {
   holdThreshold?: number;
   fullSwipeThreshold?: number;
 }) => {
-  // console.log('list Props', props);
+  const [vertical, setVertical] = useState(false);
+  console.log('list Props', props.vertical);
   const toggle = () => {
     // console.log('toggle', props?.drawerState?.[0]);
     props?.drawerState?.[1]?.(!props?.drawerState?.[0]);
@@ -161,10 +162,18 @@ const List = (props: {
     props?.noClickIndexes,
   ]);
 
+  useEffect(() => {
+    setVertical(!!props.vertical);
+  }, [props.vertical]);
+
   return (
     <ListHolder
       style={props?.style}
-      className={props?.drawerState?.[0] ? 'openned' : 'closed' + ' ' +  props.vertical ? 'vertical' : 'horizontal'}
+      className={
+        (props?.drawerState?.[0] ? 'openned' : 'closed') +
+        ' ' +
+        (vertical ? 'vertical' : 'horizontal')
+      }
     >
       {children}
     </ListHolder>

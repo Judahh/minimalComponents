@@ -470,16 +470,35 @@ class Item extends React.Component<ItemProps, ItemState> {
         onTouchEnd={(event) => this.onEnd.bind(this)(event, true)}
         // onTouchCancel={(event) => this.onLeave(event, true)}
         // onTouchMove={(event) => this.onMove(event, true)}
+        className={this.state.vertical ? 'vertical' : 'horizontal'}
       >
         {/*ref={(div) => (this.background = div)}*/}
-        <IW className={'leading'} ref={this.leadingRef}>
+        <IW
+          className={
+            'leading'
+            //  + this.state.vertical ? ' vertical' : ' horizontal'
+          }
+          ref={this.leadingRef}
+        >
           {this.state.leading}
         </IW>
         {/*ref={(div) => (this.background = div)}*/}
-        <IW className={'main'} ref={this.itemRef}>
+        <IW
+          className={
+            'main'
+            //  + this.state.vertical ? ' vertical' : ' horizontal'
+          }
+          ref={this.itemRef}
+        >
           {this.state.children}
         </IW>
-        <IW className={'trailing'} ref={this.trailingRef}>
+        <IW
+          className={
+            'trailing'
+            //  + this.state.vertical ? ' vertical' : ' horizontal'
+          }
+          ref={this.trailingRef}
+        >
           {this.state.trailing}
         </IW>
         {/*ref={(div) => (this.listElement = div)}*/}
