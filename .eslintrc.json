@@ -6,21 +6,25 @@
   },
   "extends": [
     "prettier",
+    "eslint:recommended",
+    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+  "overrides": [],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2020,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint",
     "prettier",
-    "filenames"
+    "filenames",
+    "react",
+    "@typescript-eslint"
   ],
   "rules": {
     "filenames/match-regex": [
@@ -32,13 +36,12 @@
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "no-param-reassign": "off",
-    "no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "next"
-      }
-    ],
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-var-requires": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn"
   },
   "settings": {
     "import/resolver": {
