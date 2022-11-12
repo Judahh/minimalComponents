@@ -119,8 +119,8 @@ const Item = styled.li`
   min-height: 100%;
   align-items: center;
   box-sizing: border-box;
-  display: list-item;
-  flex-flow: column;
+  display: flex;
+  // flex-flow: column;
   position: relative;
   list-style: none;
   cursor: pointer;

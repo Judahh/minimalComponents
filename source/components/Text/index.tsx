@@ -3,6 +3,16 @@ import { baseConfig, getTextLimitationType, isHeading, textLimitation } from '..
 
 
 
+export const Label = styled.label`
+  ${(props) => baseConfig(props)}
+  color: ${(props) => props?.color || props.theme.primary};
+`;
+
+export const Span = styled.span`
+  ${(props) => baseConfig(props)}
+  color: ${(props) => props?.color || props.theme.primary};
+`;
+
 export const Text = styled.div`
   ${(props) => baseConfig(props)}
   width: 100%;

@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useRef, KeyboardEvent } from 'react';
 import useState from 'react-usestateref';
 import { Input as InputStyle } from './styles';
 import { withTheme } from 'styled-components';
-import { Error } from '../Text';
+import { Error, Label, Span } from '../Text';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { InputOptions } from './inputOptions';
@@ -29,6 +29,7 @@ const isChecked = (value, baseValue) => {
 };
 
 const Input = (props: {
+  theme?;
   children;
   defaultError?;
   type?;
@@ -357,7 +358,7 @@ const Input = (props: {
           {...{
             ...getProps(),
             type: 'button',
-            value: props?.label || props?.value || props?.children,
+            value:  props?.value || props?.children || props?.label ,
           }}
           onClick={(event) => {
             // console.log('CLICK');
@@ -371,11 +372,11 @@ const Input = (props: {
       <InputStyle {...getProps()} ref={inputRef} />
     );
 
-  const fullInput = props.label ? (
-    <label style={props.labelParentStyle}>
-      <span style={props.labelStyle}>{props.label}</span>
+  const fullInput = props.label != undefined && props.value != undefined ? (
+    <Label style={props.labelParentStyle}>
+      <Span style={props.labelStyle}>{props.label}</Span>
       {input}
-    </label>
+    </Label>
   ) : (
     <>{input}</>
   );

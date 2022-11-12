@@ -25,8 +25,9 @@ const List = (props: {
   setSearch?;
 
   fullSwipe?: boolean;
-  threshold?: number;
   holdThreshold?: number;
+  swipeThresholdUseItem?: boolean;
+  swipeThreshold?: number;
   fullSwipeThreshold?: number;
 }) => {
   const [vertical, setVertical] = useState(false);
@@ -89,8 +90,9 @@ const List = (props: {
           drawerToggle;
 
           fullSwipe?: boolean;
-          threshold?: number;
           holdThreshold?: number;
+          swipeThresholdUseItem?: boolean;
+          swipeThreshold?: number;
           fullSwipeThreshold?: number;
           search?: string;
           vertical?: boolean;
@@ -102,8 +104,9 @@ const List = (props: {
           drawerClose: close,
           drawerToggle: toggle,
           fullSwipe: props.fullSwipe,
-          threshold: props.threshold,
           holdThreshold: props.holdThreshold,
+          swipeThresholdUseItem: props.swipeThresholdUseItem,
+          swipeThreshold: props.swipeThreshold,
           fullSwipeThreshold: props.fullSwipeThreshold,
           search: props.search,
           vertical: !!!props.vertical,

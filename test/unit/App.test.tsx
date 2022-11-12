@@ -15,6 +15,7 @@ import {
   Notification as NotificationText,
   Link,
   FixedLink,
+  Label,
 } from '../../source/components/Text';
 import NotificationContextModel from '../../source/components/Notification/notificationContextModel';
 import {
@@ -626,7 +627,7 @@ const BasicAll = (props: { theme }) => {
           baseValue={'buy'}
           value={radio2}
         />
-        <label htmlFor="buy">buy</label>
+        <Label htmlFor="buy">buy</Label>
         <br />
         <Input
           tag
@@ -642,7 +643,7 @@ const BasicAll = (props: { theme }) => {
           baseValue={'rent'}
           value={radio2}
         />
-        <label htmlFor="rent">rent</label>
+        <Label htmlFor="rent">rent</Label>
         <Input
           tag
           name="radio2"
@@ -657,7 +658,7 @@ const BasicAll = (props: { theme }) => {
           baseValue={'bla'}
           value={radio2}
         />
-        <label htmlFor="bla">bla</label>
+        <Label htmlFor="bla">bla</Label>
         <List vertical>
           <SListItem
             leading={
@@ -745,6 +746,173 @@ const BasicAll = (props: { theme }) => {
             onHoldEnd={(s, i, e) => console.log('>>hold end', s, i, e)}
           >
             <Text>TEST</Text>
+          </SListItem>
+        </List>
+        <List vertical swipeThresholdUseItem>
+          <SListItem
+            leading={
+              <>
+                <Action
+                  onClick={() => {
+                    console.log('>>add');
+                  }}
+                >
+                  <Input
+                    type={'button'}
+                    crude
+                    title={'add'}
+                    value={'+'}
+                    style={{
+                      padding: '7px',
+                      margin: '0px',
+                      fontSize: '30px',
+                      height: '100%',
+                      width: '100%',
+                    }}
+                    noBackground
+                  ></Input>
+                </Action>
+                <Action
+                  onClick={() => {
+                    console.log('>>edit');
+                  }}
+                >
+                  <Input
+                    type={'button'}
+                    crude
+                    title={'edit'}
+                    style={{
+                      padding: '0px',
+                      margin: '0px',
+                      height: '100%',
+                      width: '100%',
+                      background:
+                        'url(' +
+                        (props?.theme === lightTheme
+                          ? '/img/edit.svg'
+                          : '/img/editInvert.svg') +
+                        ') no-repeat center transparent ',
+                    }}
+                  ></Input>
+                </Action>
+              </>
+            }
+            onClick={(s, i, e) => console.log('>>click', s, i, e)}
+            onHold={(s, i, e) => console.log('>>hold', s, i, e)}
+            onHoldEnd={(s, i, e) => console.log('>>hold end', s, i, e)}
+          >
+            <Text style={{ height: '50px' }}>TEST2</Text>
+          </SListItem>
+          <SListItem
+            trailing={
+              <>
+                <Action
+                  destructive
+                  onClick={() => {
+                    console.log('>>remove');
+                  }}
+                >
+                  <Input
+                    color={'red'}
+                    type={'button'}
+                    inverted
+                    title={'remove'}
+                    value={'-'}
+                    style={{
+                      padding: '7px',
+                      margin: '0px',
+                      fontSize: '30px',
+                      height: '100%',
+                      width: '100%',
+                    }}
+                  ></Input>
+                </Action>
+              </>
+            }
+            onClick={(s, i, e) => console.log('>>click', s, i, e)}
+            onHold={(s, i, e) => console.log('>>hold', s, i, e)}
+            onHoldEnd={(s, i, e) => console.log('>>hold end', s, i, e)}
+          >
+            <Text style={{ height: '50px' }}>TEST2</Text>
+          </SListItem>
+          <SListItem
+            leading={
+              <>
+                <Action
+                  onClick={() => {
+                    console.log('>>add');
+                  }}
+                >
+                  <Input
+                    type={'button'}
+                    crude
+                    title={'add'}
+                    value={'+'}
+                    style={{
+                      padding: '7px',
+                      margin: '0px',
+                      fontSize: '30px',
+                      height: '100%',
+                      width: '100%',
+                    }}
+                    noBackground
+                  ></Input>
+                </Action>
+                <Action
+                  onClick={() => {
+                    console.log('>>edit');
+                  }}
+                >
+                  <Input
+                    type={'button'}
+                    crude
+                    title={'edit'}
+                    style={{
+                      padding: '0px',
+                      margin: '0px',
+                      height: '100%',
+                      width: '100%',
+                      background:
+                        'url(' +
+                        (props?.theme === lightTheme
+                          ? '/img/edit.svg'
+                          : '/img/editInvert.svg') +
+                        ') no-repeat center transparent ',
+                    }}
+                  ></Input>
+                </Action>
+              </>
+            }
+            trailing={
+              <>
+                <Action
+                  destructive
+                  onClick={() => {
+                    console.log('>>remove');
+                  }}
+                >
+                  <Input
+                    color={'red'}
+                    type={'button'}
+                    inverted
+                    title={'remove'}
+                    value={'-'}
+                    style={{
+                      padding: '7px',
+                      margin: '0px',
+                      fontSize: '30px',
+                      height: '100%',
+                      width: '100%',
+                    }}
+                  ></Input>
+                </Action>
+              </>
+            }
+            onClick={(s, i, e) => console.log('>>click', s, i, e)}
+            onHold={(s, i, e) => console.log('>>hold', s, i, e)}
+            onHoldEnd={(s, i, e) => console.log('>>hold end', s, i, e)}
+          >
+            <Text style={{ height: '50px' }}>TEST2</Text>
           </SListItem>
         </List>
         <Collapsible

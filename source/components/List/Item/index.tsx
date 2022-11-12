@@ -27,8 +27,9 @@ type ItemProps = {
   key;
   id;
   fullSwipe?: boolean;
-  threshold?: number;
   holdThreshold?: number;
+  swipeThresholdUseItem?: boolean;
+  swipeThreshold?: number;
   fullSwipeThreshold?: number;
   search?: string;
   vertical?: boolean;
@@ -37,6 +38,7 @@ type ItemProps = {
   onClick?;
   onHold?;
   onHoldEnd?;
+  onDestroy?;
   holdAnimation?: boolean;
   destroyAnimationTime?: number;
 };
@@ -51,17 +53,19 @@ type ItemState = {
   state: State;
   index?: number;
   fullSwipe: boolean;
-  threshold: number;
+  swipeThresholdUseItem: boolean;
+  swipeThreshold: number;
+  fullSwipeThreshold: number;
   holdThreshold: number;
   holdSwipeThreshold: number;
   holdTimeout?: NodeJS.Timeout;
   holdAnimation: boolean;
-  fullSwipeThreshold: number;
   defaultPosition: number;
   trailingPosition: number;
   leadingPosition: number;
   leadingSize: number;
   trailingSize: number;
+  itemSize: number;
   opositeSize: number;
   destroyAnimationTime: number;
 };
@@ -91,9 +95,10 @@ class Item extends React.Component<ItemProps, ItemState> {
       state: State.NONE,
       index: undefined,
       fullSwipe: props.fullSwipe == undefined ? true : props.fullSwipe,
-      threshold: props.threshold || 0.15,
       holdSwipeThreshold: props.holdSwipeThreshold || 0.1,
-      fullSwipeThreshold: props.fullSwipeThreshold || 0.5,
+      swipeThresholdUseItem: props.swipeThresholdUseItem || false,
+      swipeThreshold: props.swipeThreshold || 0.5,
+      fullSwipeThreshold: props.fullSwipeThreshold || 1,
       holdThreshold: props.holdThreshold || 0.5,
       holdAnimation:
         props.holdAnimation == undefined ? true : props.holdAnimation,
@@ -103,6 +108,7 @@ class Item extends React.Component<ItemProps, ItemState> {
       trailingPosition: 0,
       leadingSize: 0,
       trailingSize: 0,
+      itemSize: 0,
       opositeSize: 0,
       destroyAnimationTime: props.destroyAnimationTime || 0.25,
     };
@@ -147,28 +153,28 @@ class Item extends React.Component<ItemProps, ItemState> {
       : 0;
   }
 
-  public hasSwiped(swipe?: number, threshold?: number) {
-    threshold = threshold || this.state.threshold;
+  public hasSwiped(swipe?: number, swipeThreshold?: number, useItem?: boolean) {
+    swipeThreshold = swipeThreshold || this.state.swipeThreshold;
     const currentState = this.getState(swipe);
 
-    const walked = this.calcWalked(swipe);
+    const walked = this.calcWalked(swipe, useItem);
 
     const currentSize = this.getCurrentSize(currentState);
 
     return (
       (currentState === State.LEADING || currentState === State.TRAILING) &&
       currentSize > 0 &&
-      walked > threshold
+      walked > swipeThreshold
     );
   }
 
-  public calcWalked(swipe?: number) {
+  public calcWalked(swipe?: number, useItem?: boolean) {
     swipe = swipe || 0;
     let currentState = this.getState(swipe);
 
     const lengthWalked = Math.abs(swipe);
     const lengthTotal =
-      (currentState === State.LEADING
+      useItem ? this.state.itemSize : (currentState === State.LEADING
         ? this.state.leadingSize
         : this.state.trailingSize) || lengthWalked;
     const walked = lengthWalked / lengthTotal;
@@ -215,18 +221,30 @@ class Item extends React.Component<ItemProps, ItemState> {
     );
   }
 
-  public resetStyles() {
+  public resetLeadingStyles() {
     if (this.leadingRef?.current?.style) {
       this.leadingRef.current.style.width = `${this.state.leadingSize}px`;
+      this.leadingRef.current.style.minWidth = `${this.state.leadingSize}px`;
     }
+  }
 
+  public resetTrailingStyles() {
     if (this.trailingRef?.current?.style) {
       this.trailingRef.current.style.width = `${this.state.trailingSize}px`;
+      this.trailingRef.current.style.minWidth = `${this.state.trailingSize}px`;
     }
+  }
 
+  public resetItemStyles() {
     if (this.itemRef?.current?.style) {
       this.itemRef.current.style.transform = `translateX(${0}px)`;
     }
+  }
+
+  public resetStyles() {
+    this.resetLeadingStyles();
+    this.resetTrailingStyles();
+    this.resetItemStyles();
   }
 
   public clearHold() {
@@ -247,13 +265,19 @@ class Item extends React.Component<ItemProps, ItemState> {
     if (this.state.start != undefined) {
       if (this.leadingRef?.current?.style && this.isOverLeading(swipe)) {
         this.leadingRef.current.style.width = `${Math.abs(swipe)}px`;
-        if (this.itemRef?.current?.style)
-          this.itemRef.current.style.transform = `translateX(${Math.abs(
-            swipe - this.state.leadingSize
-          )}px)`;
+        this.leadingRef.current.style.minWidth = `${Math.abs(swipe)}px`;
+        // if (this.itemRef?.current?.style)
+        //   this.itemRef.current.style.transform = `translateX(${Math.abs(
+        //     swipe - (this.state.leadingSize * 2)
+        //   )}px)`;
+      } else {
+        this.resetLeadingStyles();
       }
       if (this.trailingRef?.current?.style && this.isOverTrailing(swipe)) {
         this.trailingRef.current.style.width = `${Math.abs(swipe)}px`;
+        this.trailingRef.current.style.minWidth = `${Math.abs(swipe)}px`;
+      } else {
+        this.resetTrailingStyles();
       }
       scrollTo(this.wrapperRef, this.state.defaultPosition - swipe, true);
     }
@@ -291,9 +315,9 @@ class Item extends React.Component<ItemProps, ItemState> {
 
       let currentState = this.getState(swipe);
 
-      const walked = this.calcWalked(swipe);
+      const walked = this.calcWalked(swipe, this.state.swipeThresholdUseItem);
 
-      const swiped = this.hasSwiped(swipe);
+      const swiped = this.hasSwiped(swipe, undefined, this.state.swipeThresholdUseItem);
 
       // console.log('onEnd', swipe, walked);
       if (swiped) {
@@ -366,8 +390,8 @@ class Item extends React.Component<ItemProps, ItemState> {
     if (this.wrapperRef?.current)
       this.wrapperRef.current.style.maxHeight = '0px';
     setTimeout(() => {
-      // console.log('destroy timeout');
-      if (this.wrapperRef?.current) this.wrapperRef?.current?.remove();
+      // if (this.wrapperRef?.current) this.wrapperRef?.current?.remove();
+      this.props.onDestroy();
     }, this.state.destroyAnimationTime * 1000);
   }
 
@@ -502,6 +526,7 @@ class Item extends React.Component<ItemProps, ItemState> {
   public componentDidMount() {
     const leadingSize = this.leadingRef?.current?.offsetWidth || 0;
     const trailingSize = this.trailingRef?.current?.offsetWidth || 0;
+    const itemSize = this.itemRef?.current?.offsetWidth || 0;
     const defaultPosition = leadingSize;
     const trailingPosition =
       defaultPosition + (this.itemRef?.current?.offsetWidth || 0);
@@ -511,6 +536,7 @@ class Item extends React.Component<ItemProps, ItemState> {
       trailingPosition,
       leadingSize,
       trailingSize,
+      itemSize,
       opositeSize,
     });
     if (this.wrapperRef?.current)
