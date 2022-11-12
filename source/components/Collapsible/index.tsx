@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { CSSProperties, useEffect, useRef } from 'react';
 import useState from 'react-usestateref';
 import { withTheme } from 'styled-components';
 import { CollapsibleElement } from './styles';
@@ -11,7 +11,15 @@ const Collapsible = (props: {
   wholeClick?: boolean;
   animationTime?: number;
   animationDelay?: number;
+  style?: CSSProperties;
+  collapsibleStyle?: CSSProperties;
 }) => {
+  const [style, setStyle] = useState<CSSProperties>(
+    props.style || { width: '100%' }
+  );
+  const [collapsibleStyle, setCollapsibleStyle] = useState<CSSProperties>(
+    props.collapsibleStyle || { width: '100%' }
+  );
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState<undefined | number>(0);
   const ref = useRef<any>(null);
@@ -27,8 +35,16 @@ const Collapsible = (props: {
     setHeight(ref?.current?.clientHeight);
   });
 
+  useEffect(() => {
+    setStyle(props.style || { width: '100%' });
+  }, [props.style]);
+
+  useEffect(() => {
+    setCollapsibleStyle(props.collapsibleStyle || { width: '100%' });
+  }, [props.collapsibleStyle]);
+
   return (
-    <div>
+    <div style={style}>
       <div
         style={{ display: 'flex' }}
         onClick={() => (props.wholeClick ? setOpen(!open) : undefined)}
@@ -57,7 +73,9 @@ const Collapsible = (props: {
         className={open ? 'openned' : 'closed'}
         contentHeight={height}
       >
-        <div ref={ref}>{props?.children}</div>
+        <div ref={ref} style={collapsibleStyle}>
+          {props?.children}
+        </div>
       </CollapsibleElement>
     </div>
   );
