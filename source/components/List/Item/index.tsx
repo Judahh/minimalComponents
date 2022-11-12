@@ -391,7 +391,7 @@ class Item extends React.Component<ItemProps, ItemState> {
       this.wrapperRef.current.style.maxHeight = '0px';
     setTimeout(() => {
       // if (this.wrapperRef?.current) this.wrapperRef?.current?.remove();
-      this.props.onDestroy();
+      this.props?.onDestroy?.();
     }, this.state.destroyAnimationTime * 1000);
   }
 
