@@ -9,8 +9,8 @@ const Action = (props: {
   onClick?;
   style?: CSSProperties;
   children?;
-  close?;
-  destroy?;
+  closeItem?;
+  destroyItem?;
   closeDelay?: number;
   destroyDelay?: number;
 }) => {
@@ -20,14 +20,14 @@ const Action = (props: {
       onClick={(...args) => {
         if (props.onClick != undefined) {
           const r = props.onClick(...args);
-          console.log('d', props.destructive, props?.destroy, props?.close);
+          // console.log('d', props.destructive, props?.destroyItem, props?.closeItem);
           if (props.destructive)
             setTimeout(() => {
-              props?.destroy(true);
+              props?.destroyItem(true);
             }, props.destroyDelay);
           else
             setTimeout(() => {
-              props?.close(true);
+              props?.closeItem(true);
             }, props.closeDelay);
           return r;
         }

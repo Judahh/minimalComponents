@@ -115,7 +115,7 @@ const Drawer = (props: {
       JSON.stringify(noClickIndexes || [])
     );
 
-    console.log('newProps el', elements);
+    // console.log('newProps el', elements);
 
     return (
       elements &&
@@ -129,7 +129,7 @@ const Drawer = (props: {
           vertical: false,
         };
 
-        console.log('newProps base', newProps.vertical);
+        // console.log('newProps base', newProps.vertical);
 
         const cloneChild = React.cloneElement(child, newProps);
 

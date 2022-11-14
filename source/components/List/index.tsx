@@ -31,7 +31,7 @@ const List = (props: {
   fullSwipeThreshold?: number;
 }) => {
   const [vertical, setVertical] = useState(false);
-  console.log('list Props', props.vertical);
+  // console.log('list Props', props.vertical);
   const toggle = () => {
     // console.log('toggle', props?.drawerState?.[0]);
     props?.drawerState?.[1]?.(!props?.drawerState?.[0]);

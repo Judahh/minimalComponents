@@ -173,10 +173,11 @@ class Item extends React.Component<ItemProps, ItemState> {
     let currentState = this.getState(swipe);
 
     const lengthWalked = Math.abs(swipe);
-    const lengthTotal =
-      useItem ? this.state.itemSize : (currentState === State.LEADING
-        ? this.state.leadingSize
-        : this.state.trailingSize) || lengthWalked;
+    const lengthTotal = useItem
+      ? this.state.itemSize
+      : (currentState === State.LEADING
+          ? this.state.leadingSize
+          : this.state.trailingSize) || lengthWalked;
     const walked = lengthWalked / lengthTotal;
     return walked;
   }
@@ -317,7 +318,11 @@ class Item extends React.Component<ItemProps, ItemState> {
 
       const walked = this.calcWalked(swipe, this.state.swipeThresholdUseItem);
 
-      const swiped = this.hasSwiped(swipe, undefined, this.state.swipeThresholdUseItem);
+      const swiped = this.hasSwiped(
+        swipe,
+        undefined,
+        this.state.swipeThresholdUseItem
+      );
 
       // console.log('onEnd', swipe, walked);
       if (swiped) {
@@ -329,7 +334,7 @@ class Item extends React.Component<ItemProps, ItemState> {
         }
       } else {
         // console.log('onEnd close', swiped);
-        this.close();
+        this.closeItem();
         if (this.state.state === State.HOLD) {
           currentState = State.HOLD;
         } else {
@@ -376,15 +381,15 @@ class Item extends React.Component<ItemProps, ItemState> {
         last?.click();
         break;
     }
-    // this.close();
+    // this.closeItem();
   }
 
-  public close(_isButton?: boolean) {
+  public closeItem(_isButton?: boolean) {
     // console.log('close', isButton);
     scrollTo(this.wrapperRef, this.state.defaultPosition);
   }
 
-  public destroy(_isButton?: boolean) {
+  public destroyItem(_isButton?: boolean) {
     // console.log('destroy', isButton);
     scrollTo(this.wrapperRef, this.state.trailingPosition);
     if (this.wrapperRef?.current)
@@ -399,8 +404,8 @@ class Item extends React.Component<ItemProps, ItemState> {
     const childrenWithProps = React.Children.map(children, (child) => {
       return child != undefined
         ? React.cloneElement<typeof Action>(child, {
-            destroy: this.destroy.bind(this),
-            close: this.close.bind(this),
+            destroy: this.destroyItem.bind(this),
+            close: this.closeItem.bind(this),
           })
         : child;
     });
@@ -414,8 +419,8 @@ class Item extends React.Component<ItemProps, ItemState> {
         const newChild =
           child != undefined
             ? React.cloneElement<typeof Action>(child, {
-                destroy: this.destroy.bind(this),
-                close: this.close.bind(this),
+                destroyItem: this.destroyItem.bind(this),
+                closeItem: this.closeItem.bind(this),
               })
             : child;
 
