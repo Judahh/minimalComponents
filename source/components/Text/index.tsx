@@ -48,12 +48,17 @@ export const Quantity = styled.div`
   color: ${(props) => props.theme.background};
   background-color: ${(props) => props.theme.primary};
   text-align: center;
-  position: absolute;
   border-radius: 100%;
-  text-align: center;
-  left: 20px;
-  margin-top: -10px;
-  padding-top: 7px;
+
+  padding: 7px;
+  position: relative;
+`;
+
+export const QuantityHolder = styled.div`
+  ${(props) => baseConfig(props)}
+  top: 0px;
+  right: 0px;
+  position: absolute;
 `;
 
 export const ProgressText = styled.div`

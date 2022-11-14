@@ -10,7 +10,6 @@ import Notification from '../../source/components/Notification';
 import {
   Text,
   P,
-  Quantity,
   Error,
   Notification as NotificationText,
   Link,
@@ -55,6 +54,7 @@ import SListItem from '../../source/components/List/Item';
 // import SListAction from '../../source/components/List/Action';
 import OpenButton from '../../source/components/Collapsible/openButton';
 import Action from '../../source/components/List/Action';
+import Quantity from '../../source/components/Text/Quantity';
 
 const NotificationContext = createContext<NotificationContextModel>({
   setError: (_error?: boolean) => {},
@@ -1022,7 +1022,14 @@ const BasicAll = (props: { theme }) => {
         <P>Paragraph</P>
         <br />
         <br />
-        <Quantity>13</Quantity>
+        <div style={{ position: 'relative', width: '65.5px' }}>
+          <IconItem
+            src={
+              props.theme == lightTheme ? '/img/bag.svg' : '/img/bagInvert.svg'
+            }
+          />
+          <Quantity>13</Quantity>
+        </div>
         <br />
         <br />
         <Error>Error</Error>
