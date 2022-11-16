@@ -107,6 +107,9 @@ const Input = (props: {
   ) => void;
 }) => {
   const labelRef = useRef<any>(null);
+  const [labelWidth, setLabelWidth] = useState<string>('0px');
+  const [inputWithLabelWidth, setInputWithLabelWidth] =
+    useState<string>('100%');
   const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
   const [running, setRunning] = useState<boolean | undefined>(false);
   const inputRef = useRef<HTMLButtonElement>(null);
@@ -349,6 +352,27 @@ const Input = (props: {
     return newProps;
   };
 
+  useEffect(() => {
+    var style =
+      (labelRef?.current && window.getComputedStyle(labelRef?.current)) ||
+      labelRef?.current?.style;
+
+    const width = `${labelRef?.current?.offsetWidth || 0}px`;
+    const marginWidth = `${style?.marginLeft || '0px'} + ${
+      style?.marginRight || '0px'
+    }`;
+    const paddingWidth = `${style?.paddingLeft || '0px'} + ${
+      style?.paddingRight || '0px'
+    }`;
+
+    const labelWidth = `(${marginWidth} + ${paddingWidth} + ${width})`;
+    setLabelWidth(labelWidth);
+  }, [labelRef]);
+
+  useEffect(() => {
+    setInputWithLabelWidth(`calc(100% - ${labelWidth || '0px'})`);
+  }, [labelWidth]);
+
   const input = (removeMarginBottom?: boolean, float?: boolean) =>
     type === 'file' ? (
       <>
@@ -363,9 +387,7 @@ const Input = (props: {
             type: 'button',
             value: props?.value || props?.children || props?.label,
             style: {
-              width: removeMarginBottom
-                ? `calc(100% - ${labelRef?.current?.offsetWidth || '0px'})`
-                : undefined,
+              width: float ? inputWithLabelWidth : undefined,
               marginBottom: removeMarginBottom ? '0px' : undefined,
               float: float ? 'left' : undefined,
               ...props?.style,
@@ -380,7 +402,18 @@ const Input = (props: {
         />
       </>
     ) : (
-      <InputStyle {...getProps()} ref={inputRef} />
+      <InputStyle
+        {...{
+          ...getProps(),
+          style: {
+            width: float ? inputWithLabelWidth : undefined,
+            marginBottom: removeMarginBottom ? '0px' : undefined,
+            float: float ? 'left' : undefined,
+            ...props?.style,
+          },
+        }}
+        ref={inputRef}
+      />
     );
 
   const fullInput =
