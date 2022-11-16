@@ -14,7 +14,7 @@ const stopPropagation = (event) => {
   event?.nativeEvent?.stopImmediatePropagation?.();
 };
 
-const checkAndstopPropagation = (stop?, event?) => {
+const checkAndStopPropagation = (stop?, event?) => {
   if (stop) stopPropagation(event);
 };
 
@@ -145,7 +145,7 @@ const Input = (props: {
   };
 
   const remakeEvent = (event, func?) => {
-    checkAndstopPropagation(props?.stopPropagation, event);
+    checkAndStopPropagation(props?.stopPropagation, event);
     return validateLength(event, func);
   };
 
@@ -276,7 +276,7 @@ const Input = (props: {
     eventF?
   ) => {
     // console.log('basicValidate', event, value, valueState);
-    checkAndstopPropagation(props?.stopPropagation, event);
+    checkAndStopPropagation(props?.stopPropagation, event);
     if (props?.validate)
       props.validate(value, valueState, error, setError, event, eventF);
     else {
@@ -362,20 +362,20 @@ const Input = (props: {
             ...getProps(),
             type: 'button',
             value: props?.value || props?.children || props?.label,
-          }}
-          style={{
-            width: removeMarginBottom
-              ? `calc(100% - ${labelRef?.current?.offsetWidth || '0px'})`
-              : undefined,
-            marginBottom: removeMarginBottom ? '0px' : undefined,
-            float: float ? 'left' : undefined,
-            ...props?.style,
-          }}
-          onClick={(event) => {
-            // console.log('CLICK');
-            // console.log('click', inputRef?.current);
-            checkAndstopPropagation(props?.stopPropagation, event);
-            inputRef?.current?.click();
+            style: {
+              width: removeMarginBottom
+                ? `calc(100% - ${labelRef?.current?.offsetWidth || '0px'})`
+                : undefined,
+              marginBottom: removeMarginBottom ? '0px' : undefined,
+              float: float ? 'left' : undefined,
+              ...props?.style,
+            },
+            onClick: (event) => {
+              // console.log('CLICK');
+              // console.log('click', inputRef?.current);
+              checkAndStopPropagation(props?.stopPropagation, event);
+              inputRef?.current?.click();
+            },
           }}
         />
       </>
