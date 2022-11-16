@@ -34,6 +34,7 @@ const Input = (props: {
   defaultError?;
   type?;
   error?;
+  style?: CSSProperties;
   errorStyle?: CSSProperties;
   setError?;
   defaultValue?;
@@ -91,6 +92,7 @@ const Input = (props: {
     error?,
     setError?: (error?) => void
   ) => void;
+  singleLine?: boolean;
   label?: string;
   labelStyle?: CSSProperties;
   labelParentStyle?: CSSProperties;
@@ -104,6 +106,7 @@ const Input = (props: {
     eventF?
   ) => void;
 }) => {
+  const labelRef = useRef<any>(null);
   const [type, setType] = useState(props?.type?.toLowerCase?.() || 'text');
   const [running, setRunning] = useState<boolean | undefined>(false);
   const inputRef = useRef<HTMLButtonElement>(null);
@@ -346,7 +349,7 @@ const Input = (props: {
     return newProps;
   };
 
-  const input =
+  const input = (removeMarginBottom?: boolean, float?: boolean) =>
     type === 'file' ? (
       <>
         <InputStyle
@@ -358,7 +361,15 @@ const Input = (props: {
           {...{
             ...getProps(),
             type: 'button',
-            value:  props?.value || props?.children || props?.label ,
+            value: props?.value || props?.children || props?.label,
+          }}
+          style={{
+            width: removeMarginBottom
+              ? `calc(100% - ${labelRef?.current?.offsetWidth || '0px'})`
+              : undefined,
+            marginBottom: removeMarginBottom ? '0px' : undefined,
+            float: float ? 'left' : undefined,
+            ...props?.style,
           }}
           onClick={(event) => {
             // console.log('CLICK');
@@ -372,14 +383,25 @@ const Input = (props: {
       <InputStyle {...getProps()} ref={inputRef} />
     );
 
-  const fullInput = props.label != undefined && props.value != undefined ? (
-    <Label style={props.labelParentStyle}>
-      <Span style={props.labelStyle}>{props.label}</Span>
-      {input}
-    </Label>
-  ) : (
-    <>{input}</>
-  );
+  const fullInput =
+    props.label != undefined && props.value != undefined ? (
+      <Label style={props.labelParentStyle}>
+        <Span
+          ref={labelRef}
+          style={{
+            fontWeight: 'bolder',
+            float: props.singleLine ? 'left' : undefined,
+            padding: props.singleLine ? '5px' : undefined,
+            ...props.labelStyle,
+          }}
+        >
+          {props.label + props.singleLine ? ':' : ''}
+        </Span>
+        {input(!!props.label, props.singleLine)}
+      </Label>
+    ) : (
+      <>{input()}</>
+    );
 
   return (
     <>
