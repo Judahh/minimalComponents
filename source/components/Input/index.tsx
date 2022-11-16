@@ -395,7 +395,7 @@ const Input = (props: {
             ...props.labelStyle,
           }}
         >
-          {props.label + props.singleLine ? ':' : ''}
+          {props.label + (props.singleLine ? ':' : '')}
         </Span>
         {input(!!props.label, props.singleLine)}
       </Label>
