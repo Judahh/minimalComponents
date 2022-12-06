@@ -42,17 +42,14 @@
     "incremental": true
   },
   "include": [
-    "svg.d.ts",
-    "../api//",
-    "../api",
-    "../api/**/*",
-    "**/*",
-    "*"
+    "src",
+    "source",
   ],
   "exclude": [
     "**/node_modules",
     "node_modules",
     ".next",
+    "test",
     "cypress",
     "**/*.spec.ts",
     "**/*.test.ts",

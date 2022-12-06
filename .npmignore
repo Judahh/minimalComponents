@@ -1,0 +1,8 @@
+src
+source
+./src/**/*
+./source/**/*
+cypress
+.github
+.vscode
+test
