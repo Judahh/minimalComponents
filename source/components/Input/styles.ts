@@ -504,7 +504,7 @@ export const Input = styled.input`
       props?.size || props?.theme?.input?.font?.size || '14px'};
     max-height: ${(props) =>
       props?.size || props?.theme?.input?.font?.size || '14px'};
-    //margin-left: ${(props) =>
+    margin-left: ${(props) =>
       +(
         '' + (props?.size || props?.theme?.input?.font?.size || '14px')
       ).replace('px', '') + 10}px;
@@ -940,6 +940,23 @@ export const Input = styled.input`
     cursor: pointer;
     background-color: transparent;
     color: ${(props) => props?.color || props?.theme?.primary || 'black'};
+    filter: ${(props) => {
+      if(props.type.toLowerCase().includes('date') ||
+        props.type.toLowerCase().includes('month') ||
+        props.type.toLowerCase().includes('week') ||
+        props.type.toLowerCase().includes('time')){
+        let color = props?.color || props?.theme?.primary || '#000000';
+        let c = color.substring(1);      // strip #
+        let rgb = parseInt(c, 16);   // convert rrggbb to decimal
+        let r = (rgb >> 16) & 0xff;  // extract red
+        let g = (rgb >>  8) & 0xff;  // extract green
+        let b = (rgb >>  0) & 0xff;  // extract blue
+        var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        // console.log('luma', luma);
+        return (luma < 100 ? 'invert(100%)' : 'invert(0%)')
+      }
+      return ('invert(0%)')
+      }};
   }
 
   ${(props) =>
