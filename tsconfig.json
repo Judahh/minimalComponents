@@ -14,7 +14,6 @@
     "declarationMap": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "suppressImplicitAnyIndexErrors": true,
     "outDir": "./dist",
     "removeComments": false,
     "noEmit": false,
