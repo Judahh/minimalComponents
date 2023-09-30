@@ -84,7 +84,7 @@ const cleanUrl = (address = 'localhost', path?: string, onlyPath?: boolean) => {
   const url = cleanedPath?.includes(cleanedAddress)
     ? path || ''
     : address + junction + (path ? path : '');
-  if (onlyPath) return url.split('://')[1];
+  if (onlyPath) return url?.split('://')[1];
   return url;
 };
 
@@ -338,7 +338,7 @@ const request = async <Query = any, Input = Query, Output = Input>(
   onlyPath?: boolean
 ) => {
   let url = cleanUrl(address, path, onlyPath);
-
+  if (url == undefined) url = '';
   try {
     const protocol = getProtocol(url);
     const urlParams = splitUrlParams<Query>(query);
@@ -359,7 +359,7 @@ const request = async <Query = any, Input = Query, Output = Input>(
 
     const param3 = generateParam3(clearBaseURL, config);
 
-    url = url.replace(protocol, '').replace(protocol.replace('s', ''), '');
+    url = url?.replace(protocol, '')?.replace(protocol?.replace('s', ''), '');
     if (!onlyPath) url = protocol + url;
     url = addParamsToUrl(url, urlParams);
     // console.log('URL', url);
