@@ -75,7 +75,7 @@ const cleanUrl = (address = 'localhost', path?: string, onlyPath?: boolean) => {
   const cleanedPath = path?.includes('://')
     ? path?.split('://')[1].split('/')[0]
     : path?.split('/')[0];
-  if (onlyPath) address = '';
+  // if (onlyPath) address = '';
   const cleanedAddress = address?.includes('://')
     ? address?.split('://')[1]
     : address;
