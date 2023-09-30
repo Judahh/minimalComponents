@@ -47,7 +47,7 @@ const improveErrorMessage = (error, url?, method?) => {
 
   if (!code) {
     code = 400;
-    if (url.includes('wroom') || url.includes('user') || url.includes('auth')) {
+    if (url?.includes('wroom') || url?.includes('user') || url?.includes('auth')) {
       code = 503;
     }
     codeText = 'Possible CORS Error:' + codeText;
@@ -57,14 +57,14 @@ const improveErrorMessage = (error, url?, method?) => {
   return new RequestError(code, codeText, response, error, url, method);
 };
 
-const getProtocol = (url: string) => {
+const getProtocol = (url?: string) => {
   let protocol = '';
   const regex = /\w*:\/\//gm;
-  const foundProtocol = url.match(regex);
+  const foundProtocol = url?.match(regex);
 
   if (!foundProtocol) {
     protocol = 'https://';
-    if (url.includes('localhost')) protocol = 'http://';
+    if (url?.includes('localhost')) protocol = 'http://';
   } else {
     protocol = foundProtocol[0];
   }
@@ -235,7 +235,7 @@ const splitUrlParams = <T = object>(query?: T) => {
     if (Object.hasOwnProperty.call(query, key)) {
       const element = query[key];
       if (
-        key.includes('.$') ||
+        key?.includes('.$') ||
         element == null ||
         (Array.isArray(element) && element.some((e) => e == null))
       ) {
@@ -256,7 +256,7 @@ const addParamsToUrl = (
   for (const key in urlParams) {
     if (Object.hasOwnProperty.call(urlParams, key)) {
       const element = urlParams[key];
-      url += url.includes('?') ? '&' : '?';
+      url += url?.includes('?') ? '&' : '?';
       if (Array.isArray(element)) {
         const array: string[] = [];
         element.forEach((value) => {
@@ -381,7 +381,7 @@ const request = async <Query = any, Input = Query, Output = Input>(
       let p = paramsToString(params);
       const pA = paramsToString(paramsA);
       p = p && pA ? `${p}&${pA}` : p || pA;
-      p = p ? (url.includes('?') ? '&' : '?') + p : '';
+      p = p ? (url?.includes('?') ? '&' : '?') + p : '';
       url += p;
 
       const r = {
