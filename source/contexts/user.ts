@@ -99,6 +99,7 @@ const refreshSingleToken = async (
       refreshMethod || 'post',
       path,
       token || undefined,
+      undefined,
       data
     );
     receivedToken = received?.data?.token || received?.token || received || '';
